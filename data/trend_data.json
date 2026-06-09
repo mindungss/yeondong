@@ -48,23 +48,8 @@
           "법집행AI",
           "규제"
         ]
-      },
-      {
-        "id": "I2506050004",
-        "title": "INTERPOL 2025 글로벌 사이버범죄 보고서 – 랜섬웨어·AI 피싱 Top 2 위협",
-        "domain": "🌐 국제 치안",
-        "severity": "medium",
-        "summary": "INTERPOL IGCI 2025 연례 보고서, 전 세계 법집행기관 대상 최대 위협으로 랜섬웨어(38%)와 AI 기반 피싱(31%)을 선정. 한국 사례 3건 포함.",
-        "detail": "INTERPOL 글로벌 사이버범죄 보고서 2025에 따르면, 194개 회원국 신고 데이터 기준 랜섬웨어 공격이 전년比 67% 증가했으며, AI 기반 스피어피싱의 탐지 우회율이 기존 피싱 대비 4.2배 높은 것으로 나타났습니다. 한국 사례로는 ① 의료기관 랜섬웨어 피해(2024.11), ② AI 딥페이크 CEO 사기(2025.01), ③ 공급망 악성코드 삽입(2025.03) 3건이 포함되었습니다.",
-        "source": "INTERPOL IGCI Global Cybercrime Report 2025",
-        "url": "https://www.interpol.int/en/Crimes/Cybercrime",
-        "tags": [
-          "INTERPOL",
-          "랜섬웨어",
-          "AI피싱",
-          "사이버범죄"
-        ]
       }
+      
     ],
     "technologies": [
       {
