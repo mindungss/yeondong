@@ -1,0 +1,80 @@
+[
+  {
+    "id": "IDEA-2506050001",
+    "date": "2025-06-05",
+    "domain": "🤖 AI·보안",
+    "tech_name": "기밀 컴퓨팅(Confidential Computing) — TEE 기반 GPU 추론 격리",
+    "target_issue": "성범죄 피해자 영상·생체정보 분석 시 원본 데이터 외부 유출 차단",
+    "tags": ["기밀컴퓨팅", "TEE", "GPU격리", "프라이버시보호", "수사데이터"],
+    "features": "하드웨어 기반 격리 실행 환경(Trusted Execution Environment)에서 기밀 GPU로 모델 추론 전체를 검증 가능한 안전 영역(Secure Enclave)에서 수행합니다. Intel TDX·AMD SEV-SNP 기반으로 메모리 암호화가 이루어지며, 호스트 OS나 관리자도 실행 중인 데이터에 접근 불가합니다. 원격 증명(Remote Attestation)을 통해 제3자가 코드 무결성을 외부에서 검증할 수 있습니다.",
+    "applications": "① [민감 수사 정보 보호 분석] 성범죄·아동학대 피해자 영상 AI 분석 시 원본 노출 방지\n② [디지털 포렌식 클라우드 위탁] 클라우드 포렌식 분석 시 수사 기밀 보호\n③ [공동 수사 데이터 공유] 타 기관과 원본 공유 없이 AI 분석 결과만 교환하는 연합 수사",
+    "constraints": "① 성능 오버헤드: TEE 내 GPU 연산은 일반 대비 15~40% 속도 저하\n② 전용 하드웨어 필수: NVIDIA H100 Confidential Computing 지원 GPU 필요 (대당 약 3,500만원)\n③ 개발 복잡도: 기존 CUDA 코드베이스 대대적 수정 필요\n④ 국내 법적 근거 미비: 기밀 컴퓨팅을 명시한 형사사법 데이터 처리 규정 부재",
+    "companies": "• NVIDIA (H100/H200 Confidential Computing GPU)\n• Microsoft (Azure Confidential Computing)\n• Intel (TDX 기반 4세대 Xeon)\n• Anjuna Security (기밀 컴퓨팅 미들웨어)\n• 국내: 삼성전자 (Secure Element 반도체 설계 협력 가능)",
+    "trend": "2024년 NVIDIA가 H100 GPU에 기밀 컴퓨팅 기능을 정식 지원하면서 클라우드 AI 분석의 패러다임이 전환되고 있습니다. 의료·금융 분야에서 먼저 채택 중이며, EU AI Act의 고위험 AI 데이터 처리 요건과도 부합합니다. 2025년 기준 AWS·Azure·GCP 모두 기밀 컴퓨팅 VM을 상용 서비스 중입니다."
+  },
+  {
+    "id": "IDEA-2506050002",
+    "date": "2025-06-05",
+    "domain": "🤖 AI·보안",
+    "tech_name": "연합학습(Federated Learning) — 데이터 이동 없는 분산 AI 학습",
+    "target_issue": "전국 경찰서 CCTV·수사 데이터를 중앙 집중 없이 AI 모델 공동 학습",
+    "tags": ["연합학습", "분산AI", "프라이버시", "CCTV", "모델공유"],
+    "features": "각 경찰서 로컬 서버에서 모델 가중치만 중앙 서버로 전송하고, 원본 데이터는 절대 이동하지 않는 분산 학습 방식입니다. Differential Privacy를 결합하면 개별 데이터 역추적도 방지됩니다. FedAvg·FedProx 알고리즘으로 이기종 데이터 환경에서도 수렴 가능합니다.",
+    "applications": "① [범죄 패턴 AI 공동 학습] 지방청별 CCTV 영상으로 지역 특화 이상행동 탐지 모델 연합 학습\n② [보이스피싱 음성 패턴 공유] 통신사·금융기관·경찰이 원본 통화 공유 없이 탐지 AI 공동 개선\n③ [마약 거래 패턴 국제 공유] INTERPOL 회원국 간 데이터 주권 침해 없는 국제 수사 AI 협력",
+    "constraints": "① 통신 비용: 모델 가중치 전송 빈도에 따라 네트워크 부하 발생\n② 비IID 문제: 경찰서별 범죄 특성이 다르면 모델 성능 저하 가능\n③ 악의적 참여자: 일부 노드가 poisoning attack으로 전체 모델 오염 가능\n④ 감사 추적 어려움: 어느 데이터가 모델에 기여했는지 추적이 어려워 책임소재 불명확",
+    "companies": "• Google (TensorFlow Federated)\n• Apple (Core ML 온디바이스 FL)\n• FLOWER (오픈소스 FL 프레임워크)\n• Owkin (의료 FL, 치안 AI에 응용 가능)\n• 국내: 카카오엔터프라이즈 (PETs 연구팀)",
+    "trend": "2025년 EU AI Act 시행과 맞물려 의료·금융에서 FL이 표준 데이터 거버넌스로 자리잡고 있습니다. NIST는 2024년 FL 보안 가이드라인(SP 1800-35)을 발간했으며, 미국 FBI는 피싱 탐지 AI에 FL을 시범 적용 중입니다."
+  },
+  {
+    "id": "IDEA-2506050003",
+    "date": "2025-06-05",
+    "domain": "🚓 신종 범죄",
+    "tech_name": "실시간 합성 미디어 탐지 — 스펙트럼 핑거프린팅 + 생체신호 비교",
+    "target_issue": "딥페이크·AI 음성합성 기반 사기·디지털 성범죄 현장 즉각 대응",
+    "tags": ["딥페이크탐지", "스펙트럼분석", "rPPG", "AI음성합성", "디지털성범죄"],
+    "features": "① 영상: rPPG(Remote Photoplethysmography)로 안면 혈류 박동 패턴의 자연 변동 감지. AI 합성 얼굴은 혈류 신호가 위조되어 일관성 결여.\n② 음성: 합성 음성 고유의 스펙트럼 아티팩트(GAN 잔류 노이즈)를 MFCC 기반으로 분석. VALL-E·ElevenLabs 생성음 탐지율 99.1% 확인(2024 벤치마크).\n③ 멀티모달 앙상블: 영상·음성·텍스트 동기화 오류를 동시 분석하여 단일 모달 우회 불가.",
+    "applications": "① [디지털 성범죄 신고 접수] 112 신고 영상·사진 수신 즉시 딥페이크 여부 자동 검증\n② [보이스피싱 콜센터 차단] 통신사 교환기 단계에서 AI 합성 목소리 0.8초 내 탐지·경보\n③ [법정 디지털 증거 검증] 수사 제출 영상 증거의 진위를 국과수 표준 도구로 즉각 감정",
+    "constraints": "① 적대적 생성: 탐지 회피 목적으로 훈련된 2세대 딥페이크는 탐지율 급락\n② 압축 손실: SNS 플랫폼의 재압축(H.264→H.265)으로 탐지 특징 손실\n③ 실시간 요구: 통화 중 0.8초 이내 탐지를 위한 엣지 NPU 필수\n④ 법적 증거 능력: 국내 AI 탐지 결과의 형사소송법상 증거 능력 미확립",
+    "companies": "• Sensity AI (Deepfake Detection API)\n• Microsoft (Video Authenticator)\n• Intel (FakeCatcher — rPPG 기반)\n• Pindrop Security (음성 합성 탐지)\n• 국내: 솔트룩스 (딥페이크 탐지 SDK), KAIST AI 대학원",
+    "trend": "2025년 NIST FRVT 딥페이크 탐지 챌린지에서 멀티모달 앙상블 방식이 단독 모달 대비 18% 높은 정확도를 기록했습니다. EU AI Act는 합성 미디어에 워터마크 삽입을 의무화(2026년 발효)하여 탐지 기술 수요가 급증 예상됩니다."
+  },
+  {
+    "id": "IDEA-2506050004",
+    "date": "2025-06-05",
+    "domain": "🚗 교통",
+    "tech_name": "V2X(Vehicle-to-Everything) 사이버 보안 — 자율주행 인프라 위협 탐지",
+    "target_issue": "자율주행차·스마트 교차로 해킹을 통한 교통 사고 유발 및 테러 방지",
+    "tags": ["V2X", "자율주행보안", "사이버물리보안", "교통인프라", "ITS"],
+    "features": "V2X 통신(WAVE/C-V2X) 패킷을 실시간 분석하여 스푸핑(Spoofing)·재전송(Replay)·위치 조작 공격을 탐지합니다. PKI(Public Key Infrastructure) 기반 증명서 검증과 이상 패킷 ML 분류를 결합하며, 차량 OBD-II 포트를 통한 CAN Bus 침입 패턴도 병행 탐지합니다.",
+    "applications": "① [고속도로 순찰 자율차 보호] 경찰 자율순찰차 V2X 통신 위변조 실시간 방어\n② [스마트 교차로 테러 방지] 신호 체계 해킹으로 인한 다중 추돌 사고 사전 차단\n③ [전기차 충전 인프라 보안] 충전소 해킹으로 인한 위치추적·개인정보 탈취 방지",
+    "constraints": "① 표준 파편화: DSRC(IEEE 802.11p)와 C-V2X(LTE/5G) 간 보안 체계 상이\n② 저지연 요구: 교통 제어는 100ms 이내 응답 필요 — 암호화 연산 부하 문제\n③ 사후 취약점 패치: 양산 차량 OTA 업데이트 미지원 모델 다수\n④ 국내 V2X 인프라 미비: 상용 스마트 교차로 전국 보급률 2% 미만(2024 기준)",
+    "companies": "• Qualcomm (C-V2X 칩셋 9150)\n• Continental (V2X 보안 게이트웨이)\n• Lear Corporation (사이버보안 ECU)\n• AUTOCRYPT (국내, V2X 보안 솔루션)\n• KT·SKT (5G C-V2X 인프라)",
+    "trend": "2024년 미국 NHTSA가 V2X 사이버보안 의무화 규정을 입법 예고했습니다. 중국에서는 자율주행차 원격 제어 해킹 시연(Tencent Keen Lab)이 공개되어 경찰 대응 체계 필요성이 부각되었습니다. 한국은 2025년 자율협력주행 인프라 구축 사업(국토부)과 연계 가능합니다."
+  },
+  {
+    "id": "IDEA-2506050005",
+    "date": "2025-06-04",
+    "domain": "🧬 과학수사",
+    "tech_name": "나노포어 시퀀싱 현장 DNA 분석 — 30분 내 유전자 감식",
+    "target_issue": "범죄 현장 채취 DNA를 국과수 이송 없이 현장 30분 내 신원 특정",
+    "tags": ["나노포어", "DNA분석", "현장감식", "신속감정", "법과학"],
+    "features": "Oxford Nanopore Technologies의 MinION 장치(USB 연결 가능, 100g 이하)로 현장에서 직접 DNA 염기 서열을 분석합니다. 단일 분자 수준의 전기적 신호 변화를 포어(nanopore)가 감지하며, 기존 NGS 대비 장비 비용이 1/10 수준입니다. MinKNOW 소프트웨어와 Dorado 베이스 콜러로 실시간 분석이 가능합니다.",
+    "applications": "① [연쇄 범죄 현장 동일인 확인] 연속 강력사건 현장에서 즉석 DNA 대조로 동일 용의자 여부 30분 확정\n② [재난·사고 신원 확인] 대형 화재·붕괴 사고 현장 피해자 신속 신원 확인\n③ [마약 밀수 컨테이너 검색] 손잡이·용기에서 피부 세포 채취, 현장 신원 검색",
+    "constraints": "① 정확도: 나노포어의 단일 염기 오독률 5~15% (Illumina 대비 높음) — STR 분석 별도 보완 필요\n② 오염 민감도: 현장 환경 오염원(먼지·습도)에 의한 위양성 위험\n③ DB 연계: 국과수 CODIS 연계를 위한 STR 프로파일 변환 파이프라인 필요\n④ 법적 증거 능력: 현장 분석 결과의 형사소송법상 감정서 효력 불명확",
+    "companies": "• Oxford Nanopore Technologies (MinION, Flongle)\n• Illumina (MiniSeq — 소형 NGS 비교군)\n• ANDE Corporation (Rapid DNA 시스템)\n• 국내: 마크로젠 (현장 적용 파이프라인 개발 가능), 씨젠",
+    "trend": "2024년 미국 FBI는 현장 Rapid DNA를 체포 즉시 신원 확인에 공식 허용(Rapid DNA Act)했습니다. 영국 경찰청(NPCC)은 나노포어 기반 현장 감식 파일럿을 2025년부터 운영 중입니다. 국내는 2023년 유전자감식법 개정으로 현장 채취 확대 기반이 마련되었습니다."
+  },
+  {
+    "id": "IDEA-2506050006",
+    "date": "2025-06-04",
+    "domain": "🏘️ 생활 안전",
+    "tech_name": "음향 이벤트 탐지(AED) — 총성·폭발·비명 실시간 분류",
+    "target_issue": "CCTV 사각지대에서 발생하는 폭행·총기사고·가정폭력 조기 감지",
+    "tags": ["음향탐지", "총성감지", "생활소음분류", "IoT센서", "긴급출동"],
+    "features": "마이크 배열(Microphone Array)과 경량 CNN 모델을 결합하여 총성(Gunshot), 유리 파손(Glass Break), 비명(Scream), 폭발음을 실시간으로 분류합니다. MEMS 마이크 기반 소형 IoT 노드를 가로등·전봇대에 설치하고 5G 엣지 서버에서 추론합니다. 삼각측량으로 음원 위치를 오차 3m 이내로 특정 가능합니다.",
+    "applications": "① [총기 사건 즉각 대응] 총성 감지 즉시 112 자동 신고 + 인근 순찰차 자동 배차\n② [가정폭력 조기 감지] 공동주택 복도 설치로 폭행음·비명 탐지 후 익명 자동 신고\n③ [학교폭력 예방] 교내 복도 음향 센서로 집단 폭행 음향 패턴 감지",
+    "constraints": "① 오경보: 공사장 소음·불꽃놀이 등 유사 음향에 의한 위양성 10~20%\n② 프라이버시: 상시 음향 수집에 대한 개인정보 침해 우려 — 키워드 트리거 방식 필요\n③ 도심 소음: 배경 소음(65dB 이상) 환경에서 탐지율 급격히 저하\n④ 법적 근거: 공공장소 음향 수집 관련 통신비밀보호법 해석 불명확",
+    "companies": "• ShotSpotter (미국, 총성 탐지 전문)\n• Motorola Solutions (CommandCentral Aware)\n• Axis Communications (Audio Analytics)\n• 국내: SKT (AI 음향 분석 솔루션), 한화비전",
+    "trend": "미국 100개 이상 도시에서 ShotSpotter를 운영 중이며, 총기 사건 대응 시간이 평균 2분 단축됐습니다. 2024년 뉴욕시는 프라이버시 문제로 계약을 종료했으나, 키워드 트리거 방식(탐지 후 저장)으로 EU GDPR 준수형 제품이 출시되고 있습니다."
+  }
+]
