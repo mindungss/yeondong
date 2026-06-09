@@ -174,21 +174,5 @@
     "total_orgs": "",
     "goal": "",
     "content": ""
-  },
-  {
-    "id": "NTIS-2024-001",
-    "title": "딥페이크 영상 탐지 및 디지털 증거 진위 검증 시스템 개발",
-    "org": "국립과학수사연구원",
-    "year": "2024",
-    "budget": "8억원",
-    "domain": "🤖 AI·보안",
-    "keywords": "딥페이크, 디지털포렌식, 영상위변조, AI탐지, 사이버수사",
-    "summary": "범죄 수사에 활용되는 디지털 영상 증거의 AI 기반 딥페이크 탐지 기술 개발. GAN 생성 영상 탐지, 영상 위변조 흔적 분석, 법정 제출용 감정 보고서 자동 생성 기능 포함.",
-    "registered": "2024-03-15",
-    "is_new": false,
-    "url": "https://www.ntis.go.kr/rndgate/eg/pr/ro/ntisProjectSearchR.do?searchWord=%EB%94%A5%ED%8E%98%EC%9D%B4%ED%81%AC%20%EC%98%81%EC%83%81%20%ED%83%90%EC%A7%80%20%EB%B0%8F%20%EB%94%94%EC%A7%80%ED%84%B8%20%EC%A6%9D%EA%B1%B0%20&searchCondition=pjtNm",
-    "total_orgs": "국립과학수사연구원, KAIST, 한국전자통신연구원(ETRI)",
-    "goal": "범죄 수사에 활용되는 디지털 영상 증거의 AI 기반 딥페이크 탐지 정확도 ≥94% 달성 및 법정 제출 가능 표준 감정서 자동 생성 체계 구축",
-    "content": "GAN 생성 영상 탐지 알고리즘 개발, 영상 위변조 흔적 분석 모듈 구현, 국과수 표준 감정 절차와 연계한 자동 보고서 생성 시스템 개발 및 현장 실증"
   }
 ]
