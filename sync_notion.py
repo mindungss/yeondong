@@ -20,7 +20,9 @@ logging.basicConfig(level=logging.INFO,
 log = logging.getLogger(__name__)
 
 NOTION_TOKEN = os.environ.get("NOTION_TOKEN", "")
+DB_DAILY     = os.environ.get("NOTION_DB_DAILY", "34b498eef53381b896bafae457a8199e")
 DB_TREND     = os.environ.get("NOTION_DB_TREND", "")
+DB_DAILY     = os.environ.get("NOTION_DB_DAILY", "34b498eef53381b896bafae457a8199e")  # 일일 리포트 페이지
 DB_IDEA      = os.environ.get("NOTION_DB_IDEA", "")
 DB_RFP       = os.environ.get("NOTION_DB_RFP", "")
 DB_NTIS      = os.environ.get("NOTION_DB_NTIS", "")
@@ -100,12 +102,29 @@ def all_pages(notion, db_id, filt=None):
     return rows
 
 def load_json(path):
-    return json.load(open(path, encoding="utf-8")) if path.exists() else None
+    if not path.exists():
+        return None
+    try:
+        content = path.read_text(encoding="utf-8").strip()
+        if not content:
+            return None
+        return json.loads(content)
+    except (json.JSONDecodeError, ValueError) as e:
+        log.warning(f"JSON 파싱 오류 ({path.name}): {e} — 기존 데이터 초기화 후 재수집")
+        return None
 
 def save_json(path, data):
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
-    log.info(f"저장: {path}")
+    """원자적 쓰기: 임시 파일에 먼저 쓰고 교체 (중간 실패 시 기존 파일 보존)"""
+    tmp = path.with_suffix(".tmp")
+    try:
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        tmp.replace(path)   # 원자적 교체
+        log.info(f"저장: {path.name} ({len(data) if isinstance(data,(list,dict)) else '?'}건)")
+    except Exception as e:
+        log.error(f"저장 실패 ({path.name}): {e}")
+        if tmp.exists(): tmp.unlink()
+        raise
 
 # ─────────────────────────────────────────────
 # 노션 페이지 블록 전체 읽기 (하위 페이지용)
@@ -388,6 +407,152 @@ def parse_rfp_page_from_blocks(notion, blocks, page_title, page_date):
     }
 
 # ─────────────────────────────────────────────
+# 0. daily_reports.json  ← 일일 리포트 페이지
+#    노션 구조: 페이지(DB_DAILY) 안의 child_database 또는 database rows
+#    DB_DAILY = 34b498ee... 는 page이므로 blocks.children으로 DB 찾기
+# ─────────────────────────────────────────────
+def sync_daily(notion):
+    path     = DATA_DIR / "daily_reports.json"
+    existing = load_json(path) or []
+
+    # DB_DAILY가 page인 경우: 그 안의 child_database 블록을 찾아 쿼리
+    # DB_DAILY가 실제 database인 경우: 바로 쿼리
+    target_db_id = DB_DAILY
+    if not target_db_id:
+        log.info("[daily] DB_DAILY 미설정 → 스킵")
+        return False
+
+    # 먼저 database로 직접 쿼리 시도
+    pages = all_pages(notion, target_db_id)
+
+    # 실패(page not database)하면 해당 페이지의 child_database 블록을 탐색
+    if not pages:
+        log.info(f"[daily] {target_db_id}를 page로 간주, child_database 탐색")
+        top_blocks = get_all_blocks(notion, target_db_id)
+        for b in top_blocks:
+            if b.get("type") == "child_database":
+                child_db_id = b.get("id","")
+                log.info(f"[daily] child_database 발견: {child_db_id}")
+                pages = all_pages(notion, child_db_id)
+                if pages:
+                    break
+
+    if not pages:
+        log.info("[daily] 데이터 없음 → 스킵")
+        return False
+
+    exist_ids = {r.get("id") for r in existing}
+    new_items = []
+
+    for page in pages:
+        props    = page.get("properties", {})
+        page_id  = page.get("id","").replace("-","")[:8].upper()
+        date     = get_date(props, "날짜", "Date") or TODAY_KST
+        item_id  = f"DAILY-{date.replace('-','')[2:]}{page_id[:4]}"
+
+        if item_id in exist_ids:
+            continue
+
+        rtype    = get_select(props, "유형", "Type") or "이슈"
+        severity = (get_select(props, "심각도","Severity") or "medium").lower()
+        entry = {
+            "id":       item_id,
+            "date":     date,
+            "domain":   get_select(props, "도메인","Domain"),
+            "type":     rtype,
+            "title":    get_title(props, "제목","Name","Title") or "제목 없음",
+            "summary":  get_rt(props, "요약","Summary"),
+            "detail":   get_rt(props, "상세","Detail"),
+            "source":   get_rt(props, "출처","Source"),
+            "url":      get_url(props, "URL","링크","Link"),
+            "tags":     get_multi(props, "태그","Tags"),
+            "severity": severity,
+            "trl":      int(get_num(props, "TRL", default=0)) or None,
+        }
+        # trl=0이면 None으로
+        if entry["trl"] == 0:
+            entry["trl"] = None
+        new_items.append(entry)
+
+    if not new_items:
+        log.info("[daily] 신규 없음 → 스킵")
+        return False
+
+    # 날짜 내림차순 정렬
+    merged = new_items + existing
+    merged.sort(key=lambda x: x.get("date",""), reverse=True)
+    save_json(path, merged)
+    log.info(f"[daily] +{len(new_items)}건, 총 {len(merged)}건")
+    return True
+
+
+# ─────────────────────────────────────────────
+# 0. daily_reports.json  ← 일일 리포트
+#    노션 ID 34b498ee...는 page → child_database 자동 탐색
+# ─────────────────────────────────────────────
+def sync_daily(notion):
+    path     = DATA_DIR / "daily_reports.json"
+    existing = load_json(path) or []
+
+    if not DB_DAILY:
+        log.info("[daily] DB_DAILY 미설정 → 스킵"); return False
+
+    # 1차: database로 직접 쿼리
+    pages = all_pages(notion, DB_DAILY)
+
+    # 실패 시: page 안의 child_database 탐색
+    if not pages:
+        log.info(f"[daily] page로 간주, child_database 탐색")
+        top_blocks = _fetch_children(notion, DB_DAILY)
+        for b in top_blocks:
+            if b.get("type") == "child_database":
+                cid = b.get("id","")
+                log.info(f"[daily] child_database 발견: {cid}")
+                pages = all_pages(notion, cid)
+                if pages: break
+
+    if not pages:
+        log.info("[daily] 데이터 없음 → 스킵"); return False
+
+    exist_ids = {r.get("id") for r in existing}
+    new_items = []
+
+    for page in pages:
+        props   = page.get("properties", {})
+        pid     = page.get("id","").replace("-","")[:4].upper()
+        date    = get_date(props, "날짜","Date") or TODAY_KST
+        iid     = f"DAILY-{date.replace('-','')[2:]}{pid}"
+        if iid in exist_ids: continue
+
+        rtype = get_select(props, "유형","Type") or "이슈"
+        sev   = (get_select(props, "심각도","Severity") or "medium").lower()
+        trl_v = int(get_num(props, "TRL", default=0))
+        entry = {
+            "id":       iid,
+            "date":     date,
+            "domain":   get_select(props, "도메인","Domain"),
+            "type":     rtype,
+            "title":    get_title(props, "제목","Name","Title") or "제목 없음",
+            "summary":  get_rt(props, "요약","Summary"),
+            "detail":   get_rt(props, "상세","Detail"),
+            "source":   get_rt(props, "출처","Source"),
+            "url":      get_url(props, "URL","링크","Link"),
+            "tags":     get_multi(props, "태그","Tags"),
+            "severity": sev,
+            "trl":      trl_v if trl_v else None,
+        }
+        new_items.append(entry)
+
+    if not new_items:
+        log.info("[daily] 신규 없음 → 스킵"); return False
+
+    merged = sorted(new_items + existing, key=lambda x: x.get("date",""), reverse=True)
+    save_json(path, merged)
+    log.info(f"[daily] +{len(new_items)}건, 총 {len(merged)}건")
+    return True
+
+
+# ─────────────────────────────────────────────
 # 1. trend_data.json
 # ─────────────────────────────────────────────
 def sync_trend(notion):
@@ -630,6 +795,7 @@ def main():
 
     results, errors = {}, []
     for name, func, db_id in [
+        ("daily", sync_daily, DB_DAILY),
         ("trend", sync_trend, DB_TREND), ("idea",  sync_ideas, DB_IDEA),
         ("rfp",   sync_rfp,   DB_RFP),   ("ntis",  sync_ntis,  DB_NTIS),
     ]:
