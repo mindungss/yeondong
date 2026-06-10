@@ -382,71 +382,61 @@ def _parse_date_from_title(raw_title: str):
         return m.group(1), m.group(2).strip()
     return None, raw_title.strip()
 
-def _get_child_page_blocks(notion, parent_page_id: str):
-    """
-    DB 행 페이지의 직속 블록을 읽고,
-    child_page 타입 블록이 있으면 그 안으로 한 단계 더 진입해서 블록 반환.
-    없으면 parent_page_id 자체의 블록 반환.
-    """
-    top_blocks = get_all_blocks(notion, parent_page_id)
-
-    # child_page 블록 탐색 (노션에서 페이지 안에 페이지를 임베드한 경우)
-    for b in top_blocks:
-        if b.get("type") == "child_page":
-            child_id = b.get("id", "")
-            log.info(f"  └─ child_page 발견, 진입: {b.get('child_page',{}).get('title','')}")
-            return get_all_blocks(notion, child_id), child_id
-
-    # child_page 없으면 현재 페이지 블록 그대로 사용
-    return top_blocks, parent_page_id
-
 def sync_rfp(notion):
     """
-    RFP DB 구조:
-      - DB 각 행의 Name 컬럼 = "[날짜] 제목" 형식
-      - 행을 클릭하면 열리는 페이지 본문에 추진배경/최종목표/주요기술/세부목표/추진내용/기대효과 작성
-      - child_page 블록으로 한 단계 더 감싸진 경우도 처리
+    RFP 노션 구조:
+      NOTION_DB_RFP는 데이터베이스가 아니라 일반 페이지(page)임.
+      그 페이지 안의 child_page 블록들이 각 RFP 항목.
+      각 child_page 블록의 title = "[날짜] 과제명" 형식.
+      child_page 블록의 id로 본문 블록을 읽어 파싱.
+
+    접근 방식:
+      1. DB_RFP page_id의 직속 블록 목록 조회 (blocks.children.list)
+      2. type == "child_page" 인 블록만 필터링
+      3. 각 child_page 의 id로 본문 블록 읽기
+      4. parse_rfp_page_from_blocks() 로 내용 파싱
     """
     path     = DATA_DIR / "rfp_cards.json"
     existing = load_json(path) or []
-    pages    = all_pages(notion, DB_RFP)
-    if not pages: log.info("[rfp] 데이터 없음 → 스킵"); return False
 
-    # 기존 항목은 title 기준으로도 중복 체크 (id 불일치 방지)
+    # DB_RFP = 상위 페이지 ID (데이터베이스 아님)
+    # 직속 블록에서 child_page 목록 수집
+    log.info(f"[rfp] 상위 페이지 블록 목록 조회: {DB_RFP}")
+    top_blocks = get_all_blocks(notion, DB_RFP)
+    child_pages = [b for b in top_blocks if b.get("type") == "child_page"]
+    log.info(f"[rfp] child_page 발견: {len(child_pages)}개")
+
+    if not child_pages:
+        log.info("[rfp] child_page 없음 → 스킵")
+        return False
+
     exist_ids    = {r.get("id") for r in existing}
     exist_titles = {r.get("title","") for r in existing}
     new_items    = []
 
-    for page in pages:
-        props     = page.get("properties", {})
-        page_id   = page.get("id", "")
+    for block in child_pages:
+        child_id    = block.get("id", "")
+        raw_title   = block.get("child_page", {}).get("title", "") or ""
 
-        # Name 컬럼에서 "[날짜] 제목" 파싱
-        raw_name    = get_title(props, "Name", "과제명", "Title") or ""
-        parsed_date, parsed_title = _parse_date_from_title(raw_name)
-
-        # properties에 별도 날짜 컬럼이 있으면 우선 사용
-        page_date  = get_date(props, "날짜", "제안 일자", "Date") or parsed_date or TODAY_KST
-        page_title = parsed_title or raw_name or "제목 없음"
-        pid_short  = page_id.replace("-","")[:4].upper()
+        # "[날짜] 제목" 파싱
+        parsed_date, parsed_title = _parse_date_from_title(raw_title)
+        page_date  = parsed_date or TODAY_KST
+        page_title = parsed_title or raw_title or "제목 없음"
+        pid_short  = child_id.replace("-","")[:4].upper()
         rfp_id     = f"RFP-{page_date.replace('-','')[2:]}{pid_short}"
 
-        # 중복 체크: id 또는 title
+        # 중복 체크
         if rfp_id in exist_ids or page_title in exist_titles:
             log.info(f"[rfp] 이미 존재 → 스킵: {page_title}")
             continue
 
         log.info(f"[rfp] 파싱 시작: [{page_date}] {page_title}")
         try:
-            # 페이지 본문 블록 읽기 (child_page 있으면 진입)
-            content_blocks, content_page_id = _get_child_page_blocks(notion, page_id)
+            content_blocks = get_all_blocks(notion, child_id)
             entry = parse_rfp_page_from_blocks(notion, content_blocks, page_title, page_date)
             entry["id"]     = rfp_id
-            entry["domain"] = get_select(props, "도메인", "Domain") or entry["domain"]
-            entry["budget"] = get_select(props, "예산규모", "Budget") or entry["budget"]
-            entry["tags"]   = get_multi(props, "태그", "Tags") or entry["tags"]
             new_items.append(entry)
-            log.info(f"  ✅ 파싱 완료: 기술 {len(entry['core_techs'])}개, KPI {len(entry['kpis'])}개, 단계 {len(entry['phases'])}개")
+            log.info(f"  ✅ 기술 {len(entry['core_techs'])}개, KPI {len(entry['kpis'])}개, 단계 {len(entry['phases'])}개")
         except Exception as e:
             log.error(f"[rfp] 파싱 오류 ({page_title}): {e}")
 
