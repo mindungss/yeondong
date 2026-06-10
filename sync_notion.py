@@ -410,9 +410,8 @@ def sync_rfp(notion):
         log.info("[rfp] child_page 없음 → 스킵")
         return False
 
-    exist_ids    = {r.get("id") for r in existing}
-    exist_titles = {r.get("title","") for r in existing}
-    new_items    = []
+    exist_ids = {r.get("id") for r in existing}
+    new_items = []
 
     for block in child_pages:
         child_id    = block.get("id", "")
@@ -425,9 +424,11 @@ def sync_rfp(notion):
         pid_short  = child_id.replace("-","")[:4].upper()
         rfp_id     = f"RFP-{page_date.replace('-','')[2:]}{pid_short}"
 
-        # 중복 체크
-        if rfp_id in exist_ids or page_title in exist_titles:
-            log.info(f"[rfp] 이미 존재 → 스킵: {page_title}")
+        log.info(f"[rfp] 발견: id={rfp_id} title={page_title} child_id={child_id}")
+
+        # id 기준 중복 체크만
+        if rfp_id in exist_ids:
+            log.info(f"[rfp] 이미 존재 → 스킵: {rfp_id}")
             continue
 
         log.info(f"[rfp] 파싱 시작: [{page_date}] {page_title}")
