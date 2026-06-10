@@ -447,7 +447,7 @@ def sync_ntis(notion):
             "is_new":     bool(is_new),
             "url":        get_url(props, "URL", "링크"),
             # ▼ 이미지 기준: 총 연구 기간 (참여기관 목록)
-            "total_orgs": get_rt(props, "총 연구 기간", "총 연구 기간", "Total Orgs"),
+            "total_orgs": get_rt(props, "총 연구 기간", "총연구기간", "Total Orgs"),
             # ▼ 이미지 기준: 연구 목표
             "goal":       get_rt(props, "연구 목표", "연구목표", "Goal"),
             # ▼ 이미지 기준: 연구 내용
