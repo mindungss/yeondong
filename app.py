@@ -162,6 +162,7 @@ with st.sidebar:
 
     MENU_ITEMS = [
         ("🏢", "메인 대시보드"),
+        ("📰", "일일 DB"),
         ("💡", "아이디어"),
         ("📄", "RFP 사업기획"),
         ("📋", "유사 과제"),
@@ -655,7 +656,118 @@ if menu == "🏢 메인 대시보드":
 
 
 # ═══════════════════════════════════════════════════════════
-# PAGE 2: 아이디어 — 누적 동향 기반 과학기술 치안 접목 카드
+# PAGE 2: 일일 DB — 치안과학기술 동향분석 일일 리포트
+# ═══════════════════════════════════════════════════════════
+elif menu == "📰 일일 DB":
+
+    DAILY_PATH = "data/daily_reports.json"
+
+    @st.cache_data(ttl=300)
+    def load_daily():
+        if os.path.exists(DAILY_PATH):
+            try:
+                with open(DAILY_PATH, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception:
+                return []
+        return []
+
+    daily_list = load_daily()
+
+    st.markdown("## 📰 치안과학기술 동향분석 일일 리포트")
+    st.markdown("""
+    <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px;
+         padding:0.9rem 1.2rem; margin-bottom:1.2rem;">
+      <p style="color:#1e40af; font-size:0.87rem; margin:0;">
+        📡 매일 아침 수집된 치안과학기술 동향 분석 리포트입니다.
+        이슈·기술·정책 동향을 날짜별·도메인별로 확인할 수 있습니다.
+      </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if not daily_list:
+        st.info("📭 아직 등록된 일일 리포트가 없습니다. 매일 09:00에 업데이트됩니다.")
+    else:
+        # ── 필터 행
+        f1, f2 = st.columns([1, 1])
+        with f1:
+            all_dates = sorted({r.get("date","") for r in daily_list if r.get("date")}, reverse=True)
+            sel_date  = st.selectbox("날짜", ["전체"] + list(all_dates), label_visibility="collapsed")
+        with f2:
+            all_domains = sorted({r.get("domain","") for r in daily_list if r.get("domain")})
+            sel_domain  = st.selectbox("도메인", ["전체"] + list(all_domains), label_visibility="collapsed")
+
+        shown = [
+            r for r in daily_list
+            if (sel_date   == "전체" or r.get("date","")   == sel_date)
+            and (sel_domain == "전체" or r.get("domain","") == sel_domain)
+        ]
+
+        # ── 요약 메트릭
+        issues = sum(1 for r in shown if r.get("type","").startswith("이") or r.get("id","").startswith("I"))
+        techs  = sum(1 for r in shown if r.get("type","").startswith("기") or r.get("id","").startswith("T"))
+        m1, m2, m3 = st.columns(3)
+        m1.metric("전체", len(shown))
+        m2.metric("🚨 이슈", issues)
+        m3.metric("🔬 기술", techs)
+        st.divider()
+
+        # ── 카드 목록
+        for r in shown:
+            date     = r.get("date","")
+            domain   = r.get("domain","")
+            rtype    = r.get("type","이슈")
+            title    = r.get("title","제목 없음")
+            summary  = r.get("summary","")
+            detail   = r.get("detail","")
+            source   = r.get("source","")
+            url      = r.get("url","")
+            tags     = r.get("tags",[])
+            severity = r.get("severity","")
+            trl      = r.get("trl", None)
+
+            is_issue     = rtype in ("이슈","Issue","issues") or r.get("id","").startswith("I")
+            border_color = "#ef4444" if is_issue else "#10b981"
+            bg_color     = "#fff9f9" if is_issue else "#f6fdf9"
+            type_label   = "🚨 이슈" if is_issue else "🔬 기술"
+
+            sev_html = {
+                "high":   '<span style="background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;border-radius:4px;padding:1px 7px;font-size:0.7rem;font-weight:600;margin-left:5px;">긴급</span>',
+                "medium": '<span style="background:#fffbeb;color:#b45309;border:1px solid #fde68a;border-radius:4px;padding:1px 7px;font-size:0.7rem;font-weight:600;margin-left:5px;">주의</span>',
+            }.get(severity, "")
+            trl_html  = f'<span style="background:#f3f4f6;color:#374151;border:1px solid #d1d5db;border-radius:4px;padding:1px 7px;font-size:0.7rem;font-weight:600;margin-left:5px;">TRL {trl}</span>' if trl else ""
+            tags_html = "".join(f'<span class="domain-tag">{t}</span>' for t in tags)
+
+            st.markdown(f"""
+            <div style="background:{bg_color}; border:1px solid #e5e7eb;
+                 border-left:3px solid {border_color}; border-radius:6px;
+                 padding:0.85rem 1rem; margin-bottom:0.55rem;
+                 box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+              <div style="display:flex; align-items:center; gap:6px; margin-bottom:0.3rem; flex-wrap:wrap;">
+                <span style="font-size:0.72rem; font-weight:600; color:{border_color};">{type_label}</span>
+                <span style="font-size:0.72rem; color:#374151; font-weight:500;">{domain}</span>
+                <span style="font-size:0.7rem; color:#9ca3af;">📅 {date}</span>
+                {sev_html}{trl_html}
+              </div>
+              <div style="font-size:0.95rem; font-weight:600; color:#111827; margin-bottom:0.3rem; line-height:1.5;">{title}</div>
+              <div style="font-size:0.85rem; color:#374151; line-height:1.6; margin-bottom:0.4rem;">{summary}</div>
+              <div>{tags_html}</div>
+            </div>
+            """, unsafe_allow_html=True)
+
+            if detail or source or url:
+                with st.expander(f"📋 상세 — {title[:35]}{'…' if len(title)>35 else ''}"):
+                    if detail:
+                        st.markdown(detail)
+                    cols = []
+                    if source: cols.append(f"📌 출처: {source}")
+                    if url:    cols.append(f"🔗 [원문 바로가기]({url})")
+                    for c in cols:
+                        st.markdown(c)
+
+
+# ═══════════════════════════════════════════════════════════
+# PAGE 3: 아이디어 — 누적 동향 기반 과학기술 치안 접목 카드
 # ═══════════════════════════════════════════════════════════
 elif menu == "💡 아이디어":
 
