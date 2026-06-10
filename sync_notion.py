@@ -140,10 +140,10 @@ def get_all_blocks(notion, block_id, _depth=0):
         btype = block.get("type", "")
         has_children = block.get("has_children", False)
         # toggle, bulleted_list_item, numbered_list_item, quote 등 자식 있는 블록 재귀
-        if has_children and btype in (
-            "toggle", "bulleted_list_item", "numbered_list_item",
-            "quote", "callout", "column", "column_list"
-        ):
+    if has_children and btype in (
+        "toggle", "bulleted_list_item", "numbered_list_item",
+        "quote", "callout", "column", "column_list", "table"
+    ):
             block["_children"] = get_all_blocks(notion, block["id"], _depth + 1)
     return blocks
 
@@ -222,13 +222,19 @@ def parse_rfp_page_from_blocks(notion, blocks, page_title, page_date):
                 major = matched
             continue  # heading_1 자체는 저장 안 함
 
-        # heading_2/3 이면서 대섹션 키워드 포함 → 대섹션 전환 (노션에서 heading_2로 쓴 경우 대응)
+        # heading_2/3 처리
         if btype in ("heading_2", "heading_3"):
             clean   = re.sub(r"^\d+[\.\s]+", "", txt).strip()
             matched = next((v for k, v in MAJOR_MAP.items() if k in clean), None)
             if matched:
+                # 대섹션 키워드 → 섹션 전환만 (저장 안 함)
                 major = matched
-                continue  # 섹션 전환만, 저장 안 함
+                continue
+            else:
+                # 대섹션 키워드 아닌 heading_2 → 현재 섹션에 저장 (기술항목/단계/소제목)
+                if major:
+                    sections[major].append(block)
+                continue
 
         # 나머지 블록은 현재 대섹션에 저장
         if major:
@@ -352,10 +358,14 @@ def parse_rfp_page_from_blocks(notion, blocks, page_title, page_date):
         if not txt:
             continue
         if btype in ("heading_2", "heading_3"):
-            # 소제목은 구분선으로
             effect_lines.append(f"\n[{txt}]")
         elif btype == "bulleted_list_item":
             effect_lines.append("• " + txt)
+            # bulleted 자식도 포함 (들여쓰기)
+            for child in block.get("_children", []):
+                ct = block_text(child).strip()
+                if ct:
+                    effect_lines.append("  - " + ct)
         else:
             effect_lines.append(txt)
     effect = "\n".join(effect_lines).strip()
