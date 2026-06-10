@@ -92,7 +92,12 @@ def all_pages(notion, db_id, filt=None):
         try:
             resp = notion.databases.query(**params)
         except APIResponseError as e:
-            log.error(f"API 오류 (DB:{db_id}): {e}")
+            err_str = str(e)
+            if "is a page, not a database" in err_str:
+                log.error(f"[설정 오류] DB ID '{db_id}'는 데이터베이스가 아닌 페이지입니다. "
+                          f"GitHub Secret에 올바른 데이터베이스 ID를 입력했는지 확인하세요.")
+            else:
+                log.error(f"API 오류 (DB:{db_id}): {e}")
             return rows
         rows.extend(resp.get("results", []))
         if not resp.get("has_more"): break
@@ -259,14 +264,13 @@ def parse_rfp_page_from_blocks(notion, blocks, page_title, page_date):
     if cur_phase_label:
         phases.append({"label": cur_phase_label, "content": "\n".join(cur_phase_lines).strip()})
 
-    # 날짜에서 ID 생성
+    # ID는 sync_rfp에서 child_id 기반으로 덮어씀 — 여기선 임시값
     date_compact = (page_date or TODAY_KST).replace("-","")[2:]
-    page_short   = page_id.replace("-","")[:4].upper()
 
     return {
-        "id":         f"RFP-{date_compact}{page_short}",
+        "id":         f"RFP-{date_compact}TEMP",
         "date":       page_date or TODAY_KST,
-        "domain":     "",          # DB 수준 속성이 없으면 빈값
+        "domain":     "",
         "title":      page_title,
         "budget":     "",
         "tags":       [],
