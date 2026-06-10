@@ -1,449 +1,510 @@
 """
-sync_notion.py
-Notion DB → JSON 동기화 스크립트
-치안 과학기술 동향 플랫폼 | KIPOT
+sync_notion.py — Notion DB → JSON 동기화 스크립트
+치안 과학기술 동향 플랫폼 | KIPOT v2.0
 
-실행:
-  NOTION_TOKEN=secret_xxx \
-  NOTION_DB_TREND=34b498ee... \
-  NOTION_DB_IDEA=e23ed0df... \
-  NOTION_DB_RFP=379498ee... \
-  NOTION_DB_NTIS=5f3b759c... \
-  python sync_notion.py
+노션 속성명 매핑 (이미지 기준):
+  아이디어 DB: 기술명/날짜/도메인/해결 이슈/태그/기술 특징/적용 분야/제한 사항/주요 기업 및 제품/기술 동향
+  유사과제 DB: 과제명/주관 기관/총 연구비/도메인/키워드/등록일/총 연구 기간/연구 목표/연구 내용
+  RFP DB: 하위 페이지 구조 파싱 (제안 이력 → 각 페이지)
 """
 
-import os
-import json
-import sys
-import logging
+import os, json, sys, logging, re
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
-
 from notion_client import Client
 from notion_client.errors import APIResponseError
 
 # ─────────────────────────────────────────────
-# 로깅 설정
-# ─────────────────────────────────────────────
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
+logging.basicConfig(level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
 log = logging.getLogger(__name__)
 
-# ─────────────────────────────────────────────
-# 환경변수
-# ─────────────────────────────────────────────
-NOTION_TOKEN   = os.environ.get("NOTION_TOKEN", "")
-DB_TREND       = os.environ.get("NOTION_DB_TREND", "")
-DB_IDEA        = os.environ.get("NOTION_DB_IDEA", "")
-DB_RFP         = os.environ.get("NOTION_DB_RFP", "")
-DB_NTIS        = os.environ.get("NOTION_DB_NTIS", "")
+NOTION_TOKEN = os.environ.get("NOTION_TOKEN", "")
+DB_TREND     = os.environ.get("NOTION_DB_TREND", "")
+DB_IDEA      = os.environ.get("NOTION_DB_IDEA", "")
+DB_RFP       = os.environ.get("NOTION_DB_RFP", "")
+DB_NTIS      = os.environ.get("NOTION_DB_NTIS", "")
 
-DATA_DIR       = Path(__file__).parent / "data"
+DATA_DIR     = Path(__file__).parent / "data"
 DATA_DIR.mkdir(exist_ok=True)
-
-KST            = timezone(timedelta(hours=9))
-TODAY_KST      = datetime.now(KST).strftime("%Y-%m-%d")
+KST          = timezone(timedelta(hours=9))
+TODAY_KST    = datetime.now(KST).strftime("%Y-%m-%d")
 
 # ─────────────────────────────────────────────
-# 유틸: Notion 속성 추출 헬퍼
+# 공통 헬퍼
 # ─────────────────────────────────────────────
-def get_title(props: dict, key: str) -> str:
-    """Title 속성 → 문자열"""
-    arr = props.get(key, {}).get("title", [])
-    return "".join(b.get("plain_text", "") for b in arr).strip()
+def _text(blocks):
+    return "".join(b.get("plain_text", "") for b in (blocks or [])).strip()
 
-def get_rich_text(props: dict, key: str) -> str:
-    """Rich text 속성 → 문자열"""
-    arr = props.get(key, {}).get("rich_text", [])
-    return "".join(b.get("plain_text", "") for b in arr).strip()
-
-def get_select(props: dict, key: str) -> str:
-    """Select 속성 → 문자열"""
-    sel = props.get(key, {}).get("select")
-    return sel.get("name", "") if sel else ""
-
-def get_multi_select(props: dict, key: str) -> list:
-    """Multi-select 속성 → 리스트"""
-    items = props.get(key, {}).get("multi_select", [])
-    return [i.get("name", "") for i in items]
-
-def get_number(props: dict, key: str, default=0):
-    """Number 속성 → 숫자"""
-    val = props.get(key, {}).get("number")
-    return val if val is not None else default
-
-def get_date(props: dict, key: str) -> str:
-    """Date 속성 → YYYY-MM-DD 문자열"""
-    d = props.get(key, {}).get("date")
-    if d and d.get("start"):
-        return d["start"][:10]
+def get_title(props, *keys):
+    for k in keys:
+        v = _text(props.get(k, {}).get("title", []))
+        if v: return v
     return ""
 
-def get_checkbox(props: dict, key: str) -> bool:
-    """Checkbox 속성 → bool"""
-    return props.get(key, {}).get("checkbox", False)
+def get_rt(props, *keys):
+    for k in keys:
+        v = _text(props.get(k, {}).get("rich_text", []))
+        if v: return v
+    return ""
 
-def get_url(props: dict, key: str) -> str:
-    """URL 속성 → 문자열"""
-    return props.get(key, {}).get("url") or ""
+def get_select(props, *keys):
+    for k in keys:
+        s = props.get(k, {}).get("select")
+        if s: return s.get("name", "")
+    return ""
 
-def get_all_pages(notion: Client, db_id: str, filter_body: dict = None) -> list:
-    """페이지네이션을 처리하여 전체 결과 반환"""
-    results = []
-    cursor = None
+def get_multi(props, *keys):
+    for k in keys:
+        items = props.get(k, {}).get("multi_select", [])
+        if items: return [i.get("name","") for i in items]
+    return []
+
+def get_date(props, *keys):
+    for k in keys:
+        d = props.get(k, {}).get("date")
+        if d and d.get("start"): return d["start"][:10]
+    return ""
+
+def get_num(props, *keys, default=0):
+    for k in keys:
+        v = props.get(k, {}).get("number")
+        if v is not None: return v
+    return default
+
+def get_url(props, *keys):
+    for k in keys:
+        v = props.get(k, {}).get("url")
+        if v: return v
+    return ""
+
+def get_checkbox(props, *keys):
+    for k in keys:
+        if props.get(k, {}).get("checkbox"): return True
+    return False
+
+def all_pages(notion, db_id, filt=None):
+    rows, cursor = [], None
     while True:
         params = {"database_id": db_id, "page_size": 100}
-        if filter_body:
-            params["filter"] = filter_body
-        if cursor:
-            params["start_cursor"] = cursor
+        if filt:   params["filter"]       = filt
+        if cursor: params["start_cursor"] = cursor
         try:
             resp = notion.databases.query(**params)
         except APIResponseError as e:
-            log.error(f"Notion API 오류 (DB: {db_id}): {e}")
-            return results
-        results.extend(resp.get("results", []))
-        if not resp.get("has_more"):
-            break
+            log.error(f"API 오류 (DB:{db_id}): {e}")
+            return rows
+        rows.extend(resp.get("results", []))
+        if not resp.get("has_more"): break
         cursor = resp.get("next_cursor")
-    return results
+    return rows
 
-def load_existing(path: Path) -> object:
-    """기존 JSON 파일 로드 (없으면 기본값)"""
-    if path.exists():
-        with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
-    return None
+def load_json(path):
+    return json.load(open(path, encoding="utf-8")) if path.exists() else None
 
-def save_json(path: Path, data: object):
-    """JSON 저장"""
+def save_json(path, data):
     with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
-    log.info(f"저장 완료: {path}")
-
+    log.info(f"저장: {path}")
 
 # ─────────────────────────────────────────────
-# 1. trend_data.json 동기화
+# 노션 페이지 블록 전체 읽기 (하위 페이지용)
 # ─────────────────────────────────────────────
-def sync_trend(notion: Client) -> bool:
+def get_all_blocks(notion, block_id):
+    """페이지의 모든 블록을 재귀적으로 수집"""
+    blocks, cursor = [], None
+    while True:
+        params = {"block_id": block_id, "page_size": 100}
+        if cursor: params["start_cursor"] = cursor
+        try:
+            resp = notion.blocks.children.list(**params)
+        except APIResponseError as e:
+            log.error(f"블록 읽기 오류: {e}")
+            break
+        blocks.extend(resp.get("results", []))
+        if not resp.get("has_more"): break
+        cursor = resp.get("next_cursor")
+    return blocks
+
+def block_text(block):
+    """단일 블록에서 텍스트 추출"""
+    btype = block.get("type", "")
+    content = block.get(btype, {})
+    rich = content.get("rich_text", [])
+    return _text(rich)
+
+def blocks_to_text(blocks):
+    """블록 리스트 → 줄바꿈 연결 텍스트"""
+    lines = []
+    for b in blocks:
+        t = block_text(b)
+        if t: lines.append(t)
+    return "\n".join(lines)
+
+# ─────────────────────────────────────────────
+# RFP 하위 페이지 파싱
+# ─────────────────────────────────────────────
+def parse_rfp_page(notion, page_id, page_title, page_date):
     """
-    노션 DB에서 오늘 날짜 이슈/기술 데이터를 읽어 trend_data.json에 누적.
-    새 데이터가 없으면 False 반환(스킵).
+    RFP 노션 하위 페이지 파싱.
+    섹션 헤딩 기준으로 분리:
+      1/추진 배경 → background
+      2/최종 목표 → goal
+      3/주요 기술 → core_techs (기술 1, 기술 2 … 각각)
+      4/세부 목표 → kpis (표 → 행별 파싱)
+      5/추진 내용 → phases (1단계, 2단계 …)
+      기대 효과   → effect
     """
-    path = DATA_DIR / "trend_data.json"
-    existing = load_existing(path) or {}
+    blocks = get_all_blocks(notion, page_id)
 
-    pages = get_all_pages(notion, DB_TREND)
-    if not pages:
-        log.info("[trend] 노션에서 가져온 데이터 없음 → 스킵")
-        return False
+    # 섹션별 블록 분류
+    sections = {
+        "background": [], "goal": [], "core_techs_raw": [],
+        "kpis_raw": [], "phases_raw": [], "effect": []
+    }
+    current = None
+    SECTION_MAP = {
+        "추진 배경": "background", "배경": "background",
+        "최종 목표": "goal", "목표": "goal",
+        "주요 기술": "core_techs_raw",
+        "세부 목표": "kpis_raw",
+        "추진 내용": "phases_raw",
+        "기대 효과": "effect",
+    }
 
-    # 날짜별로 분류
-    new_data: dict = {}
-    for page in pages:
-        props = page.get("properties", {})
-        record_date = get_date(props, "날짜") or get_date(props, "Date") or TODAY_KST
-        rec_type    = get_select(props, "유형") or get_select(props, "Type") or "이슈"
+    for block in blocks:
+        btype = block.get("type", "")
+        txt   = block_text(block).strip()
 
-        if record_date not in new_data:
-            new_data[record_date] = {"issues": [], "technologies": []}
-
-        record_id  = page.get("id", "").replace("-", "")[:12].upper()
-        tags       = get_multi_select(props, "태그") or get_multi_select(props, "Tags")
-        domain     = get_select(props, "도메인") or get_select(props, "Domain") or ""
-        severity   = get_select(props, "심각도") or get_select(props, "Severity") or "medium"
-        title      = (get_title(props, "제목") or get_title(props, "Name") or
-                      get_title(props, "Title") or "제목 없음")
-        summary    = get_rich_text(props, "요약") or get_rich_text(props, "Summary")
-        detail     = get_rich_text(props, "상세") or get_rich_text(props, "Detail")
-        source     = get_rich_text(props, "출처") or get_rich_text(props, "Source")
-        url        = get_url(props, "URL") or get_url(props, "링크") or get_url(props, "Link")
-        trl        = int(get_number(props, "TRL", 1))
-
-        if rec_type in ("기술", "Technology", "Tech"):
-            prefix = "T"
-            entry = {
-                "id":      f"T{record_date.replace('-','')[2:]}{record_id[:4]}",
-                "title":   title,
-                "domain":  domain,
-                "trl":     trl,
-                "summary": summary,
-                "detail":  detail,
-                "url":     url,
-                "tags":    tags,
-            }
-            new_data[record_date]["technologies"].append(entry)
-        else:
-            entry = {
-                "id":       f"I{record_date.replace('-','')[2:]}{record_id[:4]}",
-                "title":    title,
-                "domain":   domain,
-                "severity": severity.lower() if severity else "medium",
-                "summary":  summary,
-                "detail":   detail,
-                "source":   source,
-                "url":      url,
-                "tags":     tags,
-            }
-            new_data[record_date]["issues"].append(entry)
-
-    if not new_data:
-        log.info("[trend] 처리된 데이터 없음 → 스킵")
-        return False
-
-    # 기존 데이터에 병합 (새 날짜 추가, 기존 날짜 덮어쓰기)
-    merged = dict(existing)
-    merged.update(new_data)
-    # 날짜 내림차순 정렬
-    sorted_merged = dict(sorted(merged.items(), reverse=True))
-
-    save_json(path, sorted_merged)
-    log.info(f"[trend] {len(new_data)}개 날짜 업데이트, 총 {len(sorted_merged)}일치 데이터")
-    return True
-
-
-# ─────────────────────────────────────────────
-# 2. idea_cards.json 동기화
-# ─────────────────────────────────────────────
-def sync_ideas(notion: Client) -> bool:
-    path = DATA_DIR / "idea_cards.json"
-    existing = load_existing(path) or []
-
-    pages = get_all_pages(notion, DB_IDEA)
-    if not pages:
-        log.info("[idea] 노션에서 가져온 데이터 없음 → 스킵")
-        return False
-
-    existing_ids = {item.get("id") for item in existing}
-    new_items = []
-
-    for page in pages:
-        props   = page.get("properties", {})
-        page_id = page.get("id", "").replace("-", "")[:12]
-        date    = get_date(props, "날짜") or get_date(props, "Date") or TODAY_KST
-        item_id = f"IDEA-{date.replace('-','')[2:]}{page_id[:4].upper()}"
-
-        if item_id in existing_ids:
-            continue  # 이미 있는 항목 스킵
-
-        entry = {
-            "id":           item_id,
-            "date":         date,
-            "domain":       get_select(props, "도메인") or get_select(props, "Domain") or "",
-            "tech_name":    (get_title(props, "기술명") or get_title(props, "Name") or
-                             get_title(props, "Tech") or ""),
-            "target_issue": get_rich_text(props, "해결 이슈") or get_rich_text(props, "Target Issue"),
-            "tags":         get_multi_select(props, "태그") or get_multi_select(props, "Tags"),
-            "features":     get_rich_text(props, "기술 특징") or get_rich_text(props, "Features"),
-            "applications": get_rich_text(props, "적용 분야") or get_rich_text(props, "Applications"),
-            "constraints":  get_rich_text(props, "제한 사항") or get_rich_text(props, "Constraints"),
-            "companies":    get_rich_text(props, "주요 기업") or get_rich_text(props, "Companies"),
-            "trend":        get_rich_text(props, "기술 동향") or get_rich_text(props, "Trend"),
-        }
-        new_items.append(entry)
-
-    if not new_items:
-        log.info("[idea] 신규 항목 없음 → 스킵")
-        return False
-
-    merged = new_items + existing  # 새 항목을 앞에 배치
-    save_json(path, merged)
-    log.info(f"[idea] {len(new_items)}개 신규 항목 추가, 총 {len(merged)}건")
-    return True
-
-
-# ─────────────────────────────────────────────
-# 3. rfp_cards.json 동기화
-# ─────────────────────────────────────────────
-def _parse_json_field(text: str, default) -> object:
-    """Rich text에 JSON 문자열이 들어있는 경우 파싱 시도"""
-    if not text:
-        return default
-    try:
-        return json.loads(text)
-    except Exception:
-        return text  # 파싱 실패 시 원본 문자열 반환
-
-def sync_rfp(notion: Client) -> bool:
-    path = DATA_DIR / "rfp_cards.json"
-    existing = load_existing(path) or []
-
-    pages = get_all_pages(notion, DB_RFP)
-    if not pages:
-        log.info("[rfp] 노션에서 가져온 데이터 없음 → 스킵")
-        return False
-
-    existing_ids = {item.get("id") for item in existing}
-    new_items = []
-
-    for page in pages:
-        props   = page.get("properties", {})
-        page_id = page.get("id", "").replace("-", "")[:12]
-        date    = get_date(props, "날짜") or get_date(props, "Date") or TODAY_KST
-        item_id = f"RFP-{date.replace('-','')[2:]}{page_id[:4].upper()}"
-
-        if item_id in existing_ids:
+        # 헤딩 감지
+        if btype in ("heading_1", "heading_2", "heading_3"):
+            # 숫자 접두사 제거 후 매핑
+            clean = re.sub(r"^\d+[\.\s]+", "", txt).strip()
+            matched = next((v for k, v in SECTION_MAP.items() if k in clean), None)
+            current = matched
             continue
 
-        # core_techs, kpis, phases는 JSON 문자열 또는 Rich text로 저장 가능
-        core_techs_raw = get_rich_text(props, "핵심기술") or get_rich_text(props, "Core Techs")
-        kpis_raw       = get_rich_text(props, "세부목표") or get_rich_text(props, "KPIs")
-        phases_raw     = get_rich_text(props, "추진내용") or get_rich_text(props, "Phases")
+        if current and txt:
+            sections[current].append(block)
 
-        entry = {
-            "id":         item_id,
-            "date":       date,
-            "domain":     get_select(props, "도메인") or get_select(props, "Domain") or "",
-            "title":      (get_title(props, "과제명") or get_title(props, "Name") or
-                           get_title(props, "Title") or ""),
-            "budget":     get_select(props, "예산규모") or get_select(props, "Budget") or "",
-            "tags":       get_multi_select(props, "태그") or get_multi_select(props, "Tags"),
-            "background": get_rich_text(props, "추진배경") or get_rich_text(props, "Background"),
-            "goal":       get_rich_text(props, "최종목표") or get_rich_text(props, "Goal"),
-            "core_techs": _parse_json_field(core_techs_raw, []),
-            "kpis":       _parse_json_field(kpis_raw, []),
-            "phases":     _parse_json_field(phases_raw, []),
-            "effect":     get_rich_text(props, "기대효과") or get_rich_text(props, "Effect"),
-            "diagram":    get_rich_text(props, "다이어그램") or get_rich_text(props, "Diagram"),
-        }
-        new_items.append(entry)
+    # ── background / goal / effect: 텍스트 그대로
+    background = blocks_to_text(sections["background"])
+    goal       = blocks_to_text(sections["goal"])
+    effect     = blocks_to_text(sections["effect"])
 
-    if not new_items:
-        log.info("[rfp] 신규 항목 없음 → 스킵")
-        return False
+    # ── core_techs: [기술 N] 헤딩으로 분리
+    core_techs = []
+    cur_tech_name, cur_tech_lines = None, []
+    for block in sections["core_techs_raw"]:
+        btype = block.get("type", "")
+        txt   = block_text(block).strip()
+        # [기술 N] 패턴 감지 (heading 또는 bold paragraph)
+        tech_match = re.match(r"\[기술\s*\d+\]\s*(.*)", txt)
+        if tech_match or (btype in ("heading_2","heading_3") and "기술" in txt):
+            if cur_tech_name:
+                core_techs.append({"name": cur_tech_name, "desc": "\n".join(cur_tech_lines).strip()})
+            cur_tech_name = tech_match.group(1).strip() if tech_match else txt
+            cur_tech_lines = []
+        elif cur_tech_name and txt:
+            cur_tech_lines.append(txt)
+    if cur_tech_name:
+        core_techs.append({"name": cur_tech_name, "desc": "\n".join(cur_tech_lines).strip()})
 
-    merged = new_items + existing
+    # ── kpis: 표(table) 블록 파싱 → 행별 {"label","value","reason"}
+    kpis = []
+    for block in sections["kpis_raw"]:
+        if block.get("type") == "table":
+            try:
+                rows_resp = notion.blocks.children.list(block_id=block["id"])
+                table_rows = rows_resp.get("results", [])
+                # 첫 행은 헤더 스킵
+                for row_block in table_rows[1:]:
+                    cells = row_block.get("table_row", {}).get("cells", [])
+                    if len(cells) >= 2:
+                        label  = _text(cells[0]) if cells[0] else ""
+                        value  = _text(cells[1]) if len(cells) > 1 else ""
+                        reason = _text(cells[2]) if len(cells) > 2 else ""
+                        if label:
+                            kpis.append({"label": label, "value": value, "reason": reason})
+            except Exception as e:
+                log.warning(f"표 파싱 오류: {e}")
+        else:
+            # 표가 아닌 일반 텍스트도 kpi로 저장
+            txt = block_text(block).strip()
+            if txt:
+                # "지표명: 목표값" 형식 파싱 시도
+                m = re.match(r"(.+?)[:：]\s*(.+)", txt)
+                if m:
+                    kpis.append({"label": m.group(1).strip(), "value": m.group(2).strip(), "reason": ""})
+
+    # ── phases: 1단계, 2단계 … 기준으로 분리
+    phases = []
+    cur_phase_label, cur_phase_lines = None, []
+    for block in sections["phases_raw"]:
+        txt   = block_text(block).strip()
+        btype = block.get("type", "")
+        # "N단계" 또는 "1단계 (…)" 패턴
+        phase_match = re.match(r"(\d+단계[^:：]*)", txt)
+        if phase_match and btype in ("heading_2","heading_3","paragraph","bulleted_list_item"):
+            if cur_phase_label:
+                phases.append({"label": cur_phase_label, "content": "\n".join(cur_phase_lines).strip()})
+            cur_phase_label = txt
+            cur_phase_lines = []
+        elif cur_phase_label and txt:
+            cur_phase_lines.append(("• " if btype == "bulleted_list_item" else "") + txt)
+    if cur_phase_label:
+        phases.append({"label": cur_phase_label, "content": "\n".join(cur_phase_lines).strip()})
+
+    # 날짜에서 ID 생성
+    date_compact = (page_date or TODAY_KST).replace("-","")[2:]
+    page_short   = page_id.replace("-","")[:4].upper()
+
+    return {
+        "id":         f"RFP-{date_compact}{page_short}",
+        "date":       page_date or TODAY_KST,
+        "domain":     "",          # DB 수준 속성이 없으면 빈값
+        "title":      page_title,
+        "budget":     "",
+        "tags":       [],
+        "background": background,
+        "goal":       goal,
+        "core_techs": core_techs,
+        "kpis":       kpis,
+        "phases":     phases,
+        "effect":     effect,
+        "diagram":    "",
+    }
+
+# ─────────────────────────────────────────────
+# 1. trend_data.json
+# ─────────────────────────────────────────────
+def sync_trend(notion):
+    path     = DATA_DIR / "trend_data.json"
+    existing = load_json(path) or {}
+    pages    = all_pages(notion, DB_TREND)
+    if not pages:
+        log.info("[trend] 데이터 없음 → 스킵"); return False
+
+    new_data = {}
+    for page in pages:
+        props  = page.get("properties", {})
+        date   = get_date(props, "날짜", "Date") or TODAY_KST
+        rtype  = get_select(props, "유형", "Type") or "이슈"
+        pid    = page.get("id","").replace("-","")[:4].upper()
+        if date not in new_data:
+            new_data[date] = {"issues": [], "technologies": []}
+
+        common = dict(
+            title   = get_title(props, "제목", "Name", "Title") or "제목 없음",
+            domain  = get_select(props, "도메인", "Domain"),
+            summary = get_rt(props, "요약", "Summary"),
+            detail  = get_rt(props, "상세", "Detail"),
+            url     = get_url(props, "URL", "링크", "Link"),
+            tags    = get_multi(props, "태그", "Tags"),
+        )
+        if rtype in ("기술","Technology","Tech"):
+            new_data[date]["technologies"].append({
+                "id": f"T{date.replace('-','')[2:]}{pid}", **common,
+                "trl": int(get_num(props, "TRL", default=1)),
+            })
+        else:
+            new_data[date]["issues"].append({
+                "id":       f"I{date.replace('-','')[2:]}{pid}", **common,
+                "severity": (get_select(props,"심각도","Severity") or "medium").lower(),
+                "source":   get_rt(props, "출처","Source"),
+            })
+
+    if not new_data: log.info("[trend] 처리된 데이터 없음 → 스킵"); return False
+    merged = dict(sorted({**existing, **new_data}.items(), reverse=True))
     save_json(path, merged)
-    log.info(f"[rfp] {len(new_items)}개 신규 항목 추가, 총 {len(merged)}건")
+    log.info(f"[trend] {len(new_data)}일 업데이트, 총 {len(merged)}일")
     return True
 
-
 # ─────────────────────────────────────────────
-# 4. ntis_projects.json 동기화
+# 2. idea_cards.json  ← 속성명 이미지 기준 재매핑
 # ─────────────────────────────────────────────
-def sync_ntis(notion: Client) -> bool:
-    path = DATA_DIR / "ntis_projects.json"
-    existing = load_existing(path) or []
+def sync_ideas(notion):
+    path     = DATA_DIR / "idea_cards.json"
+    existing = load_json(path) or []
+    pages    = all_pages(notion, DB_IDEA)
+    if not pages: log.info("[idea] 데이터 없음 → 스킵"); return False
 
-    pages = get_all_pages(notion, DB_NTIS)
-    if not pages:
-        log.info("[ntis] 노션에서 가져온 데이터 없음 → 스킵")
-        return False
-
-    existing_ids = {item.get("id") for item in existing}
+    exist_ids = {i.get("id") for i in existing}
     new_items = []
-    updated_items = []
+    for page in pages:
+        props  = page.get("properties", {})
+        pid    = page.get("id","").replace("-","")[:4]
+        date   = get_date(props, "날짜", "Date") or TODAY_KST
+        iid    = f"IDEA-{date.replace('-','')[2:]}{pid.upper()}"
+        if iid in exist_ids: continue
+
+        new_items.append({
+            "id":           iid,
+            "date":         date,
+            "domain":       get_select(props, "도메인", "Domain"),
+            # ▼ 이미지 기준: 기술명
+            "tech_name":    get_title(props, "기술명", "Name", "Tech"),
+            # ▼ 이미지 기준: 해결 이슈 (없으면 Target Issue)
+            "target_issue": get_rt(props, "해결 이슈", "Target Issue"),
+            "tags":         get_multi(props, "태그", "Tags"),
+            # ▼ 이미지 기준: 기술 특징
+            "features":     get_rt(props, "기술 특징", "Features"),
+            # ▼ 이미지 기준: 적용 분야
+            "applications": get_rt(props, "적용 분야", "Applications"),
+            # ▼ 이미지 기준: 제한 사항
+            "constraints":  get_rt(props, "제한 사항", "Constraints"),
+            # ▼ 이미지 기준: 주요 기업 및 제품
+            "companies":    get_rt(props, "주요 기업 및 제품", "주요 기업", "Companies"),
+            # ▼ 이미지 기준: 기술 동향
+            "trend":        get_rt(props, "기술 동향", "Trend"),
+        })
+
+    if not new_items: log.info("[idea] 신규 없음 → 스킵"); return False
+    merged = new_items + existing
+    save_json(path, merged)
+    log.info(f"[idea] +{len(new_items)}건, 총 {len(merged)}건")
+    return True
+
+# ─────────────────────────────────────────────
+# 3. rfp_cards.json  ← 하위 페이지 구조 파싱
+# ─────────────────────────────────────────────
+def sync_rfp(notion):
+    """
+    RFP DB = 상위 페이지 목록 (제안 이력).
+    각 행의 실제 내용은 하위 페이지에 작성되어 있음.
+    → 각 페이지를 열어 블록 파싱.
+    """
+    path     = DATA_DIR / "rfp_cards.json"
+    existing = load_json(path) or []
+    pages    = all_pages(notion, DB_RFP)
+    if not pages: log.info("[rfp] 데이터 없음 → 스킵"); return False
+
+    exist_ids = {r.get("id") for r in existing}
+    new_items = []
 
     for page in pages:
         props      = page.get("properties", {})
-        page_id    = page.get("id", "").replace("-", "")[:8].upper()
-        year_raw   = get_select(props, "연도") or get_rich_text(props, "연도") or get_rich_text(props, "Year")
-        year       = str(year_raw)[:4] if year_raw else TODAY_KST[:4]
-        item_id    = f"NTIS-{year}-{page_id}"
-        registered = get_date(props, "등록일") or get_date(props, "Registered") or ""
-        is_new     = registered == TODAY_KST or get_checkbox(props, "신규") or get_checkbox(props, "Is New")
+        page_id    = page.get("id", "")
+        page_title = get_title(props, "과제명", "Name", "Title") or "제목 없음"
+        page_date  = get_date(props, "날짜", "제안 일자", "Date") or TODAY_KST
+        pid_short  = page_id.replace("-","")[:4].upper()
+        rfp_id     = f"RFP-{page_date.replace('-','')[2:]}{pid_short}"
 
-        entry = {
-            "id":         item_id,
-            "title":      (get_title(props, "과제명") or get_title(props, "Name") or
-                           get_title(props, "Title") or ""),
-            "org":        get_rich_text(props, "주관기관") or get_rich_text(props, "Org"),
-            "year":       year,
-            "budget":     get_rich_text(props, "총연구비") or get_rich_text(props, "Budget"),
-            "domain":     get_select(props, "도메인") or get_select(props, "Domain") or "",
-            "keywords":   get_rich_text(props, "키워드") or get_rich_text(props, "Keywords"),
-            "summary":    get_rich_text(props, "개요") or get_rich_text(props, "Summary"),
-            "registered": registered,
-            "is_new":     bool(is_new),
-            "url":        get_url(props, "URL") or get_url(props, "링크") or "",
-            "total_orgs": get_rich_text(props, "총연구기관") or get_rich_text(props, "Total Orgs"),
-            "goal":       get_rich_text(props, "연구목표") or get_rich_text(props, "Goal"),
-            "content":    get_rich_text(props, "연구내용") or get_rich_text(props, "Content"),
-        }
+        if rfp_id in exist_ids:
+            continue
 
-        if item_id not in existing_ids:
+        log.info(f"[rfp] 하위 페이지 파싱: {page_title}")
+        try:
+            entry = parse_rfp_page(notion, page_id, page_title, page_date)
+            # DB 수준 속성으로 덮어쓰기 (있는 경우)
+            entry["id"]     = rfp_id
+            entry["domain"] = get_select(props, "도메인", "Domain") or entry["domain"]
+            entry["budget"] = get_select(props, "예산규모", "Budget") or entry["budget"]
+            entry["tags"]   = get_multi(props, "태그", "Tags") or entry["tags"]
             new_items.append(entry)
-        else:
-            # 기존 항목 is_new 플래그 업데이트
-            updated_items.append(entry)
+        except Exception as e:
+            log.error(f"[rfp] 페이지 파싱 오류 ({page_title}): {e}")
 
-    if not new_items and not updated_items:
-        log.info("[ntis] 신규/변경 항목 없음 → 스킵")
-        return False
-
-    # 기존 목록에서 업데이트된 항목 교체
-    updated_ids = {e["id"] for e in updated_items}
-    kept = [e for e in existing if e.get("id") not in updated_ids]
-    merged = new_items + updated_items + kept
-
+    if not new_items: log.info("[rfp] 신규 없음 → 스킵"); return False
+    merged = new_items + existing
     save_json(path, merged)
-    log.info(f"[ntis] 신규 {len(new_items)}건, 업데이트 {len(updated_items)}건, 총 {len(merged)}건")
+    log.info(f"[rfp] +{len(new_items)}건, 총 {len(merged)}건")
     return True
 
+# ─────────────────────────────────────────────
+# 4. ntis_projects.json  ← 속성명 이미지 기준 재매핑
+# ─────────────────────────────────────────────
+def sync_ntis(notion):
+    path     = DATA_DIR / "ntis_projects.json"
+    existing = load_json(path) or []
+    pages    = all_pages(notion, DB_NTIS)
+    if not pages: log.info("[ntis] 데이터 없음 → 스킵"); return False
+
+    exist_ids  = {i.get("id") for i in existing}
+    new_items, updated = [], []
+
+    for page in pages:
+        props      = page.get("properties", {})
+        pid        = page.get("id","").replace("-","")[:8].upper()
+        year_raw   = get_select(props, "연도", "Year") or get_rt(props, "연도", "Year")
+        year       = str(year_raw)[:4] if year_raw else TODAY_KST[:4]
+        iid        = f"NTIS-{year}-{pid}"
+        registered = get_date(props, "등록일", "Registered") or ""
+        is_new     = (registered == TODAY_KST) or get_checkbox(props, "신규", "Is New")
+
+        entry = {
+            "id":         iid,
+            "title":      get_title(props, "과제명", "Name", "Title") or "",
+            # ▼ 이미지 기준: 주관 기관
+            "org":        get_rt(props, "주관 기관", "주관기관", "Org"),
+            "year":       year,
+            # ▼ 이미지 기준: 총 연구비
+            "budget":     get_rt(props, "총 연구비", "총연구비", "Budget"),
+            "domain":     get_select(props, "도메인", "Domain"),
+            "keywords":   get_rt(props, "키워드", "Keywords"),
+            "summary":    get_rt(props, "개요", "Summary"),
+            "registered": registered,
+            "is_new":     bool(is_new),
+            "url":        get_url(props, "URL", "링크"),
+            # ▼ 이미지 기준: 총 연구 기간 (참여기관 목록)
+            "total_orgs": get_rt(props, "총 연구 기간", "총연구기관", "Total Orgs"),
+            # ▼ 이미지 기준: 연구 목표
+            "goal":       get_rt(props, "연구 목표", "연구목표", "Goal"),
+            # ▼ 이미지 기준: 연구 내용
+            "content":    get_rt(props, "연구 내용", "연구내용", "Content"),
+        }
+        if iid not in exist_ids:
+            new_items.append(entry)
+        else:
+            updated.append(entry)
+
+    if not new_items and not updated:
+        log.info("[ntis] 신규/변경 없음 → 스킵"); return False
+
+    upd_ids = {e["id"] for e in updated}
+    kept    = [e for e in existing if e.get("id") not in upd_ids]
+    merged  = new_items + updated + kept
+    save_json(path, merged)
+    log.info(f"[ntis] 신규 {len(new_items)}건, 업데이트 {len(updated)}건, 총 {len(merged)}건")
+    return True
 
 # ─────────────────────────────────────────────
 # 메인
 # ─────────────────────────────────────────────
 def main():
-    # 환경변수 검증
-    missing = [k for k, v in {
-        "NOTION_TOKEN": NOTION_TOKEN,
-        "NOTION_DB_TREND": DB_TREND,
-        "NOTION_DB_IDEA": DB_IDEA,
-        "NOTION_DB_RFP": DB_RFP,
+    missing = [k for k,v in {
+        "NOTION_TOKEN": NOTION_TOKEN, "NOTION_DB_TREND": DB_TREND,
+        "NOTION_DB_IDEA": DB_IDEA,   "NOTION_DB_RFP":   DB_RFP,
         "NOTION_DB_NTIS": DB_NTIS,
     }.items() if not v]
-
     if missing:
         log.error(f"필수 환경변수 누락: {', '.join(missing)}")
         sys.exit(1)
 
     notion = Client(auth=NOTION_TOKEN)
-    log.info(f"동기화 시작 | 기준일: {TODAY_KST} (KST)")
+    log.info(f"동기화 시작 | {TODAY_KST} KST")
 
-    results = {}
-    errors  = []
-
-    # 각 DB 동기화 (에러가 있어도 나머지는 계속 진행)
+    results, errors = {}, []
     for name, func, db_id in [
-        ("trend",  sync_trend,  DB_TREND),
-        ("idea",   sync_ideas,  DB_IDEA),
-        ("rfp",    sync_rfp,    DB_RFP),
-        ("ntis",   sync_ntis,   DB_NTIS),
+        ("trend", sync_trend, DB_TREND), ("idea",  sync_ideas, DB_IDEA),
+        ("rfp",   sync_rfp,   DB_RFP),   ("ntis",  sync_ntis,  DB_NTIS),
     ]:
         if not db_id:
-            log.warning(f"[{name}] DB ID 미설정 → 스킵")
-            results[name] = False
-            continue
+            log.warning(f"[{name}] DB ID 미설정 → 스킵"); results[name] = False; continue
         try:
             results[name] = func(notion)
         except Exception as e:
-            log.error(f"[{name}] 예외 발생: {e}")
-            errors.append(name)
-            results[name] = False
+            log.error(f"[{name}] 예외: {e}"); errors.append(name); results[name] = False
 
-    # 결과 요약
-    updated = [k for k, v in results.items() if v]
-    skipped = [k for k, v in results.items() if not v]
+    updated = [k for k,v in results.items() if v]
+    skipped = [k for k,v in results.items() if not v]
+    log.info(f"완료 | 업데이트: {updated} | 스킵: {skipped} | 오류: {errors}")
 
-    log.info("=" * 50)
-    log.info(f"동기화 완료 | 업데이트: {updated} | 스킵: {skipped} | 오류: {errors}")
-    log.info("=" * 50)
-
-    # GitHub Actions에서 변경 여부를 환경변수로 전달
-    changed = len(updated) > 0
-    github_output = os.environ.get("GITHUB_OUTPUT", "")
-    if github_output:
-        with open(github_output, "a") as f:
-            f.write(f"changed={'true' if changed else 'false'}\n")
-        log.info(f"GITHUB_OUTPUT에 changed={changed} 기록")
-
-    # 에러가 있어도 exit 0 (GitHub Actions에서 실패로 처리되지 않도록)
+    gout = os.environ.get("GITHUB_OUTPUT","")
+    if gout:
+        with open(gout,"a") as f:
+            f.write(f"changed={'true' if updated else 'false'}\n")
     sys.exit(0)
-
 
 if __name__ == "__main__":
     main()
