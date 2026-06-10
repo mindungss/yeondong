@@ -92,12 +92,7 @@ def all_pages(notion, db_id, filt=None):
         try:
             resp = notion.databases.query(**params)
         except APIResponseError as e:
-            err_str = str(e)
-            if "is a page, not a database" in err_str:
-                log.error(f"[설정 오류] DB ID '{db_id}'는 데이터베이스가 아닌 페이지입니다. "
-                          f"GitHub Secret에 올바른 데이터베이스 ID를 입력했는지 확인하세요.")
-            else:
-                log.error(f"API 오류 (DB:{db_id}): {e}")
+            log.error(f"API 오류 (DB:{db_id}): {e}")
             return rows
         rows.extend(resp.get("results", []))
         if not resp.get("has_more"): break
@@ -115,9 +110,9 @@ def save_json(path, data):
 # ─────────────────────────────────────────────
 # 노션 페이지 블록 전체 읽기 (하위 페이지용)
 # ─────────────────────────────────────────────
-def get_all_blocks(notion, block_id):
-    """페이지의 모든 블록을 재귀적으로 수집"""
-    blocks, cursor = [], None
+def _fetch_children(notion, block_id):
+    """한 블록의 직속 자식 블록 목록만 반환 (페이지네이션 처리)"""
+    rows, cursor = [], None
     while True:
         params = {"block_id": block_id, "page_size": 100}
         if cursor: params["start_cursor"] = cursor
@@ -126,9 +121,30 @@ def get_all_blocks(notion, block_id):
         except APIResponseError as e:
             log.error(f"블록 읽기 오류: {e}")
             break
-        blocks.extend(resp.get("results", []))
+        rows.extend(resp.get("results", []))
         if not resp.get("has_more"): break
         cursor = resp.get("next_cursor")
+    return rows
+
+def get_all_blocks(notion, block_id, _depth=0):
+    """
+    페이지/블록의 모든 블록을 수집.
+    toggle · bulleted_list_item 등 자식을 가진 블록은
+    자식 블록을 함께 수집하되, 부모 블록에 _children 키로 첨부.
+    (최대 깊이 5 — 무한 재귀 방지)
+    """
+    if _depth > 5:
+        return []
+    blocks = _fetch_children(notion, block_id)
+    for block in blocks:
+        btype = block.get("type", "")
+        has_children = block.get("has_children", False)
+        # toggle, bulleted_list_item, numbered_list_item, quote 등 자식 있는 블록 재귀
+        if has_children and btype in (
+            "toggle", "bulleted_list_item", "numbered_list_item",
+            "quote", "callout", "column", "column_list"
+        ):
+            block["_children"] = get_all_blocks(notion, block["id"], _depth + 1)
     return blocks
 
 def block_text(block):
@@ -138,13 +154,22 @@ def block_text(block):
     rich = content.get("rich_text", [])
     return _text(rich)
 
-def blocks_to_text(blocks):
-    """블록 리스트 → 줄바꿈 연결 텍스트"""
+def blocks_to_text(blocks, indent=0):
+    """블록 리스트 → 줄바꿈 연결 텍스트 (toggle 자식 포함 재귀)"""
     lines = []
+    prefix = "  " * indent
     for b in blocks:
+        btype = b.get("type", "")
         t = block_text(b)
-        if t: lines.append(t)
-    return "\n".join(lines)
+        if t:
+            bullet = "• " if btype == "bulleted_list_item" else (
+                     f"{b.get('numbered_list_item',{}).get('number','')}. " if btype == "numbered_list_item" else "")
+            lines.append(f"{prefix}{bullet}{t}")
+        # toggle 자식 포함
+        children = b.get("_children", [])
+        if children:
+            lines.append(blocks_to_text(children, indent + 1))
+    return "\n".join(l for l in lines if l)
 
 # ─────────────────────────────────────────────
 # RFP 하위 페이지 파싱
@@ -156,117 +181,128 @@ def parse_rfp_page(notion, page_id, page_title, page_date):
 
 def parse_rfp_page_from_blocks(notion, blocks, page_title, page_date):
     """
-    이미 읽어온 blocks 리스트로 RFP 파싱.
-    섹션 헤딩 기준으로 분리:
-      1/추진 배경 → background
-      2/최종 목표 → goal
-      3/주요 기술 → core_techs ([기술 1], [기술 2] …)
-      4/세부 목표 → kpis (표 파싱)
-      5/추진 내용 → phases (1단계, 2단계 …)
-      기대 효과   → effect
+    노션 RFP 페이지 블록 파싱.
+    구조:
+      heading_1/2/3 → 섹션 헤딩
+      toggle 블록   → 주요기술 각 항목 / 추진내용 각 단계 (_children에 내용)
+      table 블록     → 세부목표 표
+      bulleted/paragraph → 일반 텍스트
     """
-
-    # 섹션별 블록 분류
-    sections = {
-        "background": [], "goal": [], "core_techs_raw": [],
-        "kpis_raw": [], "phases_raw": [], "effect": []
-    }
-    current = None
     SECTION_MAP = {
-        "1. 추진 배경": "background", "배경": "background",
-        "2. 최종 목표": "goal", "목표": "goal",
-        "3. 주요 기술": "core_techs_raw",
-        "4. 세부 목표": "kpis_raw",
-        "5. 추진 내용": "phases_raw",
-        "6. 기대 효과": "effect",
+        "추진 배경":    "background",
+        "최종 목표":    "goal",
+        "주요 기술":    "core_techs_raw",
+        "세부 목표":    "kpis_raw",
+        "추진 내용":    "phases_raw",
+        "기대 효과":    "effect",
     }
+
+    sections = {k: [] for k in SECTION_MAP.values()}
+    current  = None
 
     for block in blocks:
         btype = block.get("type", "")
         txt   = block_text(block).strip()
 
-        # 헤딩 감지
+        # ── 헤딩으로 섹션 감지
         if btype in ("heading_1", "heading_2", "heading_3"):
-            # 숫자 접두사 제거 후 매핑
             clean = re.sub(r"^\d+[\.\s]+", "", txt).strip()
             matched = next((v for k, v in SECTION_MAP.items() if k in clean), None)
-            current = matched
-            continue
+            if matched:
+                current = matched
+                continue
 
-        if current and txt:
+        if current:
             sections[current].append(block)
 
-    # ── background / goal / effect: 텍스트 그대로
+    # ── background / goal: 일반 텍스트 추출
     background = blocks_to_text(sections["background"])
     goal       = blocks_to_text(sections["goal"])
-    effect     = blocks_to_text(sections["effect"])
 
-    # ── core_techs: [기술 N] 헤딩으로 분리
+    # ── effect: bulleted_list + 일반 텍스트
+    effect = blocks_to_text(sections["effect"])
+
+    # ── core_techs: toggle 블록 = 각 기술 항목
+    #    toggle 제목 = "1. 기술명" 또는 "[기술 1] 기술명"
+    #    toggle 내용(_children) = 설명
     core_techs = []
-    cur_tech_name, cur_tech_lines = None, []
     for block in sections["core_techs_raw"]:
         btype = block.get("type", "")
         txt   = block_text(block).strip()
-        # [기술 N] 패턴 감지 (heading 또는 bold paragraph)
-        tech_match = re.match(r"\[기술\s*\d+\]\s*(.*)", txt)
-        if tech_match or (btype in ("heading_2","heading_3") and "기술" in txt):
-            if cur_tech_name:
-                core_techs.append({"name": cur_tech_name, "desc": "\n".join(cur_tech_lines).strip()})
-            cur_tech_name = tech_match.group(1).strip() if tech_match else txt
-            cur_tech_lines = []
-        elif cur_tech_name and txt:
-            cur_tech_lines.append(txt)
-    if cur_tech_name:
-        core_techs.append({"name": cur_tech_name, "desc": "\n".join(cur_tech_lines).strip()})
+        if not txt:
+            continue
 
-    # ── kpis: 표(table) 블록 파싱 → 행별 {"label","value","reason"}
+        if btype == "toggle":
+            # toggle 제목에서 번호 접두사 제거
+            name = re.sub(r"^\[?기술\s*\d+\]?\s*", "", txt).strip()
+            name = re.sub(r"^\d+[\.\s]+", "", name).strip()
+            children = block.get("_children", [])
+            desc = blocks_to_text(children) if children else ""
+            core_techs.append({"name": name or txt, "desc": desc})
+
+        elif btype in ("heading_2", "heading_3"):
+            # 헤딩 형식의 기술 항목 (toggle 아닌 경우)
+            name = re.sub(r"^\[?기술\s*\d+\]?\s*", "", txt).strip()
+            name = re.sub(r"^\d+[\.\s]+", "", name).strip()
+            core_techs.append({"name": name or txt, "desc": ""})
+
+    # ── kpis: table 블록 → 행별 파싱
+    #    table 없으면 bulleted_list_item 파싱 시도
     kpis = []
     for block in sections["kpis_raw"]:
         if block.get("type") == "table":
             try:
-                rows_resp = notion.blocks.children.list(block_id=block["id"])
-                table_rows = rows_resp.get("results", [])
-                # 첫 행은 헤더 스킵
-                for row_block in table_rows[1:]:
-                    cells = row_block.get("table_row", {}).get("cells", [])
+                # table 자식 행 읽기 (has_children=True지만 _children에 없을 수 있음)
+                children = block.get("_children") or []
+                if not children:
+                    resp = notion.blocks.children.list(block_id=block["id"])
+                    children = resp.get("results", [])
+                # 첫 행은 헤더 → 스킵
+                for row in children[1:]:
+                    cells = row.get("table_row", {}).get("cells", [])
                     if len(cells) >= 2:
-                        label  = _text(cells[0]) if cells[0] else ""
+                        label  = _text(cells[0])
                         value  = _text(cells[1]) if len(cells) > 1 else ""
                         reason = _text(cells[2]) if len(cells) > 2 else ""
                         if label:
                             kpis.append({"label": label, "value": value, "reason": reason})
             except Exception as e:
-                log.warning(f"표 파싱 오류: {e}")
+                log.warning(f"KPI 표 파싱 오류: {e}")
         else:
-            # 표가 아닌 일반 텍스트도 kpi로 저장
+            # bulleted 또는 paragraph: "항목명: 값 — 근거" 형식 파싱
             txt = block_text(block).strip()
             if txt:
-                # "지표명: 목표값" 형식 파싱 시도
-                m = re.match(r"(.+?)[:：]\s*(.+)", txt)
+                children = block.get("_children", [])
+                # "항목: 값" 패턴
+                m = re.match(r"^(.+?)[:：]\s*(.+)", txt)
                 if m:
-                    kpis.append({"label": m.group(1).strip(), "value": m.group(2).strip(), "reason": ""})
+                    kpis.append({
+                        "label":  m.group(1).strip(),
+                        "value":  m.group(2).strip(),
+                        "reason": blocks_to_text(children) if children else "",
+                    })
 
-    # ── phases: 1단계, 2단계 … 기준으로 분리
+    # ── phases: toggle 블록 = 각 단계
+    #    toggle 제목 = "1단계 (1차년도): ..." 또는 "N단계 ..."
+    #    toggle 내용(_children) = 세부 내용 (bulleted_list)
     phases = []
-    cur_phase_label, cur_phase_lines = None, []
     for block in sections["phases_raw"]:
-        txt   = block_text(block).strip()
         btype = block.get("type", "")
-        # "N단계" 또는 "1단계 (…)" 패턴
-        phase_match = re.match(r"(\d+단계[^:：]*)", txt)
-        if phase_match and btype in ("heading_2","heading_3","paragraph","bulleted_list_item"):
-            if cur_phase_label:
-                phases.append({"label": cur_phase_label, "content": "\n".join(cur_phase_lines).strip()})
-            cur_phase_label = txt
-            cur_phase_lines = []
-        elif cur_phase_label and txt:
-            cur_phase_lines.append(("• " if btype == "bulleted_list_item" else "") + txt)
-    if cur_phase_label:
-        phases.append({"label": cur_phase_label, "content": "\n".join(cur_phase_lines).strip()})
+        txt   = block_text(block).strip()
+        if not txt:
+            continue
 
-    # ID는 sync_rfp에서 child_id 기반으로 덮어씀 — 여기선 임시값
+        if btype == "toggle":
+            children = block.get("_children", [])
+            content  = blocks_to_text(children) if children else ""
+            phases.append({"label": txt, "content": content})
+
+        elif btype in ("heading_2", "heading_3"):
+            # 헤딩 형식 단계 (toggle 아닌 경우)
+            phases.append({"label": txt, "content": ""})
+
+    # ID 임시값 (sync_rfp에서 child_id 기반으로 덮어씀)
     date_compact = (page_date or TODAY_KST).replace("-","")[2:]
-
     return {
         "id":         f"RFP-{date_compact}TEMP",
         "date":       page_date or TODAY_KST,
