@@ -168,12 +168,12 @@ def parse_rfp_page_from_blocks(notion, blocks, page_title, page_date):
     }
     current = None
     SECTION_MAP = {
-        "추진 배경": "background", "배경": "background",
-        "최종 목표": "goal", "목표": "goal",
-        "주요 기술": "core_techs_raw",
-        "세부 목표": "kpis_raw",
-        "추진 내용": "phases_raw",
-        "기대 효과": "effect",
+        "1. 추진 배경": "background", "배경": "background",
+        "2. 최종 목표": "goal", "목표": "goal",
+        "3. 주요 기술": "core_techs_raw",
+        "4. 세부 목표": "kpis_raw",
+        "5. 추진 내용": "phases_raw",
+        "6. 기대 효과": "effect",
     }
 
     for block in blocks:
