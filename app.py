@@ -958,7 +958,7 @@ elif menu == "📋 유사 과제":
                 m2.metric("총 연구비", ntis.get('budget',''))
                 m3.metric("등록일", ntis.get('registered',''))
                 m4.metric("도메인", ntis.get('domain',''))
-                st.caption("총 연구기관")
+                st.caption("총 연구 기간")
                 st.write(ntis.get('total_orgs', ntis.get('org','')))
                 st.caption("키워드")
                 kw_tags = "  ".join([f"`{k.strip()}`" for k in ntis.get('keywords','').split(',') if k.strip()])
