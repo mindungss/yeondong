@@ -602,17 +602,24 @@ def sync_ideas(notion):
     pages    = all_pages(notion, DB_IDEA)
     if not pages: log.info("[idea] 데이터 없음 → 스킵"); return False
 
-    exist_ids = {i.get("id") for i in existing}
+    # ── 핵심: 노션 page_id 전체(32자)를 고유 키로 사용
+    #   날짜 기반 id는 날짜가 TODAY_KST로 바뀔 때마다 중복 생성됨
+    exist_notion_ids = {i.get("notion_id") for i in existing if i.get("notion_id")}
+    exist_ids        = {i.get("id") for i in existing}
     new_items = []
     for page in pages:
-        props  = page.get("properties", {})
-        pid    = page.get("id","").replace("-","")[:4]
-        date   = get_date(props, "날짜", "Date") or TODAY_KST
-        iid    = f"IDEA-{date.replace('-','')[2:]}{pid.upper()}"
-        if iid in exist_ids: continue
+        props      = page.get("properties", {})
+        notion_pid = page.get("id","").replace("-","")   # 32자 전체
+        date       = get_date(props, "날짜", "Date") or TODAY_KST
+        iid        = f"IDEA-{notion_pid[:12].upper()}"   # 고유 12자
+
+        # 노션 page_id 기준 중복 체크 (날짜 변경에도 안전)
+        if notion_pid in exist_notion_ids or iid in exist_ids:
+            continue
 
         new_items.append({
             "id":           iid,
+            "notion_id":    notion_pid,   # 중복 방지용 영구 키
             "date":         date,
             "domain":       get_select(props, "도메인", "Domain"),
             # ▼ 이미지 기준: 기술명
