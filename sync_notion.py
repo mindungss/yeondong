@@ -412,149 +412,79 @@ def parse_rfp_page_from_blocks(notion, blocks, page_title, page_date):
 #    DB_DAILY = 34b498ee... 는 page이므로 blocks.children으로 DB 찾기
 # ─────────────────────────────────────────────
 def sync_daily(notion):
+    """
+    34b498ee...는 노션 '일반 페이지'.
+    구조:
+      - 페이지 안에 데이터베이스(child_database)가 있거나
+      - 페이지 자체가 날짜별 이슈/기술 목록을 담은 DB
+    trend_data.json과 동일한 {날짜: {issues:[], technologies:[]}} 구조로 저장.
+    """
     path     = DATA_DIR / "daily_reports.json"
-    existing = load_json(path) or []
-
-    # DB_DAILY가 page인 경우: 그 안의 child_database 블록을 찾아 쿼리
-    # DB_DAILY가 실제 database인 경우: 바로 쿼리
-    target_db_id = DB_DAILY
-    if not target_db_id:
-        log.info("[daily] DB_DAILY 미설정 → 스킵")
-        return False
-
-    # 먼저 database로 직접 쿼리 시도
-    pages = all_pages(notion, target_db_id)
-
-    # 실패(page not database)하면 해당 페이지의 child_database 블록을 탐색
-    if not pages:
-        log.info(f"[daily] {target_db_id}를 page로 간주, child_database 탐색")
-        top_blocks = get_all_blocks(notion, target_db_id)
-        for b in top_blocks:
-            if b.get("type") == "child_database":
-                child_db_id = b.get("id","")
-                log.info(f"[daily] child_database 발견: {child_db_id}")
-                pages = all_pages(notion, child_db_id)
-                if pages:
-                    break
-
-    if not pages:
-        log.info("[daily] 데이터 없음 → 스킵")
-        return False
-
-    exist_ids = {r.get("id") for r in existing}
-    new_items = []
-
-    for page in pages:
-        props    = page.get("properties", {})
-        page_id  = page.get("id","").replace("-","")[:8].upper()
-        date     = get_date(props, "날짜", "Date") or TODAY_KST
-        item_id  = f"DAILY-{date.replace('-','')[2:]}{page_id[:4]}"
-
-        if item_id in exist_ids:
-            continue
-
-        rtype    = get_select(props, "유형", "Type") or "이슈"
-        severity = (get_select(props, "심각도","Severity") or "medium").lower()
-        entry = {
-            "id":       item_id,
-            "date":     date,
-            "domain":   get_select(props, "도메인","Domain"),
-            "type":     rtype,
-            "title":    get_title(props, "제목","Name","Title") or "제목 없음",
-            "summary":  get_rt(props, "요약","Summary"),
-            "detail":   get_rt(props, "상세","Detail"),
-            "source":   get_rt(props, "출처","Source"),
-            "url":      get_url(props, "URL","링크","Link"),
-            "tags":     get_multi(props, "태그","Tags"),
-            "severity": severity,
-            "trl":      int(get_num(props, "TRL", default=0)) or None,
-        }
-        # trl=0이면 None으로
-        if entry["trl"] == 0:
-            entry["trl"] = None
-        new_items.append(entry)
-
-    if not new_items:
-        log.info("[daily] 신규 없음 → 스킵")
-        return False
-
-    # 날짜 내림차순 정렬
-    merged = new_items + existing
-    merged.sort(key=lambda x: x.get("date",""), reverse=True)
-    save_json(path, merged)
-    log.info(f"[daily] +{len(new_items)}건, 총 {len(merged)}건")
-    return True
-
-
-# ─────────────────────────────────────────────
-# 0. daily_reports.json  ← 일일 리포트
-#    노션 ID 34b498ee...는 page → child_database 자동 탐색
-# ─────────────────────────────────────────────
-def sync_daily(notion):
-    path     = DATA_DIR / "daily_reports.json"
-    existing = load_json(path) or []
+    existing = load_json(path) or {}
 
     if not DB_DAILY:
         log.info("[daily] DB_DAILY 미설정 → 스킵"); return False
 
-    # 1차: database로 직접 쿼리
+    # 1차: database로 직접 쿼리 시도
     pages = all_pages(notion, DB_DAILY)
 
-    # 실패 시: page 안의 child_database 탐색
+    # 실패 시: 페이지 안의 child_database 탐색
     if not pages:
-        log.info(f"[daily] page로 간주, child_database 탐색")
+        log.info(f"[daily] {DB_DAILY}를 page로 간주 → child_database 탐색")
         top_blocks = _fetch_children(notion, DB_DAILY)
         for b in top_blocks:
             if b.get("type") == "child_database":
                 cid = b.get("id","")
                 log.info(f"[daily] child_database 발견: {cid}")
                 pages = all_pages(notion, cid)
-                if pages: break
+                if pages:
+                    break
 
     if not pages:
         log.info("[daily] 데이터 없음 → 스킵"); return False
 
-    exist_ids = {r.get("id") for r in existing}
-    new_items = []
-
+    # 기존 데이터에 새 날짜 병합
+    new_data: dict = {}
     for page in pages:
-        props   = page.get("properties", {})
-        pid     = page.get("id","").replace("-","")[:4].upper()
-        date    = get_date(props, "날짜","Date") or TODAY_KST
-        iid     = f"DAILY-{date.replace('-','')[2:]}{pid}"
-        if iid in exist_ids: continue
+        props  = page.get("properties", {})
+        pid    = page.get("id","").replace("-","")[:4].upper()
+        date   = get_date(props, "날짜","Date") or TODAY_KST
+        rtype  = get_select(props, "유형","Type") or "이슈"
 
-        rtype = get_select(props, "유형","Type") or "이슈"
-        sev   = (get_select(props, "심각도","Severity") or "medium").lower()
-        trl_v = int(get_num(props, "TRL", default=0))
-        entry = {
-            "id":       iid,
-            "date":     date,
-            "domain":   get_select(props, "도메인","Domain"),
-            "type":     rtype,
-            "title":    get_title(props, "제목","Name","Title") or "제목 없음",
-            "summary":  get_rt(props, "요약","Summary"),
-            "detail":   get_rt(props, "상세","Detail"),
-            "source":   get_rt(props, "출처","Source"),
-            "url":      get_url(props, "URL","링크","Link"),
-            "tags":     get_multi(props, "태그","Tags"),
-            "severity": sev,
-            "trl":      trl_v if trl_v else None,
-        }
-        new_items.append(entry)
+        if date not in new_data:
+            new_data[date] = {"issues": [], "technologies": []}
 
-    if not new_items:
-        log.info("[daily] 신규 없음 → 스킵"); return False
+        common = dict(
+            id      = f"{'I' if rtype in ('이슈','Issue') else 'T'}{date.replace('-','')[2:]}{pid}",
+            title   = get_title(props, "제목","Name","Title") or "제목 없음",
+            domain  = get_select(props, "도메인","Domain"),
+            summary = get_rt(props, "요약","Summary"),
+            detail  = get_rt(props, "상세","Detail"),
+            source  = get_rt(props, "출처","Source"),
+            url     = get_url(props, "URL","링크","Link"),
+            tags    = get_multi(props, "태그","Tags"),
+        )
 
-    merged = sorted(new_items + existing, key=lambda x: x.get("date",""), reverse=True)
-    save_json(path, merged)
-    log.info(f"[daily] +{len(new_items)}건, 총 {len(merged)}건")
+        if rtype in ("기술","Technology","Tech"):
+            trl_v = int(get_num(props, "TRL", default=1))
+            new_data[date]["technologies"].append({**common, "trl": trl_v})
+        else:
+            sev = (get_select(props, "심각도","Severity") or "medium").lower()
+            new_data[date]["issues"].append({**common, "severity": sev})
+
+    if not new_data:
+        log.info("[daily] 처리된 데이터 없음 → 스킵"); return False
+
+    # 기존 데이터에 병합 후 날짜 내림차순 정렬
+    merged = dict(existing)
+    merged.update(new_data)
+    sorted_merged = dict(sorted(merged.items(), reverse=True))
+
+    save_json(path, sorted_merged)
+    log.info(f"[daily] {len(new_data)}일 업데이트, 총 {len(sorted_merged)}일")
     return True
 
 
-# ─────────────────────────────────────────────
-# 1. trend_data.json
-# ─────────────────────────────────────────────
 def sync_trend(notion):
     path     = DATA_DIR / "trend_data.json"
     existing = load_json(path) or {}
