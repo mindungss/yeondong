@@ -592,44 +592,7 @@ def sync_trend(notion):
     save_json(path, merged)
     log.info(f"[trend] {len(new_data)}일 업데이트, 총 {len(merged)}일")
     return True
-def main():
-    missing = [k for k,v in {
-        "NOTION_TOKEN": NOTION_TOKEN, "NOTION_DB_TREND": DB_TREND,
-        "NOTION_DB_IDEA": DB_IDEA,   "NOTION_DB_RFP":   DB_RFP,
-        "NOTION_DB_NTIS": DB_NTIS,
-    }.items() if not v]
-    if missing:
-        log.error(f"필수 환경변수 누락: {', '.join(missing)}")
-        sys.exit(1)
- 
-    notion = Client(auth=NOTION_TOKEN)
-    log.info(f"동기화 시작 | {TODAY_KST} KST")
- 
-    results, errors = {}, []
-    for name, func, db_id in [
-        ("daily", sync_daily, DB_DAILY),
-        ("trend", sync_trend, DB_TREND), ("idea",  sync_ideas, DB_IDEA),
-        ("rfp",   sync_rfp,   DB_RFP),   ("ntis",  sync_ntis,  DB_NTIS),
-    ]:
-        if not db_id:
-            log.warning(f"[{name}] DB ID 미설정 → 스킵"); results[name] = False; continue
-        try:
-            results[name] = func(notion)
-        except Exception as e:
-            log.error(f"[{name}] 예외: {e}"); errors.append(name); results[name] = False
- 
-    updated = [k for k,v in results.items() if v]
-    skipped = [k for k,v in results.items() if not v]
-    log.info(f"완료 | 업데이트: {updated} | 스킵: {skipped} | 오류: {errors}")
- 
-    gout = os.environ.get("GITHUB_OUTPUT","")
-    if gout:
-        with open(gout,"a") as f:
-            f.write(f"changed={'true' if updated else 'false'}\n")
-    sys.exit(0)
- 
-if __name__ == "__main__":
-    main()
+
 # ─────────────────────────────────────────────
 # 2. idea_cards.json  ← 속성명 이미지 기준 재매핑
 # ─────────────────────────────────────────────
