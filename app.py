@@ -60,7 +60,6 @@ st.markdown("""
 # 2. 데이터 로더
 # ─────────────────────────────────────────────
 DATA_PATH = "data/trend_data.json"
-DB_PATH   = "data/existing_db.txt"
 
 @st.cache_data(ttl=300)
 def load_trend_data() -> dict:
@@ -70,22 +69,6 @@ def load_trend_data() -> dict:
     return {}
 
 @st.cache_data(ttl=600)
-def load_existing_db() -> list:
-    entries = []
-    if not os.path.exists(DB_PATH):
-        return entries
-    with open(DB_PATH, "r", encoding="utf-8") as f:
-        raw = f.read()
-    blocks = [b.strip() for b in raw.split("\n\n") if b.strip()]
-    for block in blocks:
-        entry = {}
-        for line in block.split("\n"):
-            if ":" in line:
-                k, v = line.split(":", 1)
-                entry[k.strip()] = v.strip()
-        if entry:
-            entries.append(entry)
-    return entries
 
 def get_available_dates(data: dict) -> list:
     dates = sorted(data.keys(), reverse=True)
