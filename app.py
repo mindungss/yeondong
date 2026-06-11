@@ -982,18 +982,23 @@ elif menu == "📄 RFP 사업기획":
                     with st.expander(f"{phase.get('label','')}"):
                         st.markdown(phase.get("content",""))
 
-                # 기대 효과
+                # 기대 효과 — [소제목] 기준으로 초록 블록 분리
                 st.markdown("### ✅ 기대 효과")
                 _eff = rfp.get("effect","")
                 if _eff:
-                    _eff_html = _eff.replace("\n", "<br>")
-                    st.markdown(
-                        f'<div style="background:#f0fff4;border:1px solid #c6f6d5;'
-                        f'border-radius:8px;padding:1rem 1.1rem;'
-                        f'color:#276749;font-size:0.88rem;line-height:1.75;">'
-                        + _eff_html + '</div>',
-                        unsafe_allow_html=True
-                    )
+                    import re as _re3
+                    _eff_parts = _re3.split(r"\n\[([^\]]+)\]", _eff)
+                    if len(_eff_parts) == 1:
+                        st.success(_eff)
+                    else:
+                        if _eff_parts[0].strip():
+                            st.success(_eff_parts[0].strip())
+                        _idx = 1
+                        while _idx < len(_eff_parts) - 1:
+                            _title = _eff_parts[_idx].strip()
+                            _body  = _eff_parts[_idx + 1].strip()
+                            st.success(f"**{_title}**\n\n{_body}")
+                            _idx += 2
 
                 # 아키텍처 다이어그램
                 if rfp.get("diagram"):
