@@ -153,7 +153,7 @@ def find_common_keywords(query: str, text: str) -> list:
 # ─────────────────────────────────────────────
 with st.sidebar:
     st.markdown("# 🚔 치안 과학기술 동향")
-    st.caption("KIPOT Intelligence Platform")
+    st.caption("KIPoT Intelligence Platform")
     st.divider()
 
     # 세션에서 메뉴 상태 관리
