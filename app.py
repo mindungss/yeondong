@@ -1,6 +1,6 @@
 """
 치안 과학기술 동향 분석 플랫폼
-Korean Policing Science & Technology Trend Intelligence System
+Korean Policing Science & Technology Trend System
 Version 1.0 | 경찰청 R&D 기획 지원 전문 시스템
 """
 
@@ -204,7 +204,7 @@ with st.sidebar:
 # ─────────────────────────────────────────────
 # 4. 메인 헤더
 # ─────────────────────────────────────────────
-st.title("🚔 치안 과학기술 동향 인텔리전스 플랫폼")
+st.title("🚔 치안 과학기술 동향 플랫폼")
 st.caption("경찰청 R&D 예산 확보 및 사업기획 전문 지원 시스템 · 국내외 치안·공공안전 기술 동향 메타 분석")
 st.divider()
 
@@ -611,7 +611,7 @@ elif menu == "📰 일일 DB":
     """, unsafe_allow_html=True)
 
     if not daily_data:
-        st.info("📭 아직 등록된 일일 리포트가 없습니다. 매일 09:00에 업데이트됩니다.")
+        st.info("📭 아직 등록된 일일 리포트가 없습니다. 오전 10:00에 업데이트됩니다.")
     else:
         # ── 날짜 메트릭
         day_content  = daily_data.get(DAILY_DISPLAY, {})
@@ -764,7 +764,7 @@ elif menu == "💡 아이디어":
     st.caption(f"표시: {len(filtered_ideas)}건 / 전체: {len(ideas)}건")
 
     if not filtered_ideas:
-        st.info("조건에 맞는 아이디어가 없습니다. 데이터가 매일 09:00에 업데이트됩니다.")
+        st.info("조건에 맞는 아이디어가 없습니다. 데이터가 오전 10:00에 업데이트됩니다.")
     else:
         for idea in filtered_ideas:
             domain   = idea.get("domain", "")
@@ -1034,8 +1034,8 @@ elif menu == "📋 유사 과제":
 st.divider()
 st.markdown(f"""
 <div style="text-align:center; font-size:0.72rem; color:#4a5568; padding:0.5rem 0;">
-  🚔 치안 과학기술 동향 인텔리전스 플랫폼 v1.0 &nbsp;|&nbsp; Powered by KIPOT (kipot.or.kr)
+  🚔 치안 과학기술 동향 플랫폼 v1.0 &nbsp;|&nbsp; Powered by KIPoT (kipot.or.kr)
   &nbsp;|&nbsp; 데이터 기준: {datetime.now().strftime('%Y.%m.%d')} &nbsp;|&nbsp;
-  수집 범위: 경찰청·국과수·NIJ·INTERPOL·Europol·EU AI Act 외
+  수집 범위: 수정 외
 </div>
 """, unsafe_allow_html=True)
