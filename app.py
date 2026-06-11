@@ -947,7 +947,7 @@ elif menu == "📄 RFP 사업기획":
             ["전체"] + list({r.get("domain","") for r in rfp_cards}),
             label_visibility="collapsed"
         )
-        shown_rfps = [r for r in rfp_cards if rfp_domain_filter == "전체" or r.get("domain") == rfp_domain_filter]
+        shown_rfps = sorted([r for r in rfp_cards if rfp_domain_filter == "전체" or r.get("domain") == rfp_domain_filter], key=lambda x: x.get("date",""), reverse=True)
 
         for rfp in shown_rfps:
             is_new = rfp.get("date","") == datetime.now().strftime("%Y-%m-%d")
