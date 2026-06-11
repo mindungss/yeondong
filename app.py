@@ -681,7 +681,7 @@ elif menu == "📰 일일 DB":
 
     with _col_right:
         import streamlit.components.v1 as _comp
-        _clicked = _comp.html(_cal_html, height=230, scrolling=False)
+        _clicked = _comp.html(_cal_html, height=295, scrolling=False)
         if _clicked and isinstance(_clicked, str) and len(_clicked) == 10 and "-" in _clicked:
             if _clicked != DAILY_DISPLAY:
                 st.session_state.daily_sel_date = _clicked
@@ -785,16 +785,17 @@ elif menu == "📰 일일 DB":
                     </div>
                     """, unsafe_allow_html=True)
                     with st.expander(f"📂 기술 심층 데이터 — {tech.get('title','')[:35]}…"):
-                        c1, c2, c3 = st.columns(3)
-                        c1.metric("기술 성숙도(TRL)", f"{trl} / 9")
-                        c2.metric("분류 도메인", tech.get('domain',''))
-                        c3.metric("분류 태그 수", len(tech.get('tags',[])))
                         st.markdown(f"""
 **기술 상세 설명:**
 {tech.get('detail','')}
-
-**🔗 [원문/관련 기관 링크]({tech.get('url','#')})**
                         """)
+                        if tech.get('domain'):
+                            st.markdown(
+                                f'<span style="font-size:0.75rem;color:#6b7280;">📎 분류 도메인: {tech.get("domain","")}</span>',
+                                unsafe_allow_html=True
+                            )
+                        if tech.get('url','#') != '#':
+                            st.markdown(f"**🔗 [원문/관련 기관 링크]({tech.get('url','#')})**")
 
 
 # ═══════════════════════════════════════════════════════════
