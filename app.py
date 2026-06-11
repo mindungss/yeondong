@@ -491,14 +491,7 @@ if menu == "🏢 메인 대시보드":
                 item = dict(item); item["_date"] = chosen_date; block_items.append(item)
             block_label = chosen_date
 
-        # 오늘 신규 이슈/기술 수
-        _new_issues = sum(1 for it in all_items if it.get("_date") == TODAY and it.get("id","").startswith("I"))
-        _new_techs  = sum(1 for it in all_items if it.get("_date") == TODAY and it.get("id","").startswith("T"))
-        _c1, _c2, _c3, _c4 = st.columns(4)
-        _c1.metric("📅 날짜", DISPLAY_DATE)
-        _c2.metric("🚨 새 이슈", f"{_new_issues}개")
-        _c3.metric("🔬 새 기술", f"{_new_techs}개")
-        _c4.metric("📊 총합", f"{_new_issues + _new_techs}개")
+
 
         row1 = st.columns(3)
         row2 = st.columns(3)
@@ -620,7 +613,15 @@ elif menu == "📰 일일 DB":
     if not daily_data:
         st.info("📭 아직 등록된 일일 리포트가 없습니다. 매일 09:00에 업데이트됩니다.")
     else:
+        # ── 날짜 메트릭
         day_content  = daily_data.get(DAILY_DISPLAY, {})
+        _d_issues = len(day_content.get("issues", []))
+        _d_techs  = len(day_content.get("technologies", []))
+        _m1, _m2, _m3, _m4 = st.columns(4)
+        _m1.metric("📅 날짜", DAILY_DISPLAY)
+        _m2.metric("🚨 새 이슈", f"{_d_issues}개")
+        _m3.metric("🔬 새 기술", f"{_d_techs}개")
+        _m4.metric("📊 총합", f"{_d_issues + _d_techs}개")
         daily_issues = [r for r in day_content.get("issues", [])
                         if sel_domain == "전체" or r.get("domain","") == sel_domain]
         daily_techs  = [r for r in day_content.get("technologies", [])
