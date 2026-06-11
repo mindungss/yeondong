@@ -564,96 +564,6 @@ if menu == "🏢 메인 대시보드":
                 st.markdown("<div style='margin-bottom:0.4rem;'></div>", unsafe_allow_html=True)
 
 
-    # ─────────────────────────────────────────────
-    # TODAY 브리핑 섹션
-    # ─────────────────────────────────────────────
-    st.subheader(f"📡 TODAY 브리핑  —  {DISPLAY_DATE}")
-    if DISPLAY_DATE != TODAY:
-        st.caption("⚠️ 오늘 데이터 미수집 · 최근 날짜 표시")
-
-    if not today_all:
-        st.info(f"📭 오늘({TODAY}) 수집된 데이터가 없습니다. 수집 파이프라인 상태를 확인하세요.")
-    else:
-        # 이슈 파트
-        if today_issues:
-            st.markdown("""
-            <div class="section-divider">
-              <span class="divider-label">🚨 오늘의 치안 이슈</span>
-            </div>
-            """, unsafe_allow_html=True)
-            for issue in today_issues:
-                sev = severity_label(issue.get("severity", ""))
-                tags_html = "".join(f'<span class="domain-tag">{t}</span>' for t in issue.get("tags", []))
-                st.markdown(f"""
-                <div class="issue-card">
-                  <div class="card-title">
-                    {issue.get('title','')}
-                    <span class="severity-{issue.get('severity','low')}">{sev}</span>
-                  </div>
-                  <div class="card-meta">
-                    {issue.get('domain','')} &nbsp;|&nbsp; 출처: {issue.get('source','')}
-                  </div>
-                  <div class="card-body">{issue.get('summary','')}</div>
-                  <div style="margin-top:0.5rem;">{tags_html}</div>
-                </div>
-                """, unsafe_allow_html=True)
-                with st.expander(f"🔎 상세 분석 + 원문 링크 — {issue.get('title','')[:35]}…"):
-                    st.markdown(f"""
-**🔍 심층 분석**
-
-{issue.get('detail','')}
-
----
-**📎 관련 도메인:** `{issue.get('domain','')}`  
-**🏷️ 분류 태그:** {' · '.join(issue.get('tags',[]))}
-
-**🔗 [기사·원문 바로가기]({issue.get('url','#')})**
-> ⚠️ 외부 링크는 해당 기관 공식 페이지로 연결됩니다.
-                    """)
-
-        # 기술 파트
-        if today_techs:
-            st.markdown("""
-            <div class="section-divider">
-              <span class="divider-label">🔬 오늘의 치안 기술</span>
-            </div>
-            """, unsafe_allow_html=True)
-            for tech in today_techs:
-                trl   = tech.get("trl", 1)
-                trl_c = trl_color(trl)
-                tags_html = "".join(f'<span class="domain-tag">{t}</span>' for t in tech.get("tags",[]))
-                trl_bar   = min(trl / 9 * 100, 100)
-                st.markdown(f"""
-                <div class="tech-card">
-                  <div class="card-title">
-                    {tech.get('title','')}
-                    <span class="trl-badge">TRL {trl}</span>
-                  </div>
-                  <div class="card-meta">{tech.get('domain','')}</div>
-                  <div style="margin:6px 0 4px;">
-                    <div style="font-size:0.68rem; color:#7f8c8d; margin-bottom:3px;">기술 성숙도 (TRL {trl}/9)</div>
-                    <div class="progress-outer">
-                      <div class="progress-inner" style="width:{trl_bar:.0f}%; background:linear-gradient(90deg,{trl_c}88,{trl_c});">
-                        TRL {trl}
-                      </div>
-                    </div>
-                  </div>
-                  <div class="card-body">{tech.get('summary','')}</div>
-                  <div style="margin-top:0.5rem;">{tags_html}</div>
-                </div>
-                """, unsafe_allow_html=True)
-                with st.expander(f"📂 기술 심층 데이터 — {tech.get('title','')[:35]}…"):
-                    c1, c2, c3 = st.columns(3)
-                    c1.metric("기술 성숙도(TRL)", f"{trl} / 9")
-                    c2.metric("분류 도메인", tech.get('domain',''))
-                    c3.metric("분류 태그 수", len(tech.get('tags',[])))
-                    st.markdown(f"""
-**기술 상세 설명:**
-{tech.get('detail','')}
-
-**🔗 [원문/관련 기관 링크]({tech.get('url','#')})**
-                    """)
-
 
 # ═══════════════════════════════════════════════════════════
 # PAGE 2: 일일 DB — 치안과학기술 동향분석 일일 리포트
@@ -669,101 +579,138 @@ elif menu == "📰 일일 DB":
                 with open(DAILY_PATH, "r", encoding="utf-8") as f:
                     return json.load(f)
             except Exception:
-                return []
-        return []
+                return {}
+        return {}
 
-    daily_list = load_daily()
+    daily_data = load_daily()  # {날짜: {issues:[], technologies:[]}}
 
-    st.markdown("## 📰 치안과학기술 동향분석 일일 리포트")
-    st.markdown("""
-    <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px;
-         padding:0.9rem 1.2rem; margin-bottom:1.2rem;">
-      <p style="color:#1e40af; font-size:0.87rem; margin:0;">
-        📡 매일 아침 수집된 치안과학기술 동향 분석 리포트입니다.
-        이슈·기술·정책 동향을 날짜별·도메인별로 확인할 수 있습니다.
-      </p>
+    # ── 날짜 선택
+    DAILY_TODAY = datetime.now(timezone(timedelta(hours=9))).strftime("%Y-%m-%d")
+    avail_daily = sorted(daily_data.keys(), reverse=True) if daily_data else []
+    DAILY_DISPLAY = DAILY_TODAY if DAILY_TODAY in avail_daily else (avail_daily[0] if avail_daily else DAILY_TODAY)
+
+    dc1, dc2 = st.columns([3, 1])
+    with dc1:
+        if avail_daily:
+            sel_date = st.selectbox("날짜", avail_daily, index=0, label_visibility="collapsed")
+            DAILY_DISPLAY = sel_date
+    with dc2:
+        # 전체 도메인 목록 수집
+        all_daily_domains = sorted({
+            item.get("domain","")
+            for day in daily_data.values()
+            for items in day.values()
+            for item in (items if isinstance(items, list) else [])
+            if item.get("domain")
+        })
+        sel_domain = st.selectbox("도메인", ["전체"] + list(all_daily_domains), label_visibility="collapsed")
+
+    # ── 헤더 (TODAY 브리핑 양식 그대로)
+    st.markdown(f"""
+    <div style="margin-top:1rem; padding-bottom:0.5rem; border-bottom:2px solid #e2e8f0;">
+      <span style="font-size:1.25rem; font-weight:700; color:#1a202c;">
+        📡 TODAY 브리핑
+      </span>
+      <span style="font-size:1rem; color:#4a5568; margin-left:0.5rem;">
+        {DAILY_DISPLAY}
+      </span>
     </div>
     """, unsafe_allow_html=True)
 
-    if not daily_list:
+    if not daily_data:
         st.info("📭 아직 등록된 일일 리포트가 없습니다. 매일 09:00에 업데이트됩니다.")
     else:
-        # ── 필터 행
-        f1, f2 = st.columns([1, 1])
-        with f1:
-            all_dates = sorted({r.get("date","") for r in daily_list if r.get("date")}, reverse=True)
-            sel_date  = st.selectbox("날짜", ["전체"] + list(all_dates), label_visibility="collapsed")
-        with f2:
-            all_domains = sorted({r.get("domain","") for r in daily_list if r.get("domain")})
-            sel_domain  = st.selectbox("도메인", ["전체"] + list(all_domains), label_visibility="collapsed")
+        day_content  = daily_data.get(DAILY_DISPLAY, {})
+        daily_issues = [r for r in day_content.get("issues", [])
+                        if sel_domain == "전체" or r.get("domain","") == sel_domain]
+        daily_techs  = [r for r in day_content.get("technologies", [])
+                        if sel_domain == "전체" or r.get("domain","") == sel_domain]
 
-        shown = [
-            r for r in daily_list
-            if (sel_date   == "전체" or r.get("date","")   == sel_date)
-            and (sel_domain == "전체" or r.get("domain","") == sel_domain)
-        ]
+        if not daily_issues and not daily_techs:
+            st.info(f"📭 {DAILY_DISPLAY} 수집된 데이터가 없습니다.")
+        else:
+            pass  # 아래 섹션에서 직접 렌더링
+        if daily_issues or daily_techs:
 
-        # ── 요약 메트릭
-        issues = sum(1 for r in shown if r.get("type","").startswith("이") or r.get("id","").startswith("I"))
-        techs  = sum(1 for r in shown if r.get("type","").startswith("기") or r.get("id","").startswith("T"))
-        m1, m2, m3 = st.columns(3)
-        m1.metric("전체", len(shown))
-        m2.metric("🚨 이슈", issues)
-        m3.metric("🔬 기술", techs)
-        st.divider()
+            # 이슈 섹션
+            if daily_issues:
+                st.markdown("""
+                <div class="section-divider">
+                  <span class="divider-label">🚨 오늘의 치안 이슈</span>
+                </div>
+                """, unsafe_allow_html=True)
+                for issue in daily_issues:
+                    sev = severity_label(issue.get("severity",""))
+                    tags_html = "".join(f'<span class="domain-tag">{t}</span>' for t in issue.get("tags",[]))
+                    st.markdown(f"""
+                    <div class="issue-card">
+                      <div class="card-title">
+                        {issue.get('title','')}
+                        <span class="severity-{issue.get('severity','low')}">{sev}</span>
+                      </div>
+                      <div class="card-meta">
+                        {issue.get('domain','')} &nbsp;|&nbsp; 출처: {issue.get('source','')}
+                      </div>
+                      <div class="card-body">{issue.get('summary','')}</div>
+                      <div style="margin-top:0.5rem;">{tags_html}</div>
+                    </div>
+                    """, unsafe_allow_html=True)
+                    with st.expander(f"🔎 상세 분석 + 원문 링크 — {issue.get('title','')[:35]}…"):
+                        st.markdown(f"""
+**🔍 심층 분석**
 
-        # ── 카드 목록
-        for r in shown:
-            date     = r.get("date","")
-            domain   = r.get("domain","")
-            rtype    = r.get("type","이슈")
-            title    = r.get("title","제목 없음")
-            summary  = r.get("summary","")
-            detail   = r.get("detail","")
-            source   = r.get("source","")
-            url      = r.get("url","")
-            tags     = r.get("tags",[])
-            severity = r.get("severity","")
-            trl      = r.get("trl", None)
+{issue.get('detail','')}
 
-            is_issue     = rtype in ("이슈","Issue","issues") or r.get("id","").startswith("I")
-            border_color = "#ef4444" if is_issue else "#10b981"
-            bg_color     = "#fff9f9" if is_issue else "#f6fdf9"
-            type_label   = "🚨 이슈" if is_issue else "🔬 기술"
+---
+**📎 관련 도메인:** `{issue.get('domain','')}`  
+**🏷️ 분류 태그:** {' · '.join(issue.get('tags',[]))}
 
-            sev_html = {
-                "high":   '<span style="background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;border-radius:4px;padding:1px 7px;font-size:0.7rem;font-weight:600;margin-left:5px;">긴급</span>',
-                "medium": '<span style="background:#fffbeb;color:#b45309;border:1px solid #fde68a;border-radius:4px;padding:1px 7px;font-size:0.7rem;font-weight:600;margin-left:5px;">주의</span>',
-            }.get(severity, "")
-            trl_html  = f'<span style="background:#f3f4f6;color:#374151;border:1px solid #d1d5db;border-radius:4px;padding:1px 7px;font-size:0.7rem;font-weight:600;margin-left:5px;">TRL {trl}</span>' if trl else ""
-            tags_html = "".join(f'<span class="domain-tag">{t}</span>' for t in tags)
+**🔗 [기사·원문 바로가기]({issue.get('url','#')})**
+> ⚠️ 외부 링크는 해당 기관 공식 페이지로 연결됩니다.
+                        """)
 
-            st.markdown(f"""
-            <div style="background:{bg_color}; border:1px solid #e5e7eb;
-                 border-left:3px solid {border_color}; border-radius:6px;
-                 padding:0.85rem 1rem; margin-bottom:0.55rem;
-                 box-shadow:0 1px 3px rgba(0,0,0,0.05);">
-              <div style="display:flex; align-items:center; gap:6px; margin-bottom:0.3rem; flex-wrap:wrap;">
-                <span style="font-size:0.72rem; font-weight:600; color:{border_color};">{type_label}</span>
-                <span style="font-size:0.72rem; color:#374151; font-weight:500;">{domain}</span>
-                <span style="font-size:0.7rem; color:#9ca3af;">📅 {date}</span>
-                {sev_html}{trl_html}
-              </div>
-              <div style="font-size:0.95rem; font-weight:600; color:#111827; margin-bottom:0.3rem; line-height:1.5;">{title}</div>
-              <div style="font-size:0.85rem; color:#374151; line-height:1.6; margin-bottom:0.4rem;">{summary}</div>
-              <div>{tags_html}</div>
-            </div>
-            """, unsafe_allow_html=True)
+            # 기술 섹션
+            if daily_techs:
+                st.markdown("""
+                <div class="section-divider">
+                  <span class="divider-label">🔬 오늘의 치안 기술</span>
+                </div>
+                """, unsafe_allow_html=True)
+                for tech in daily_techs:
+                    trl      = tech.get("trl", 1) or 1
+                    trl_c    = trl_color(trl)
+                    tags_html = "".join(f'<span class="domain-tag">{t}</span>' for t in tech.get("tags",[]))
+                    trl_bar   = min(trl / 9 * 100, 100)
+                    st.markdown(f"""
+                    <div class="tech-card">
+                      <div class="card-title">
+                        {tech.get('title','')}
+                        <span class="trl-badge">TRL {trl}</span>
+                      </div>
+                      <div class="card-meta">{tech.get('domain','')}</div>
+                      <div style="margin:6px 0 4px;">
+                        <div style="font-size:0.68rem; color:#7f8c8d; margin-bottom:3px;">기술 성숙도 (TRL {trl}/9)</div>
+                        <div class="progress-outer">
+                          <div class="progress-inner" style="width:{trl_bar:.0f}%; background:linear-gradient(90deg,{trl_c}88,{trl_c});">
+                            TRL {trl}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body">{tech.get('summary','')}</div>
+                      <div style="margin-top:0.5rem;">{tags_html}</div>
+                    </div>
+                    """, unsafe_allow_html=True)
+                    with st.expander(f"📂 기술 심층 데이터 — {tech.get('title','')[:35]}…"):
+                        c1, c2, c3 = st.columns(3)
+                        c1.metric("기술 성숙도(TRL)", f"{trl} / 9")
+                        c2.metric("분류 도메인", tech.get('domain',''))
+                        c3.metric("분류 태그 수", len(tech.get('tags',[])))
+                        st.markdown(f"""
+**기술 상세 설명:**
+{tech.get('detail','')}
 
-            if detail or source or url:
-                with st.expander(f"📋 상세 — {title[:35]}{'…' if len(title)>35 else ''}"):
-                    if detail:
-                        st.markdown(detail)
-                    cols = []
-                    if source: cols.append(f"📌 출처: {source}")
-                    if url:    cols.append(f"🔗 [원문 바로가기]({url})")
-                    for c in cols:
-                        st.markdown(c)
+**🔗 [원문/관련 기관 링크]({tech.get('url','#')})**
+                        """)
 
 
 # ═══════════════════════════════════════════════════════════
