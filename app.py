@@ -710,7 +710,210 @@ elif menu == "📰 일일 DB":
 
 **🔗 [원문/관련 기관 링크]({tech.get('url','#')})**
                         """)
-
+    if st.session_state.dash_domain:
+        domain    = st.session_state.dash_domain
+        color     = dict(DOMAINS)[domain]
+        item_filter = st.session_state.dash_filter   # "all" | "issues" | "techs"
+ 
+        # ── 브레드크럼 + 날짜 필터 (오른쪽 정렬)
+        bc_col, _, filt_col = st.columns([3, 1, 2])
+        with bc_col:
+            # 브레드크럼 표시
+            filter_label = {"all": "전체", "issues": "이슈만", "techs": "기술만", "today": "오늘 신규"}[item_filter]
+            st.markdown(f"""
+            <div style="display:flex; align-items:center; gap:6px; font-size:0.85rem; margin-bottom:0.8rem;">
+              <span style="color:#7f8c8d;">🏢 메인 대시보드</span>
+              <span style="color:#7f8c8d;">›</span>
+              <span style="color:{color}; font-weight:700;">{domain}</span>
+              <span style="background:{color}33; color:{color}; font-size:0.7rem;
+                   padding:1px 8px; border-radius:99px; font-weight:600;">{filter_label}</span>
+            </div>
+            """, unsafe_allow_html=True)
+            if st.button("← 대시보드로 돌아가기", key="back_btn"):
+                st.session_state.dash_domain = None
+                st.session_state.dash_filter = "all"
+                st.rerun()
+ 
+        with filt_col:
+            filter_opts2 = ["📊 전체 누적"] + [f"📅 {d}" for d in avail_dates]
+            filter_sel2  = st.selectbox("날짜 필터", options=filter_opts2,
+                                        label_visibility="collapsed",
+                                        key="sub_date_filter")
+ 
+        # 날짜 필터 적용
+        if filter_sel2 == "📊 전체 누적":
+            sub_items = [it for it in all_items if it.get("domain") == domain]
+            sub_label = "누적 전체"
+        else:
+            sub_date  = filter_sel2.replace("📅 ", "")
+            sub_day   = trend_data.get(sub_date, {})
+            sub_raw   = []
+            for item in sub_day.get("issues", []):
+                item = dict(item); item["_date"] = sub_date; sub_raw.append(item)
+            for item in sub_day.get("technologies", []):
+                item = dict(item); item["_date"] = sub_date; sub_raw.append(item)
+            sub_items = [it for it in sub_raw if it.get("domain") == domain]
+            sub_label = sub_date
+ 
+        # 이슈/기술 분리
+        all_sub_issues = [it for it in sub_items if it.get("id","").startswith("I")]
+        all_sub_techs  = [it for it in sub_items if it.get("id","").startswith("T")]
+ 
+        # 오늘 신규 항목
+        all_sub_today  = [it for it in sub_items if it.get("_date") == TODAY]
+ 
+        # 이슈/기술/오늘 필터 전환 버튼 (서브페이지 내부 탭)
+        tab_all, tab_iss, tab_tec, tab_new = st.columns(4)
+        with tab_all:
+            active_all = item_filter == "all"
+            if st.button(
+                f"{'▶ ' if active_all else ''}📋 전체 ({len(sub_items)}건)",
+                key="sub_tab_all", use_container_width=True,
+                type="primary" if active_all else "secondary"
+            ):
+                st.session_state.dash_filter = "all"; st.rerun()
+        with tab_iss:
+            active_iss = item_filter == "issues"
+            if st.button(
+                f"{'▶ ' if active_iss else ''}🚨 이슈 ({len(all_sub_issues)}건)",
+                key="sub_tab_iss", use_container_width=True,
+                type="primary" if active_iss else "secondary",
+                disabled=(len(all_sub_issues) == 0)
+            ):
+                st.session_state.dash_filter = "issues"; st.rerun()
+        with tab_tec:
+            active_tec = item_filter == "techs"
+            if st.button(
+                f"{'▶ ' if active_tec else ''}🔬 기술 ({len(all_sub_techs)}건)",
+                key="sub_tab_tec", use_container_width=True,
+                type="primary" if active_tec else "secondary",
+                disabled=(len(all_sub_techs) == 0)
+            ):
+                st.session_state.dash_filter = "techs"; st.rerun()
+        with tab_new:
+            active_new = item_filter == "today"
+            if st.button(
+                f"{'▶ ' if active_new else ''}🆕 오늘 ({len(all_sub_today)}건)",
+                key="sub_tab_new", use_container_width=True,
+                type="primary" if active_new else "secondary",
+                disabled=(len(all_sub_today) == 0)
+            ):
+                st.session_state.dash_filter = "today"; st.rerun()
+ 
+        # 도메인 헤더
+        new_badge_sub = " 🆕" if domain in today_domains else ""
+        st.subheader(f"{domain}{new_badge_sub}")
+        st.caption(f"표시 기준: {sub_label}  ·  이슈 {len(all_sub_issues)}건  ·  기술 {len(all_sub_techs)}건")
+ 
+        # 표시할 항목 결정
+        if item_filter == "issues":
+            sub_issues = all_sub_issues
+            sub_techs  = []
+        elif item_filter == "techs":
+            sub_issues = []
+            sub_techs  = all_sub_techs
+        elif item_filter == "today":
+            sub_issues = [it for it in all_sub_issues if it.get("_date") == TODAY]
+            sub_techs  = [it for it in all_sub_techs  if it.get("_date") == TODAY]
+        else:  # "all"
+            sub_issues = all_sub_issues
+            sub_techs  = all_sub_techs
+ 
+        if not sub_issues and not sub_techs:
+            st.info("해당 조건에 맞는 데이터가 없습니다.")
+        else:
+ 
+            # 이슈 카드
+            if sub_issues:
+                st.markdown("""
+                <div class="section-divider">
+                  <span class="divider-label">🚨 치안 이슈</span>
+                </div>
+                """, unsafe_allow_html=True)
+                for issue in sub_issues:
+                    sev = severity_label(issue.get("severity",""))
+                    tags_html = "".join(f'<span class="domain-tag">{t}</span>' for t in issue.get("tags",[]))
+                    is_today_item = issue.get("_date") == TODAY
+                    today_mark = '<span style="background:#e53e3e;color:white;font-size:0.65rem;padding:2px 7px;border-radius:4px;margin-left:6px;">NEW</span>' if is_today_item else ""
+                    st.markdown(f"""
+                    <div class="issue-card">
+                      <div class="card-title">
+                        {issue.get('title','')} {today_mark}
+                        <span class="severity-{issue.get('severity','low')}">{sev}</span>
+                      </div>
+                      <div class="card-meta">
+                        📅 {issue.get('_date','')} &nbsp;|&nbsp; 출처: {issue.get('source','')}
+                      </div>
+                      <div class="card-body">{issue.get('summary','')}</div>
+                      <div style="margin-top:0.5rem;">{tags_html}</div>
+                    </div>
+                    """, unsafe_allow_html=True)
+                    with st.expander(f"🔎 상세 분석 + 원문 링크 — {issue.get('title','')[:35]}…"):
+                        st.markdown(f"""
+**🔍 심층 분석**
+ 
+{issue.get('detail','')}
+ 
+---
+**🏷️ 분류 태그:** {" · ".join(issue.get('tags',[]))}
+ 
+**🔗 [기사·원문 바로가기]({issue.get('url','#')})**
+> ⚠️ 외부 링크는 해당 기관 공식 페이지로 연결됩니다.
+                        """)
+ 
+            # 기술 카드
+            if sub_techs:
+                st.markdown("""
+                <div class="section-divider">
+                  <span class="divider-label">🔬 치안 기술</span>
+                </div>
+                """, unsafe_allow_html=True)
+                for tech in sub_techs:
+                    trl   = tech.get("trl", 1)
+                    trl_c = trl_color(trl)
+                    trl_bar = min(trl / 9 * 100, 100)
+                    tags_html = "".join(f'<span class="domain-tag">{t}</span>' for t in tech.get("tags",[]))
+                    is_today_item = tech.get("_date") == TODAY
+                    today_mark = '<span style="background:#e53e3e;color:white;font-size:0.65rem;padding:2px 7px;border-radius:4px;margin-left:6px;">NEW</span>' if is_today_item else ""
+                    st.markdown(f"""
+                    <div class="tech-card">
+                      <div class="card-title">
+                        {tech.get('title','')} {today_mark}
+                        <span class="trl-badge">TRL {trl}</span>
+                      </div>
+                      <div class="card-meta">📅 {tech.get('_date','')} </div>
+                      <div style="margin:6px 0 4px;">
+                        <div style="font-size:0.68rem; color:#7f8c8d; margin-bottom:3px;">기술 성숙도 (TRL {trl}/9)</div>
+                        <div class="progress-outer">
+                          <div class="progress-inner" style="width:{trl_bar:.0f}%; background:linear-gradient(90deg,{trl_c}88,{trl_c});">TRL {trl}</div>
+                        </div>
+                      </div>
+                      <div class="card-body">{tech.get('summary','')}</div>
+                      <div style="margin-top:0.5rem;">{tags_html}</div>
+                    </div>
+                    """, unsafe_allow_html=True)
+                    with st.popover(f"🔬 기술 원리 설명 — {tech.get('title','')[:20]}…"):
+                        st.markdown(f"""
+### 🔬 {tech.get('title','')}
+ 
+**📋 기술 원리 및 상세 정보**
+ 
+{tech.get('detail','')}
+ 
+---
+**🔗 [관련 기관/연구소 바로가기]({tech.get('url','#')})**
+                        """)
+                    with st.expander(f"📂 기술 심층 데이터 — {tech.get('title','')[:35]}…"):
+                        c1, c2, c3 = st.columns(3)
+                        c1.metric("기술 성숙도(TRL)", f"{trl} / 9")
+                        c2.metric("수집 날짜", tech.get('_date',''))
+                        c3.metric("분류 태그 수", len(tech.get('tags',[])))
+                        st.markdown(f"""
+**기술 상세 설명:**
+{tech.get('detail','')}
+ 
+**🔗 [원문/관련 기관 링크]({tech.get('url','#')})**
+                        """)
 
 # ═══════════════════════════════════════════════════════════
 # PAGE 3: 아이디어 — 누적 동향 기반 과학기술 치안 접목 카드
