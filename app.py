@@ -565,12 +565,12 @@ elif menu == "📰 일일 DB":
 
     DAILY_PATH = "data/daily_reports.json"
 
-    @st.cache_data(ttl=300)
     def load_daily():
         if os.path.exists(DAILY_PATH):
             try:
                 with open(DAILY_PATH, "r", encoding="utf-8") as f:
-                    return json.load(f)
+                    data = json.load(f)
+                    return data if isinstance(data, dict) else {}
             except Exception:
                 return {}
         return {}
@@ -630,8 +630,6 @@ elif menu == "📰 일일 DB":
         if not daily_issues and not daily_techs:
             st.info(f"📭 {DAILY_DISPLAY} 수집된 데이터가 없습니다.")
         else:
-            pass  # 아래 섹션에서 직접 렌더링
-        if daily_issues or daily_techs:
 
             # 이슈 섹션
             if daily_issues:
