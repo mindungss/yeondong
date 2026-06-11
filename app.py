@@ -68,8 +68,6 @@ def load_trend_data() -> dict:
             return json.load(f)
     return {}
 
-@st.cache_data(ttl=600)
-
 def get_available_dates(data: dict) -> list:
     dates = sorted(data.keys(), reverse=True)
     return dates
@@ -583,65 +581,13 @@ elif menu == "📰 일일 DB":
     _start_off = (_first_wd + 1) % 7
 
     _cells = [None] * _start_off + list(range(1, _days_n + 1))
-    _dow_html = "".join(
-        '<div style="text-align:center;font-size:0.68rem;color:#9ca3af;font-weight:600;padding-bottom:4px;">' + d + '</div>'
-        for d in ["일","월","화","수","목","금","토"]
-    )
-    _cells_html = ""
-    for d in _cells:
-        if d is None:
-            _cells_html += '<div></div>'
-        else:
-            ds = f"{_cy:04d}-{_cm:02d}-{d:02d}"
-            if ds == DAILY_DISPLAY:
-                _cells_html += (
-                    f'<div style="text-align:center;font-size:0.82rem;font-weight:700;'
-                    f'color:#fff;background:#1d4ed8;border-radius:5px;padding:5px 2px;'
-                    f'cursor:pointer;" data-date="{ds}">{d}</div>'
-                )
-            elif ds in avail_set:
-                _cells_html += (
-                    f'<div style="text-align:center;font-size:0.82rem;font-weight:700;'
-                    f'color:#1d4ed8;background:#eff6ff;border:1px solid #bfdbfe;'
-                    f'border-radius:5px;padding:5px 2px;cursor:pointer;" data-date="{ds}">{d}</div>'
-                )
-            else:
-                _cells_html += (
-                    f'<div style="text-align:center;font-size:0.82rem;'
-                    f'color:#d1d5db;background:#fafafa;border:1px solid #f3f4f6;'
-                    f'border-radius:5px;padding:5px 2px;">{d}</div>'
-                )
+    _mn    = ["","1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"]
 
-    _mn = ["","1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"]
-    _cal_html = (
-        '<div id="kc" style="border:1px solid #e5e7eb;border-radius:8px;'
-        'padding:0.7rem 0.9rem 0.6rem;background:#fff;">'
-        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">'
-        f'<span style="font-size:0.92rem;font-weight:700;color:#111827;">📅 {_cy}년 {_mn[_cm]}</span>'
-        '<span style="font-size:0.7rem;color:#6b7280;">'
-        '<span style="color:#1d4ed8;font-weight:600;">■</span> 업데이트됨 &nbsp;'
-        '<span style="color:#d1d5db;font-weight:600;">■</span> 미수집'
-        '</span></div>'
-        '<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;">'
-        + _dow_html + _cells_html +
-        '</div></div>'
-        '<script>'
-        '(function(){'
-        'var c=document.getElementById("kc");'
-        'if(!c)return;'
-        'c.querySelectorAll("[data-date]").forEach(function(el){'
-        'el.addEventListener("click",function(){'
-        'window.parent.postMessage({'
-        'type:"streamlit:setComponentValue",'
-        'value:el.getAttribute("data-date")'
-        '},"*");});});})();'
-        '</script>'
-    )
-
-    # ── 레이아웃: 왼쪽(분야) / 오른쪽(달력)
+    # ── 레이아웃: 왼쪽(필터) / 오른쪽(달력)
     _col_left, _col_right = st.columns([1, 2])
 
     with _col_left:
+        # 분야 필터
         all_daily_domains = sorted({
             item.get("domain","")
             for day in daily_data.values()
@@ -651,14 +597,65 @@ elif menu == "📰 일일 DB":
         })
         sel_domain = st.selectbox("분야", ["전체"] + list(all_daily_domains),
                                   label_visibility="collapsed")
+        st.markdown("<div style='height:0.5rem;'></div>", unsafe_allow_html=True)
+
+        # 이슈 / 기술 필터 버튼
+        if "daily_type_filter" not in st.session_state:
+            st.session_state.daily_type_filter = "전체"
+        _tf = st.session_state.daily_type_filter
+        _tb1, _tb2, _tb3 = st.columns(3)
+        with _tb1:
+            if st.button("전체",  key="dtf_all",   type="primary" if _tf=="전체"  else "secondary", use_container_width=True):
+                st.session_state.daily_type_filter = "전체";  st.rerun()
+        with _tb2:
+            if st.button("🚨 이슈", key="dtf_issue", type="primary" if _tf=="이슈"  else "secondary", use_container_width=True):
+                st.session_state.daily_type_filter = "이슈";  st.rerun()
+        with _tb3:
+            if st.button("🔬 기술", key="dtf_tech",  type="primary" if _tf=="기술"  else "secondary", use_container_width=True):
+                st.session_state.daily_type_filter = "기술";  st.rerun()
 
     with _col_right:
-        import streamlit.components.v1 as _comp
-        _clicked = _comp.html(_cal_html, height=295, scrolling=False)
-        if _clicked and isinstance(_clicked, str) and len(_clicked) == 10 and "-" in _clicked:
-            if _clicked != DAILY_DISPLAY:
-                st.session_state.daily_sel_date = _clicked
-                st.rerun()
+        # ── 순수 Streamlit 버튼 달력 (postMessage 의존 없음)
+        st.markdown(
+            f'<div style="display:flex;justify-content:space-between;align-items:center;'
+            f'margin-bottom:0.4rem;">'
+            f'<span style="font-size:0.9rem;font-weight:700;color:#111827;">📅 {_cy}년 {_mn[_cm]}</span>'
+            f'<span style="font-size:0.68rem;color:#6b7280;">'
+            f'<span style="color:#1d4ed8;">■</span> 업데이트됨 &nbsp;'
+            f'<span style="color:#d1d5db;">■</span> 미수집</span></div>',
+            unsafe_allow_html=True
+        )
+        # 요일 헤더
+        _hdrs = st.columns(7)
+        for _hi, _dn in enumerate(["일","월","화","수","목","금","토"]):
+            _hdrs[_hi].markdown(
+                f'<div style="text-align:center;font-size:0.68rem;color:#9ca3af;font-weight:600;">{_dn}</div>',
+                unsafe_allow_html=True
+            )
+        # 날짜 셀 (7개씩 행으로)
+        _rows = [_cells[i:i+7] for i in range(0, len(_cells), 7)]
+        for _row in _rows:
+            _rcols = st.columns(7)
+            for _ci, _d in enumerate(_row):
+                with _rcols[_ci]:
+                    if _d is None:
+                        st.markdown('<div style="height:32px;"></div>', unsafe_allow_html=True)
+                    else:
+                        _ds = f"{_cy:04d}-{_cm:02d}-{_d:02d}"
+                        if _ds == DAILY_DISPLAY:
+                            # 선택됨 — primary 버튼
+                            st.button(str(_d), key=f"cal_{_ds}", type="primary",
+                                      use_container_width=True)
+                        elif _ds in avail_set:
+                            # 데이터 있음 — 클릭 가능
+                            if st.button(str(_d), key=f"cal_{_ds}",
+                                         use_container_width=True):
+                                st.session_state.daily_sel_date = _ds
+                                st.rerun()
+                        else:
+                            # 데이터 없음 — 비활성
+                            st.button(str(_d), key=f"cal_{_ds}",
+                                      disabled=True, use_container_width=True)
 
     # ── TODAY 브리핑 헤더
     st.markdown(f"""
@@ -680,10 +677,13 @@ elif menu == "📰 일일 DB":
         _m2.metric("🚨 새 이슈", f"{_d_issues}개")
         _m3.metric("🔬 새 기술", f"{_d_techs}개")
         _m4.metric("📊 총합", f"{_d_issues + _d_techs}개")
+        _type_filter = st.session_state.get("daily_type_filter", "전체")
         daily_issues = [r for r in day_content.get("issues", [])
-                        if sel_domain == "전체" or r.get("domain","") == sel_domain]
+                        if (sel_domain == "전체" or r.get("domain","") == sel_domain)
+                        and _type_filter in ("전체", "이슈")]
         daily_techs  = [r for r in day_content.get("technologies", [])
-                        if sel_domain == "전체" or r.get("domain","") == sel_domain]
+                        if (sel_domain == "전체" or r.get("domain","") == sel_domain)
+                        and _type_filter in ("전체", "기술")]
 
         if not daily_issues and not daily_techs:
             st.info(f"📭 {DAILY_DISPLAY} 수집된 데이터가 없습니다.")
