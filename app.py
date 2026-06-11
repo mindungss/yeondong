@@ -655,7 +655,7 @@ elif menu == "📰 일일 DB":
         '</script>'
     )
 
-    # ── 레이아웃: 왼쪽(분야+날짜 보조) / 오른쪽(달력)
+    # ── 레이아웃: 왼쪽(분야) / 오른쪽(달력)
     _col_left, _col_right = st.columns([1, 2])
 
     with _col_left:
@@ -668,16 +668,6 @@ elif menu == "📰 일일 DB":
         })
         sel_domain = st.selectbox("분야", ["전체"] + list(all_daily_domains),
                                   label_visibility="collapsed")
-        if avail_daily:
-            try:
-                _cur_idx = avail_daily.index(DAILY_DISPLAY)
-            except ValueError:
-                _cur_idx = 0
-            _picked = st.selectbox("날짜 선택", avail_daily, index=_cur_idx,
-                                   label_visibility="collapsed")
-            if _picked != DAILY_DISPLAY:
-                st.session_state.daily_sel_date = _picked
-                st.rerun()
 
     with _col_right:
         import streamlit.components.v1 as _comp
