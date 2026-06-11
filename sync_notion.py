@@ -412,11 +412,14 @@ def parse_rfp_page_from_blocks(notion, blocks, page_title, page_date):
 # ─────────────────────────────────────────────
 def sync_daily(notion):
     """
-    DB_DAILY(34b498ee...)는 노션 일반 페이지.
-    1. 직접 DB 쿼리 시도
-    2. 실패 시 → 페이지 블록에서 child_database 탐색
-    3. 찾은 DB를 쿼리하여 trend_data.json과 동일한 구조로 저장
-       {날짜: {issues:[], technologies:[]}}
+    34b498ee... 노션 페이지 구조:
+      heading_2: 날짜 (예: "2026-06-09 (화요일)")
+      heading_2: "치안 이슈 동향" / "치안 기술 동향"
+      heading_3: 도메인명 (예: "🤖 AI", "🌐 국제 치안")
+      bulleted_list_item: 각 이슈/기술 항목
+        └ 하위 bulleted: 출처, 태그, 시사점
+
+    → 날짜별로 분류해서 trend_data.json과 동일한 구조로 저장
     """
     path     = DATA_DIR / "daily_reports.json"
     existing = load_json(path) or {}
@@ -424,96 +427,127 @@ def sync_daily(notion):
     if not DB_DAILY:
         log.info("[daily] DB_DAILY 미설정 → 스킵"); return False
 
-    target_id = DB_DAILY
-    pages = []
-
-    # 1차: 직접 DB 쿼리
+    # 페이지 전체 블록 읽기
+    log.info(f"[daily] 페이지 블록 읽기: {DB_DAILY}")
     try:
-        resp = notion.databases.query(database_id=target_id, page_size=100)
-        pages = resp.get("results", [])
-        log.info(f"[daily] DB 직접 쿼리 성공: {len(pages)}건")
+        all_blocks = _fetch_children(notion, DB_DAILY)
     except Exception as e:
-        err = str(e)
-        if "is a page" in err or "400" in err:
-            log.info(f"[daily] {target_id}는 page → child_database 탐색")
-            # 2차: 페이지 블록에서 child_database 탐색
-            try:
-                top_blocks = _fetch_children(notion, target_id)
-                log.info(f"[daily] 페이지 블록 수: {len(top_blocks)}")
-                for b in top_blocks:
-                    btype = b.get("type","")
-                    log.info(f"[daily]   블록 타입: {btype}")
-                    if btype == "child_database":
-                        cid = b.get("id","")
-                        log.info(f"[daily] child_database 발견: {cid}")
-                        pages = all_pages(notion, cid)
-                        if pages:
-                            log.info(f"[daily] child_database 쿼리 성공: {len(pages)}건")
-                            break
-            except Exception as e2:
-                log.error(f"[daily] 블록 탐색 오류: {e2}")
-        else:
-            log.error(f"[daily] API 오류: {e}")
+        log.error(f"[daily] 페이지 읽기 실패: {e}"); return False
 
-    if not pages:
-        # Fallback: trend_data.json → daily_reports.json 복사
-        trend_path = DATA_DIR / "trend_data.json"
-        if trend_path.exists():
-            try:
-                trend = json.loads(trend_path.read_text(encoding="utf-8"))
-                if trend:
-                    existing_from_trend = load_json(path) or {}
-                    # trend에 없는 날짜만 추가
-                    added = {k: v for k, v in trend.items() if k not in existing_from_trend}
-                    if added:
-                        merged = {**existing_from_trend, **added}
-                        merged = dict(sorted(merged.items(), reverse=True))
-                        save_json(path, merged)
-                        log.info(f"[daily] trend_data fallback: {len(added)}일 추가")
-                        return True
-            except Exception as e:
-                log.warning(f"[daily] fallback 오류: {e}")
-        log.info("[daily] 데이터 없음 → 스킵"); return False
+    log.info(f"[daily] 총 블록 수: {len(all_blocks)}")
 
-    # 기존 데이터에 새 날짜 병합
-    new_data: dict = {}
-    for page in pages:
-        props  = page.get("properties", {})
-        pid    = page.get("id","").replace("-","")[:4].upper()
-        date   = get_date(props, "날짜","Date") or TODAY_KST
-        rtype  = get_select(props, "유형","Type") or "이슈"
+    new_data = {}          # {날짜: {issues:[], technologies:[]}}
+    cur_date    = None     # 현재 파싱 중인 날짜
+    cur_section = None     # "issue" or "tech"
+    cur_domain  = None     # 현재 도메인
+    item_counter = {}      # 날짜별 ID 카운터
 
-        if date not in new_data:
-            new_data[date] = {"issues": [], "technologies": []}
+    for block in all_blocks:
+        btype = block.get("type", "")
+        txt   = block_text(block).strip()
+        if not txt and btype not in ("bulleted_list_item",):
+            continue
 
-        common = dict(
-            id      = f"{'I' if rtype in ('이슈','Issue') else 'T'}{date.replace('-','')[2:]}{pid}",
-            title   = get_title(props, "제목","Name","Title") or "제목 없음",
-            domain  = get_select(props, "도메인","Domain"),
-            summary = get_rt(props, "요약","Summary"),
-            detail  = get_rt(props, "상세","Detail"),
-            source  = get_rt(props, "출처","Source"),
-            url     = get_url(props, "URL","링크","Link"),
-            tags    = get_multi(props, "태그","Tags"),
-        )
+        # ── 날짜 헤딩 감지: "2026-06-09" 형식 포함
+        date_match = re.search(r"(\d{4}-\d{2}-\d{2})", txt)
+        if btype in ("heading_1", "heading_2") and date_match:
+            cur_date    = date_match.group(1)
+            cur_section = None
+            cur_domain  = None
+            if cur_date not in new_data:
+                new_data[cur_date] = {"issues": [], "technologies": []}
+                item_counter[cur_date] = {"I": 1, "T": 1}
+            log.info(f"[daily] 날짜 감지: {cur_date}")
+            continue
 
-        if rtype in ("기술","Technology","Tech"):
-            trl_v = int(get_num(props, "TRL", default=1))
-            new_data[date]["technologies"].append({**common, "trl": trl_v})
-        else:
-            sev = (get_select(props, "심각도","Severity") or "medium").lower()
-            new_data[date]["issues"].append({**common, "severity": sev})
+        if not cur_date:
+            continue
+
+        # ── 섹션 감지
+        if btype in ("heading_1", "heading_2"):
+            if "이슈" in txt:
+                cur_section = "issue"
+                cur_domain  = None
+            elif "기술" in txt:
+                cur_section = "tech"
+                cur_domain  = None
+            continue
+
+        # ── 도메인 헤딩
+        if btype == "heading_3" and cur_section:
+            cur_domain = txt
+            continue
+
+        # ── 항목 (bulleted_list_item) — 최상위만 항목으로 처리
+        if btype == "bulleted_list_item" and cur_section and cur_domain:
+            title = txt
+            if not title:
+                continue
+
+            # 하위 블록에서 출처/태그 추출
+            children  = block.get("_children", [])
+            if not children and block.get("has_children"):
+                try:
+                    children = _fetch_children(notion, block["id"])
+                except Exception:
+                    children = []
+
+            source, tags, detail = "", [], ""
+            for child in children:
+                ct = block_text(child).strip()
+                if ct.startswith("출처"):
+                    source = re.sub(r"^출처\s*[:：]?\s*", "", ct).strip()
+                elif ct.startswith("태그") or "#" in ct:
+                    raw_tags = re.sub(r"^태그\s*[:：]?\s*", "", ct)
+                    tags = [t.strip().lstrip("#") for t in re.split(r"[,\s]+", raw_tags) if t.strip().lstrip("#")]
+                elif ct.startswith("시사점") or ct.startswith("분석"):
+                    detail = re.sub(r"^(시사점|분석)\s*[:：]?\s*", "", ct).strip()
+
+            # ID 생성
+            pfx  = "I" if cur_section == "issue" else "T"
+            cnt  = item_counter[cur_date][pfx]
+            iid  = f"{pfx}{cur_date.replace('-','')[2:]}{cnt:04d}"
+            item_counter[cur_date][pfx] += 1
+
+            entry = {
+                "id":      iid,
+                "title":   title,
+                "domain":  cur_domain,
+                "summary": title,
+                "detail":  detail,
+                "source":  source,
+                "url":     "",
+                "tags":    tags,
+            }
+            if cur_section == "issue":
+                # 심각도 추정
+                sev = "high" if any(w in title for w in ["급증","적발","최초","위기","사망","테러"]) else "medium"
+                entry["severity"] = sev
+                new_data[cur_date]["issues"].append(entry)
+            else:
+                entry["trl"] = 1
+                new_data[cur_date]["technologies"].append(entry)
 
     if not new_data:
-        log.info("[daily] 처리된 데이터 없음 → 스킵"); return False
+        # Fallback: trend_data 복사
+        trend_path = DATA_DIR / "trend_data.json"
+        if trend_path.exists():
+            trend = load_json(trend_path) or {}
+            added = {k: v for k, v in trend.items() if k not in existing}
+            if added:
+                merged = dict(sorted({**existing, **added}.items(), reverse=True))
+                save_json(path, merged)
+                log.info(f"[daily] fallback: trend_data {len(added)}일 추가")
+                return True
+        log.info("[daily] 데이터 없음 → 스킵")
+        return False
 
-    # 기존 데이터에 병합 후 날짜 내림차순 정렬
-    merged = dict(existing)
-    merged.update(new_data)
-    sorted_merged = dict(sorted(merged.items(), reverse=True))
-
-    save_json(path, sorted_merged)
-    log.info(f"[daily] {len(new_data)}일 업데이트, 총 {len(sorted_merged)}일")
+    # 기존 데이터에 새 날짜 병합
+    merged = dict(sorted({**existing, **new_data}.items(), reverse=True))
+    save_json(path, merged)
+    log.info(f"[daily] {len(new_data)}일 파싱 완료, 총 {len(merged)}일")
+    for d, v in new_data.items():
+        log.info(f"  {d}: 이슈 {len(v['issues'])}건, 기술 {len(v['technologies'])}건")
     return True
 
 
