@@ -467,45 +467,92 @@ def sync_daily(notion):
     cur_domain  = None
     item_counter = {}
 
+    # ── 가장 최근 날짜만 파싱 (오늘 업데이트 없으면 전체 스킵)
+    # 1차 패스: 첫 번째 날짜 헤딩 찾기
+    latest_date = None
+    ALL_HEADINGS = ("heading_1","heading_2","heading_3","heading_4","heading_5","paragraph")
+    for block in flat_blocks:
+        btype = block.get("type","")
+        txt   = block_text(block).strip()
+        if btype in ALL_HEADINGS:
+            dm = re.search(r"(\d{4}-\d{2}-\d{2})", txt)
+            if dm:
+                latest_date = dm.group(1)
+                break  # 최신순이므로 첫 번째가 가장 최근
+
+    if not latest_date:
+        log.info("[daily] 날짜 헤딩 감지 불가 → 스킵")
+        return False
+
+    log.info(f"[daily] 가장 최근 날짜: {latest_date}")
+
+    # 오늘 날짜가 아니면 신규 없음으로 스킵
+    if latest_date != TODAY_KST:
+        log.info(f"[daily] {latest_date} ≠ 오늘({TODAY_KST}) → 신규 없음 스킵")
+        # fallback: trend_data 복사
+        trend_path = DATA_DIR / "trend_data.json"
+        if trend_path.exists():
+            trend = load_json(trend_path) or {}
+            added = {k:v for k,v in trend.items() if k not in existing}
+            if added:
+                merged = dict(sorted({**existing, **added}.items(), reverse=True))
+                save_json(path, merged)
+                log.info(f"[daily] fallback trend_data {len(added)}일 추가")
+                return True
+        return False
+
+    # 이미 오늘 날짜 데이터가 있으면 스킵
+    if latest_date in existing:
+        log.info(f"[daily] {latest_date} 이미 존재 → 스킵")
+        return False
+
+    new_data[latest_date] = {"issues":[], "technologies":[]}
+    item_counter[latest_date] = {"I":1,"T":1}
+
+    # 2차 패스: 최근 날짜 이후 블록만 파싱
+    in_target = False
     for block in flat_blocks:
         btype = block.get("type","")
         txt   = block_text(block).strip()
         if not txt and btype not in ("bulleted_list_item",):
             continue
 
-        # ── 날짜 감지: 모든 heading/paragraph에서 YYYY-MM-DD
-        if btype in ("heading_1","heading_2","heading_3","paragraph"):
+        # 모든 heading 타입 (heading_1 ~ heading_5, paragraph)
+        if btype in ALL_HEADINGS:
             dm = re.search(r"(\d{4}-\d{2}-\d{2})", txt)
             if dm:
-                cur_date    = dm.group(1)
-                cur_section = None
-                cur_domain  = None
-                if cur_date not in new_data:
-                    new_data[cur_date] = {"issues":[], "technologies":[]}
-                    item_counter[cur_date] = {"I":1,"T":1}
-                log.info(f"[daily] 날짜: {cur_date} ({btype})")
+                found_date = dm.group(1)
+                if found_date == latest_date:
+                    in_target = True
+                    cur_section = None
+                    cur_domain  = None
+                    log.info(f"[daily] 타겟 날짜 진입: {latest_date}")
+                elif in_target:
+                    # 다음 날짜 헤딩 만나면 종료
+                    log.info(f"[daily] 다음 날짜 {found_date} → 파싱 종료")
+                    break
                 continue
 
-            if not cur_date:
+            if not in_target:
                 continue
 
-            # ── 섹션/도메인 감지
+            # 섹션/도메인 감지 (heading_4가 핵심!)
             clean = txt.replace(" ","")
             if "치안이슈" in clean or "이슈동향" in clean:
                 cur_section = "issue"
                 cur_domain  = None
-                log.info(f"[daily] 이슈섹션 ({btype}: {txt[:30]})")
+                log.info(f"[daily] ✅ 이슈 섹션 ({btype}: {txt[:40]})")
             elif "치안기술" in clean or "기술동향" in clean:
                 cur_section = "tech"
                 cur_domain  = None
-                log.info(f"[daily] 기술섹션 ({btype}: {txt[:30]})")
-            elif cur_section and txt:
-                # 도메인명
+                log.info(f"[daily] ✅ 기술 섹션 ({btype}: {txt[:40]})")
+            elif cur_section and txt and "금일 주요 동향 없음" not in txt and "메타 분석" not in txt and "트렌드 시사점" not in txt:
+                # 도메인명 — 섹션 헤딩 아래 heading_4
                 cur_domain = txt
                 log.info(f"[daily] 도메인: {cur_domain} ({btype})")
             continue
 
-        if not cur_date or not cur_section:
+        if not in_target or not cur_section:
             continue
 
         # ── 이슈/기술 항목 수집 (bulleted_list_item)
