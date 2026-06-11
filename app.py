@@ -577,36 +577,121 @@ elif menu == "📰 일일 DB":
 
     daily_data = load_daily()  # {날짜: {issues:[], technologies:[]}}
 
-    # ── 날짜 선택
+    # ── 기준 날짜
     DAILY_TODAY = datetime.now(timezone(timedelta(hours=9))).strftime("%Y-%m-%d")
-    avail_daily = sorted(daily_data.keys(), reverse=True) if daily_data else []
-    DAILY_DISPLAY = DAILY_TODAY if DAILY_TODAY in avail_daily else (avail_daily[0] if avail_daily else DAILY_TODAY)
+    avail_set   = set(daily_data.keys()) if daily_data else set()
+    avail_daily = sorted(avail_set, reverse=True)
 
-    dc1, dc2 = st.columns([3, 1])
-    with dc1:
-        if avail_daily:
-            sel_date = st.selectbox("날짜", avail_daily, index=0, label_visibility="collapsed")
-            DAILY_DISPLAY = sel_date
-    with dc2:
-        # 전체 도메인 목록 수집
+    if "daily_sel_date" not in st.session_state:
+        st.session_state.daily_sel_date = (
+            DAILY_TODAY if DAILY_TODAY in avail_set
+            else (avail_daily[0] if avail_daily else DAILY_TODAY)
+        )
+    DAILY_DISPLAY = st.session_state.daily_sel_date
+
+    # ── 달력 연/월
+    import calendar as _cal
+    try:
+        _cy, _cm = int(DAILY_DISPLAY[:4]), int(DAILY_DISPLAY[5:7])
+    except Exception:
+        _cy, _cm = int(DAILY_TODAY[:4]), int(DAILY_TODAY[5:7])
+
+    _first_wd, _days_n = _cal.monthrange(_cy, _cm)
+    _start_off = (_first_wd + 1) % 7
+
+    _cells = [None] * _start_off + list(range(1, _days_n + 1))
+    _dow_html = "".join(
+        '<div style="text-align:center;font-size:0.68rem;color:#9ca3af;font-weight:600;padding-bottom:4px;">' + d + '</div>'
+        for d in ["일","월","화","수","목","금","토"]
+    )
+    _cells_html = ""
+    for d in _cells:
+        if d is None:
+            _cells_html += '<div></div>'
+        else:
+            ds = f"{_cy:04d}-{_cm:02d}-{d:02d}"
+            if ds == DAILY_DISPLAY:
+                _cells_html += (
+                    f'<div style="text-align:center;font-size:0.82rem;font-weight:700;'
+                    f'color:#fff;background:#1d4ed8;border-radius:5px;padding:5px 2px;'
+                    f'cursor:pointer;" data-date="{ds}">{d}</div>'
+                )
+            elif ds in avail_set:
+                _cells_html += (
+                    f'<div style="text-align:center;font-size:0.82rem;font-weight:700;'
+                    f'color:#1d4ed8;background:#eff6ff;border:1px solid #bfdbfe;'
+                    f'border-radius:5px;padding:5px 2px;cursor:pointer;" data-date="{ds}">{d}</div>'
+                )
+            else:
+                _cells_html += (
+                    f'<div style="text-align:center;font-size:0.82rem;'
+                    f'color:#d1d5db;background:#fafafa;border:1px solid #f3f4f6;'
+                    f'border-radius:5px;padding:5px 2px;">{d}</div>'
+                )
+
+    _mn = ["","1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"]
+    _cal_html = (
+        '<div id="kc" style="border:1px solid #e5e7eb;border-radius:8px;'
+        'padding:0.7rem 0.9rem 0.6rem;background:#fff;">'
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">'
+        f'<span style="font-size:0.92rem;font-weight:700;color:#111827;">📅 {_cy}년 {_mn[_cm]}</span>'
+        '<span style="font-size:0.7rem;color:#6b7280;">'
+        '<span style="color:#1d4ed8;font-weight:600;">■</span> 업데이트됨 &nbsp;'
+        '<span style="color:#d1d5db;font-weight:600;">■</span> 미수집'
+        '</span></div>'
+        '<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;">'
+        + _dow_html + _cells_html +
+        '</div></div>'
+        '<script>'
+        '(function(){'
+        'var c=document.getElementById("kc");'
+        'if(!c)return;'
+        'c.querySelectorAll("[data-date]").forEach(function(el){'
+        'el.addEventListener("click",function(){'
+        'window.parent.postMessage({'
+        'type:"streamlit:setComponentValue",'
+        'value:el.getAttribute("data-date")'
+        '},"*");});});})();'
+        '</script>'
+    )
+
+    # ── 레이아웃: 왼쪽(분야+날짜 보조) / 오른쪽(달력)
+    _col_left, _col_right = st.columns([1, 2])
+
+    with _col_left:
         all_daily_domains = sorted({
             item.get("domain","")
             for day in daily_data.values()
-            for items in day.values()
-            for item in (items if isinstance(items, list) else [])
+            for lst in day.values()
+            for item in (lst if isinstance(lst, list) else [])
             if item.get("domain")
         })
-        sel_domain = st.selectbox("도메인", ["전체"] + list(all_daily_domains), label_visibility="collapsed")
+        sel_domain = st.selectbox("분야", ["전체"] + list(all_daily_domains),
+                                  label_visibility="collapsed")
+        if avail_daily:
+            try:
+                _cur_idx = avail_daily.index(DAILY_DISPLAY)
+            except ValueError:
+                _cur_idx = 0
+            _picked = st.selectbox("날짜 선택", avail_daily, index=_cur_idx,
+                                   label_visibility="collapsed")
+            if _picked != DAILY_DISPLAY:
+                st.session_state.daily_sel_date = _picked
+                st.rerun()
 
-    # ── 헤더 (TODAY 브리핑 양식 그대로)
+    with _col_right:
+        import streamlit.components.v1 as _comp
+        _clicked = _comp.html(_cal_html, height=230, scrolling=False)
+        if _clicked and isinstance(_clicked, str) and len(_clicked) == 10 and "-" in _clicked:
+            if _clicked != DAILY_DISPLAY:
+                st.session_state.daily_sel_date = _clicked
+                st.rerun()
+
+    # ── TODAY 브리핑 헤더
     st.markdown(f"""
-    <div style="margin-top:1rem; padding-bottom:0.5rem; border-bottom:2px solid #e2e8f0;">
-      <span style="font-size:1.25rem; font-weight:700; color:#1a202c;">
-        📡 TODAY 브리핑
-      </span>
-      <span style="font-size:1rem; color:#4a5568; margin-left:0.5rem;">
-        {DAILY_DISPLAY}
-      </span>
+    <div style="margin-top:0.8rem; padding-bottom:0.5rem; border-bottom:2px solid #e2e8f0;">
+      <span style="font-size:1.25rem; font-weight:700; color:#1a202c;">📡 TODAY 브리핑</span>
+      <span style="font-size:1rem; color:#4a5568; margin-left:0.5rem;">{DAILY_DISPLAY}</span>
     </div>
     """, unsafe_allow_html=True)
 
