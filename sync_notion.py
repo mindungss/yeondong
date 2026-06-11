@@ -20,9 +20,8 @@ logging.basicConfig(level=logging.INFO,
 log = logging.getLogger(__name__)
 
 NOTION_TOKEN = os.environ.get("NOTION_TOKEN", "")
-DB_DAILY     = os.environ.get("NOTION_DB_DAILY", "34b498eef53381b896bafae457a8199e")
+DB_DAILY     = os.environ.get("NOTION_DB_DAILY", "34b498eef53381b896bafae457a8199e")  # 일일 리포트 페이지 ID
 DB_TREND     = os.environ.get("NOTION_DB_TREND", "")
-DB_DAILY     = os.environ.get("NOTION_DB_DAILY", "34b498eef53381b896bafae457a8199e")  # 일일 리포트 페이지
 DB_IDEA      = os.environ.get("NOTION_DB_IDEA", "")
 DB_RFP       = os.environ.get("NOTION_DB_RFP", "")
 DB_NTIS      = os.environ.get("NOTION_DB_NTIS", "")
@@ -413,11 +412,11 @@ def parse_rfp_page_from_blocks(notion, blocks, page_title, page_date):
 # ─────────────────────────────────────────────
 def sync_daily(notion):
     """
-    34b498ee...는 노션 '일반 페이지'.
-    구조:
-      - 페이지 안에 데이터베이스(child_database)가 있거나
-      - 페이지 자체가 날짜별 이슈/기술 목록을 담은 DB
-    trend_data.json과 동일한 {날짜: {issues:[], technologies:[]}} 구조로 저장.
+    DB_DAILY(34b498ee...)는 노션 일반 페이지.
+    1. 직접 DB 쿼리 시도
+    2. 실패 시 → 페이지 블록에서 child_database 탐색
+    3. 찾은 DB를 쿼리하여 trend_data.json과 동일한 구조로 저장
+       {날짜: {issues:[], technologies:[]}}
     """
     path     = DATA_DIR / "daily_reports.json"
     existing = load_json(path) or {}
@@ -425,22 +424,55 @@ def sync_daily(notion):
     if not DB_DAILY:
         log.info("[daily] DB_DAILY 미설정 → 스킵"); return False
 
-    # 1차: database로 직접 쿼리 시도
-    pages = all_pages(notion, DB_DAILY)
+    target_id = DB_DAILY
+    pages = []
 
-    # 실패 시: 페이지 안의 child_database 탐색
-    if not pages:
-        log.info(f"[daily] {DB_DAILY}를 page로 간주 → child_database 탐색")
-        top_blocks = _fetch_children(notion, DB_DAILY)
-        for b in top_blocks:
-            if b.get("type") == "child_database":
-                cid = b.get("id","")
-                log.info(f"[daily] child_database 발견: {cid}")
-                pages = all_pages(notion, cid)
-                if pages:
-                    break
+    # 1차: 직접 DB 쿼리
+    try:
+        resp = notion.databases.query(database_id=target_id, page_size=100)
+        pages = resp.get("results", [])
+        log.info(f"[daily] DB 직접 쿼리 성공: {len(pages)}건")
+    except Exception as e:
+        err = str(e)
+        if "is a page" in err or "400" in err:
+            log.info(f"[daily] {target_id}는 page → child_database 탐색")
+            # 2차: 페이지 블록에서 child_database 탐색
+            try:
+                top_blocks = _fetch_children(notion, target_id)
+                log.info(f"[daily] 페이지 블록 수: {len(top_blocks)}")
+                for b in top_blocks:
+                    btype = b.get("type","")
+                    log.info(f"[daily]   블록 타입: {btype}")
+                    if btype == "child_database":
+                        cid = b.get("id","")
+                        log.info(f"[daily] child_database 발견: {cid}")
+                        pages = all_pages(notion, cid)
+                        if pages:
+                            log.info(f"[daily] child_database 쿼리 성공: {len(pages)}건")
+                            break
+            except Exception as e2:
+                log.error(f"[daily] 블록 탐색 오류: {e2}")
+        else:
+            log.error(f"[daily] API 오류: {e}")
 
     if not pages:
+        # Fallback: trend_data.json → daily_reports.json 복사
+        trend_path = DATA_DIR / "trend_data.json"
+        if trend_path.exists():
+            try:
+                trend = json.loads(trend_path.read_text(encoding="utf-8"))
+                if trend:
+                    existing_from_trend = load_json(path) or {}
+                    # trend에 없는 날짜만 추가
+                    added = {k: v for k, v in trend.items() if k not in existing_from_trend}
+                    if added:
+                        merged = {**existing_from_trend, **added}
+                        merged = dict(sorted(merged.items(), reverse=True))
+                        save_json(path, merged)
+                        log.info(f"[daily] trend_data fallback: {len(added)}일 추가")
+                        return True
+            except Exception as e:
+                log.warning(f"[daily] fallback 오류: {e}")
         log.info("[daily] 데이터 없음 → 스킵"); return False
 
     # 기존 데이터에 새 날짜 병합
