@@ -163,9 +163,9 @@ with st.sidebar:
     MENU_ITEMS = [
         ("🏢", "메인 대시보드"),
         ("📰", "일일 DB"),
-        ("💡", "아이디어"),
+        ("💡", "기술 아이디어"),
         ("📄", "RFP 사업기획"),
-        ("📋", "유사 과제"),
+        ("📋", "NTIS 치안 분야 과제"),
     ]
     for icon, label in MENU_ITEMS:
         full = f"{icon} {label}"
