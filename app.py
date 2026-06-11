@@ -17,7 +17,7 @@ from collections import Counter
 # 0. 페이지 설정 (가장 먼저 호출해야 함)
 # ─────────────────────────────────────────────
 st.set_page_config(
-    page_title="치안 과학기술 동향 | KIPOT",
+    page_title="치안 과학기술 동향 | KIPoT",
     page_icon="🚔",
     layout="wide",
     initial_sidebar_state="expanded",
