@@ -434,99 +434,131 @@ def sync_daily(notion):
     except Exception as e:
         log.error(f"[daily] 페이지 읽기 실패: {e}"); return False
 
-    log.info(f"[daily] 총 블록 수: {len(all_blocks)}")
+    log.info(f"[daily] 1차 블록 수: {len(all_blocks)}")
 
-    new_data = {}          # {날짜: {issues:[], technologies:[]}}
-    cur_date    = None     # 현재 파싱 중인 날짜
-    cur_section = None     # "issue" or "tech"
-    cur_domain  = None     # 현재 도메인
-    item_counter = {}      # 날짜별 ID 카운터
+    # ── 모든 블록을 재귀적으로 평탄화 (중첩 구조 완전 해소)
+    def flatten_blocks(notion, blocks, depth=0):
+        """노션 중첩 블록을 순서 유지하며 1차원 리스트로 평탄화"""
+        flat = []
+        if depth > 6:
+            return flat
+        for b in blocks:
+            flat.append(b)
+            btype = b.get("type","")
+            # 자식이 있는 블록 타입은 재귀 읽기
+            if b.get("has_children") and btype not in ("bulleted_list_item",):
+                try:
+                    children = _fetch_children(notion, b["id"])
+                    flat.extend(flatten_blocks(notion, children, depth+1))
+                except Exception as e:
+                    log.warning(f"[daily] 블록 재귀 읽기 오류: {e}")
+        return flat
 
-    for block in all_blocks:
-        btype = block.get("type", "")
+    flat_blocks = flatten_blocks(notion, all_blocks)
+    log.info(f"[daily] 평탄화 후 블록 수: {len(flat_blocks)}")
+
+    # ── 블록 타입/텍스트 샘플 로그 (처음 30개)
+    for i, b in enumerate(flat_blocks[:30]):
+        log.info(f"[daily] [{i:02d}] {b.get('type',''):<25} {repr(block_text(b)[:60])}")
+
+    new_data    = {}   # {날짜: {issues:[], technologies:[]}}
+    cur_date    = None
+    cur_section = None  # "issue" or "tech"
+    cur_domain  = None
+    item_counter = {}
+
+    for block in flat_blocks:
+        btype = block.get("type","")
         txt   = block_text(block).strip()
-        if not txt and btype not in ("bulleted_list_item",):
-            continue
 
-        # ── 날짜 헤딩 감지: "2026-06-09" 형식 포함
-        date_match = re.search(r"(\d{4}-\d{2}-\d{2})", txt)
-        if btype in ("heading_1", "heading_2") and date_match:
-            cur_date    = date_match.group(1)
-            cur_section = None
-            cur_domain  = None
-            if cur_date not in new_data:
-                new_data[cur_date] = {"issues": [], "technologies": []}
-                item_counter[cur_date] = {"I": 1, "T": 1}
-            log.info(f"[daily] 날짜 감지: {cur_date}")
-            continue
-
-        if not cur_date:
-            continue
-
-        # ── 섹션 감지
-        if btype in ("heading_1", "heading_2"):
-            if "이슈" in txt:
-                cur_section = "issue"
+        # ── 날짜 감지: heading에서 YYYY-MM-DD 패턴
+        if btype in ("heading_1","heading_2","heading_3"):
+            date_match = re.search(r"(\d{4}-\d{2}-\d{2})", txt)
+            if date_match:
+                cur_date    = date_match.group(1)
+                cur_section = None
                 cur_domain  = None
-            elif "기술" in txt:
-                cur_section = "tech"
-                cur_domain  = None
+                if cur_date not in new_data:
+                    new_data[cur_date] = {"issues":[], "technologies":[]}
+                    item_counter[cur_date] = {"I":1,"T":1}
+                log.info(f"[daily] 날짜 감지: {cur_date} (블록:{btype} / {txt[:30]})")
+                continue
+
+            # ── 섹션 감지: 날짜 없는 heading
+            if cur_date:
+                clean = txt.replace(" ","")
+                if "치안이슈" in clean or "이슈동향" in clean:
+                    cur_section = "issue"
+                    cur_domain  = None
+                    log.info(f"[daily] 이슈 섹션 시작")
+                elif "치안기술" in clean or "기술동향" in clean:
+                    cur_section = "tech"
+                    cur_domain  = None
+                    log.info(f"[daily] 기술 섹션 시작")
+                elif cur_section and btype == "heading_3":
+                    # 도메인명 (heading_3)
+                    cur_domain = txt
+                continue
+
+        if not cur_date or not cur_section:
             continue
 
-        # ── 도메인 헤딩
-        if btype == "heading_3" and cur_section:
+        # heading_3은 도메인 (위에서 처리)
+        if btype == "heading_3":
             cur_domain = txt
             continue
 
-        # ── 항목 (bulleted_list_item) — 최상위만 항목으로 처리
-        if btype == "bulleted_list_item" and cur_section and cur_domain:
-            title = txt
-            if not title:
-                continue
-
-            # 하위 블록에서 출처/태그 추출
-            children  = block.get("_children", [])
-            if not children and block.get("has_children"):
+        # ── 이슈/기술 항목 수집 (bulleted_list_item)
+        if btype == "bulleted_list_item" and cur_domain and txt:
+            # 하위 블록(출처/태그/시사점) 직접 읽기
+            sub_blocks = []
+            if block.get("has_children"):
                 try:
-                    children = _fetch_children(notion, block["id"])
+                    sub_blocks = _fetch_children(notion, block["id"])
                 except Exception:
-                    children = []
+                    pass
 
-            source, tags, detail = "", [], ""
-            for child in children:
-                ct = block_text(child).strip()
-                if ct.startswith("출처"):
-                    source = re.sub(r"^출처\s*[:：]?\s*", "", ct).strip()
-                elif ct.startswith("태그") or "#" in ct:
-                    raw_tags = re.sub(r"^태그\s*[:：]?\s*", "", ct)
-                    tags = [t.strip().lstrip("#") for t in re.split(r"[,\s]+", raw_tags) if t.strip().lstrip("#")]
-                elif ct.startswith("시사점") or ct.startswith("분석"):
-                    detail = re.sub(r"^(시사점|분석)\s*[:：]?\s*", "", ct).strip()
+            source, tags, detail, url = "", [], "", ""
+            for sb in sub_blocks:
+                st_txt = block_text(sb).strip()
+                if st_txt.startswith("출처"):
+                    source = re.sub(r"^출처\s*[:：]?\s*", "", st_txt).strip()
+                    # URL 추출
+                    url_m = re.search(r"https?://\S+", source)
+                    if url_m:
+                        url = url_m.group(0)
+                elif "태그" in st_txt or "#" in st_txt:
+                    raw = re.sub(r"^태그\s*[:：]?\s*", "", st_txt)
+                    tags = [t.strip().lstrip("#") for t in re.split(r"[\s,]+", raw)
+                            if t.strip().lstrip("#") and len(t.strip().lstrip("#")) > 0]
+                elif st_txt.startswith("시사점") or st_txt.startswith("분석"):
+                    detail = re.sub(r"^(시사점|분석)\s*[:：]?\s*", "", st_txt).strip()
 
-            # ID 생성
-            pfx  = "I" if cur_section == "issue" else "T"
-            cnt  = item_counter[cur_date][pfx]
-            iid  = f"{pfx}{cur_date.replace('-','')[2:]}{cnt:04d}"
+            pfx = "I" if cur_section == "issue" else "T"
+            cnt = item_counter[cur_date][pfx]
+            iid = f"{pfx}{cur_date.replace('-','')[2:]}{cnt:04d}"
             item_counter[cur_date][pfx] += 1
 
             entry = {
                 "id":      iid,
-                "title":   title,
+                "title":   txt,
                 "domain":  cur_domain,
-                "summary": title,
+                "summary": txt,
                 "detail":  detail,
                 "source":  source,
-                "url":     "",
+                "url":     url,
                 "tags":    tags,
             }
             if cur_section == "issue":
-                # 심각도 추정
-                sev = "high" if any(w in title for w in ["급증","적발","최초","위기","사망","테러"]) else "medium"
-                entry["severity"] = sev
+                entry["severity"] = "high" if any(
+                    w in txt for w in ["급증","적발","최초","위기","사망","테러","피해"]
+                ) else "medium"
                 new_data[cur_date]["issues"].append(entry)
+                log.info(f"[daily] 이슈 추가: {txt[:40]}")
             else:
                 entry["trl"] = 1
                 new_data[cur_date]["technologies"].append(entry)
+                log.info(f"[daily] 기술 추가: {txt[:40]}")
 
     if not new_data:
         # Fallback: trend_data 복사
