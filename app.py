@@ -17,7 +17,7 @@ from collections import Counter
 # 0. 페이지 설정 (가장 먼저 호출해야 함)
 # ─────────────────────────────────────────────
 st.set_page_config(
-    page_title="치안 과학기술 동향 | KIPOT",
+    page_title="치안 과학기술 동향 | KIPoT",
     page_icon="🚔",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -163,9 +163,9 @@ with st.sidebar:
     MENU_ITEMS = [
         ("🏢", "메인 대시보드"),
         ("📰", "일일 DB"),
-        ("💡", "아이디어"),
+        ("💡", "기술 아이디어"),
         ("📄", "RFP 사업기획"),
-        ("📋", "유사 과제"),
+        ("📋", "NTIS 치안 분야 과제"),
     ]
     for icon, label in MENU_ITEMS:
         full = f"{icon} {label}"
@@ -204,7 +204,7 @@ with st.sidebar:
 # ─────────────────────────────────────────────
 # 4. 메인 헤더
 # ─────────────────────────────────────────────
-st.title("🚔 치안 과학기술 동향 인텔리전스 플랫폼")
+st.title("🚔 치안 과학기술 동향 플랫폼")
 st.caption("경찰청 R&D 예산 확보 및 사업기획 전문 지원 시스템 · 국내외 치안·공공안전 기술 동향 메타 분석")
 st.divider()
 
@@ -611,7 +611,7 @@ elif menu == "📰 일일 DB":
     """, unsafe_allow_html=True)
 
     if not daily_data:
-        st.info("📭 아직 등록된 일일 리포트가 없습니다. 매일 09:00에 업데이트됩니다.")
+        st.info("📭 아직 등록된 일일 리포트가 없습니다. 오전 10:00에 업데이트됩니다.")
     else:
         # ── 날짜 메트릭
         day_content  = daily_data.get(DAILY_DISPLAY, {})
@@ -734,7 +734,7 @@ elif menu == "💡 아이디어":
          padding:0.9rem 1.2rem; margin-bottom:1.2rem;">
       <p style="color:#1e40af; font-size:0.87rem; margin:0;">
         📡 일반 과학기술 뉴스·동향을 분석하여 치안 현장에 접목 가능한 기술 아이디어를 정리합니다.<br>
-        <b>기술 중심</b>으로 해결 가능한 치안 이슈를 도출합니다. 매일 09:00 업데이트.
+        <b>기술 중심</b>으로 해결 가능한 치안 이슈를 도출합니다. 오전 10:00 업데이트.
       </p>
     </div>
     """, unsafe_allow_html=True)
@@ -764,7 +764,7 @@ elif menu == "💡 아이디어":
     st.caption(f"표시: {len(filtered_ideas)}건 / 전체: {len(ideas)}건")
 
     if not filtered_ideas:
-        st.info("조건에 맞는 아이디어가 없습니다. 데이터가 매일 09:00에 업데이트됩니다.")
+        st.info("조건에 맞는 아이디어가 없습니다. 데이터가 오전 10:00에 업데이트됩니다.")
     else:
         for idea in filtered_ideas:
             domain   = idea.get("domain", "")
