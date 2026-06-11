@@ -982,34 +982,18 @@ elif menu == "📄 RFP 사업기획":
                     with st.expander(f"{phase.get('label','')}"):
                         st.markdown(phase.get("content",""))
 
-                # 기대 효과 — [소제목] 기준으로 섹션 분리
+                # 기대 효과
                 st.markdown("### ✅ 기대 효과")
-                _effect_raw = rfp.get("effect", "")
-                if _effect_raw:
-                    import re as _re2
-                    _parts = _re2.split(r'\n(\[[^\]]+\])', "\n" + _effect_raw)
-                    _sections = []
-                    _i = 1
-                    while _i < len(_parts) - 1:
-                        _sections.append((_parts[_i], _parts[_i+1].strip()))
-                        _i += 2
-                    if not _sections:
-                        # 소제목 없으면 전체를 bullet 목록으로
-                        for _ln in _effect_raw.split("\n"):
-                            _ln = _ln.strip().lstrip("•").strip()
-                            if _ln:
-                                st.markdown(f"- {_ln}")
-                    else:
-                        for _sec_title, _sec_body in _sections:
-                            st.markdown(
-                                f'<div style="font-size:0.9rem;font-weight:700;'
-                                f'color:#276749;margin:0.7rem 0 0.3rem;">{_sec_title}</div>',
-                                unsafe_allow_html=True
-                            )
-                            for _ln in _sec_body.split("\n"):
-                                _ln = _ln.strip().lstrip("•").strip()
-                                if _ln:
-                                    st.markdown(f"- {_ln}")
+                _eff = rfp.get("effect","")
+                if _eff:
+                    _eff_html = _eff.replace("\n", "<br>")
+                    st.markdown(
+                        f'<div style="background:#f0fff4;border:1px solid #c6f6d5;'
+                        f'border-radius:8px;padding:1rem 1.1rem;'
+                        f'color:#276749;font-size:0.88rem;line-height:1.75;">'
+                        + _eff_html + '</div>',
+                        unsafe_allow_html=True
+                    )
 
                 # 아키텍처 다이어그램
                 if rfp.get("diagram"):
