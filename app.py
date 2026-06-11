@@ -1034,8 +1034,8 @@ elif menu == "📋 유사 과제":
 st.divider()
 st.markdown(f"""
 <div style="text-align:center; font-size:0.72rem; color:#4a5568; padding:0.5rem 0;">
-  🚔 치안 과학기술 동향 인텔리전스 플랫폼 v1.0 &nbsp;|&nbsp; Powered by KIPOT (kipot.or.kr)
+  🚔 치안 과학기술 동향 플랫폼 v1.0 &nbsp;|&nbsp; Powered by KIPoT (kipot.or.kr)
   &nbsp;|&nbsp; 데이터 기준: {datetime.now().strftime('%Y.%m.%d')} &nbsp;|&nbsp;
-  수집 범위: 경찰청·국과수·NIJ·INTERPOL·Europol·EU AI Act 외
+  수집 범위: 미정 외
 </div>
 """, unsafe_allow_html=True)
