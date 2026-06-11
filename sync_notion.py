@@ -457,55 +457,55 @@ def sync_daily(notion):
     flat_blocks = flatten_blocks(notion, all_blocks)
     log.info(f"[daily] 평탄화 후 블록 수: {len(flat_blocks)}")
 
-    # ── 블록 타입/텍스트 샘플 로그 (처음 30개)
-    for i, b in enumerate(flat_blocks[:30]):
-        log.info(f"[daily] [{i:02d}] {b.get('type',''):<25} {repr(block_text(b)[:60])}")
+    # ── 전체 블록 타입/텍스트 로그 (50개)
+    for i, b in enumerate(flat_blocks[:50]):
+        log.info(f"[daily] [{i:02d}] {b.get('type',''):<25} {repr(block_text(b)[:70])}")
 
-    new_data    = {}   # {날짜: {issues:[], technologies:[]}}
+    new_data    = {}
     cur_date    = None
-    cur_section = None  # "issue" or "tech"
+    cur_section = None
     cur_domain  = None
     item_counter = {}
 
     for block in flat_blocks:
         btype = block.get("type","")
         txt   = block_text(block).strip()
+        if not txt and btype not in ("bulleted_list_item",):
+            continue
 
-        # ── 날짜 감지: heading에서 YYYY-MM-DD 패턴
-        if btype in ("heading_1","heading_2","heading_3"):
-            date_match = re.search(r"(\d{4}-\d{2}-\d{2})", txt)
-            if date_match:
-                cur_date    = date_match.group(1)
+        # ── 날짜 감지: 모든 heading/paragraph에서 YYYY-MM-DD
+        if btype in ("heading_1","heading_2","heading_3","paragraph"):
+            dm = re.search(r"(\d{4}-\d{2}-\d{2})", txt)
+            if dm:
+                cur_date    = dm.group(1)
                 cur_section = None
                 cur_domain  = None
                 if cur_date not in new_data:
                     new_data[cur_date] = {"issues":[], "technologies":[]}
                     item_counter[cur_date] = {"I":1,"T":1}
-                log.info(f"[daily] 날짜 감지: {cur_date} (블록:{btype} / {txt[:30]})")
+                log.info(f"[daily] 날짜: {cur_date} ({btype})")
                 continue
 
-            # ── 섹션 감지: 날짜 없는 heading
-            if cur_date:
-                clean = txt.replace(" ","")
-                if "치안이슈" in clean or "이슈동향" in clean:
-                    cur_section = "issue"
-                    cur_domain  = None
-                    log.info(f"[daily] 이슈 섹션 시작")
-                elif "치안기술" in clean or "기술동향" in clean:
-                    cur_section = "tech"
-                    cur_domain  = None
-                    log.info(f"[daily] 기술 섹션 시작")
-                elif cur_section and btype == "heading_3":
-                    # 도메인명 (heading_3)
-                    cur_domain = txt
+            if not cur_date:
                 continue
 
-        if not cur_date or not cur_section:
+            # ── 섹션/도메인 감지
+            clean = txt.replace(" ","")
+            if "치안이슈" in clean or "이슈동향" in clean:
+                cur_section = "issue"
+                cur_domain  = None
+                log.info(f"[daily] 이슈섹션 ({btype}: {txt[:30]})")
+            elif "치안기술" in clean or "기술동향" in clean:
+                cur_section = "tech"
+                cur_domain  = None
+                log.info(f"[daily] 기술섹션 ({btype}: {txt[:30]})")
+            elif cur_section and txt:
+                # 도메인명
+                cur_domain = txt
+                log.info(f"[daily] 도메인: {cur_domain} ({btype})")
             continue
 
-        # heading_3은 도메인 (위에서 처리)
-        if btype == "heading_3":
-            cur_domain = txt
+        if not cur_date or not cur_section:
             continue
 
         # ── 이슈/기술 항목 수집 (bulleted_list_item)
@@ -634,19 +634,22 @@ def sync_ideas(notion):
     pages    = all_pages(notion, DB_IDEA)
     if not pages: log.info("[idea] 데이터 없음 → 스킵"); return False
 
-    # ── 핵심: 노션 page_id 전체(32자)를 고유 키로 사용
-    #   날짜 기반 id는 날짜가 TODAY_KST로 바뀔 때마다 중복 생성됨
+    # ── 중복 체크: notion_id + id + tech_name 3중 방어
     exist_notion_ids = {i.get("notion_id") for i in existing if i.get("notion_id")}
     exist_ids        = {i.get("id") for i in existing}
+    exist_names      = {i.get("tech_name","").strip() for i in existing if i.get("tech_name")}
     new_items = []
     for page in pages:
         props      = page.get("properties", {})
         notion_pid = page.get("id","").replace("-","")   # 32자 전체
         date       = get_date(props, "날짜", "Date") or TODAY_KST
-        iid        = f"IDEA-{notion_pid[:12].upper()}"   # 고유 12자
+        iid        = f"IDEA-{notion_pid[:12].upper()}"
+        tech_name  = get_title(props, "기술명", "Name", "Tech")
 
-        # 노션 page_id 기준 중복 체크 (날짜 변경에도 안전)
-        if notion_pid in exist_notion_ids or iid in exist_ids:
+        # 3중 중복 체크 — notion_id / id / tech_name 중 하나라도 있으면 스킵
+        if (notion_pid in exist_notion_ids
+                or iid in exist_ids
+                or (tech_name and tech_name.strip() in exist_names)):
             continue
 
         new_items.append({
