@@ -468,17 +468,28 @@ def sync_daily(notion):
     item_counter = {}
 
     # ── 가장 최근 날짜만 파싱 (오늘 업데이트 없으면 전체 스킵)
-    # 1차 패스: 첫 번째 날짜 헤딩 찾기
+    # 1차 패스: "일자별 분석" 섹션 이후, 📆 + heading_3 패턴의 날짜만 인식
     latest_date = None
     ALL_HEADINGS = ("heading_1","heading_2","heading_3","heading_4","heading_5","paragraph")
+    _in_daily_section = False
     for block in flat_blocks:
         btype = block.get("type","")
         txt   = block_text(block).strip()
-        if btype in ALL_HEADINGS:
+
+        # "일자별 분석" 섹션 시작 표시
+        if not _in_daily_section and btype in ALL_HEADINGS and "일자별" in txt.replace(" ",""):
+            _in_daily_section = True
+            continue
+
+        if not _in_daily_section:
+            continue
+
+        # 날짜 헤딩: 📆 이모지 + heading_3 + YYYY-MM-DD
+        if btype == "heading_3":
             dm = re.search(r"(\d{4}-\d{2}-\d{2})", txt)
             if dm:
                 latest_date = dm.group(1)
-                break  # 최신순이므로 첫 번째가 가장 최근
+                break  # "일자별 분석" 섹션 내 첫 번째(최신순)
 
     if not latest_date:
         log.info("[daily] 날짜 헤딩 감지 불가 → 스킵")
@@ -517,8 +528,8 @@ def sync_daily(notion):
         if not txt and btype not in ("bulleted_list_item",):
             continue
 
-        # 모든 heading 타입 (heading_1 ~ heading_5, paragraph)
-        if btype in ALL_HEADINGS:
+        # 날짜 헤딩은 heading_3만 인식 (상단 요약 영역 오인식 방지)
+        if btype == "heading_3":
             dm = re.search(r"(\d{4}-\d{2}-\d{2})", txt)
             if dm:
                 found_date = dm.group(1)
@@ -528,10 +539,11 @@ def sync_daily(notion):
                     cur_domain  = None
                     log.info(f"[daily] 타겟 날짜 진입: {latest_date}")
                 elif in_target:
-                    # 다음 날짜 헤딩 만나면 종료
                     log.info(f"[daily] 다음 날짜 {found_date} → 파싱 종료")
                     break
                 continue
+
+        if btype in ALL_HEADINGS:
 
             if not in_target:
                 continue
