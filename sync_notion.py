@@ -412,25 +412,25 @@ def parse_rfp_page_from_blocks(notion, blocks, page_title, page_date):
 # ─────────────────────────────────────────────
 def sync_daily(notion):
     """
-    노션 구조:
-      페이지 직속 블록:
-        ## 📅 일자별 분석 (최신순)  → has_children=True
-            ### 📆 2026-06-15 (금)  → has_children=True (날짜 블록)
-                #### 📰 치안 이슈 동향
-                #### 🤖 AI
-                - **제목** — 본문
-                    - 출처: ...
-                    - 태그: ...
-                    - 시사점: ...
-                #### 🔬 치안 기술 동향
-                #### 🤖 AI
-                - **제목** — 본문
-
-    전략: RFP처럼
-      1. 페이지 직속 블록에서 "일자별 분석" heading_2 찾기
-      2. 그 자식 블록들에서 heading_3 (날짜) 목록 수집
-      3. 오늘 날짜 heading_3의 자식 블록 전체 읽기
-      4. 이슈/기술 섹션 분리 후 파싱
+    현재 노션 구조:
+      메인 페이지(34b498ee) → child_page 블록들 = 날짜별 하위 페이지
+        하위 페이지 제목: "2026-06-15 (월요일)"
+        하위 페이지 내용:
+          #### 🧭 메타 분석  ← 스킵
+          #### 📰 치안 이슈 동향
+          #### 🤖 AI          ← 도메인
+          - **제목**
+              - 주요 내용: ...
+              - 출처: [링크](url)
+              - 태그: `#a` `#b`
+              - 시사점: ...
+          #### 🌐 국제 치안
+          ...
+          #### 🔬 치안 기술 동향
+          #### 🤖 AI
+          - **제목**
+              - 주요 내용: ...
+          #### 💡 트렌드 시사점  ← 스킵
     """
     path     = DATA_DIR / "daily_reports.json"
     existing = load_json(path) or {}
@@ -438,50 +438,29 @@ def sync_daily(notion):
     if not DB_DAILY:
         log.info("[daily] DB_DAILY 미설정 → 스킵"); return False
 
-    # ── 1단계: 페이지 직속 블록에서 "일자별 분석" 블록 찾기
+    # ── 1단계: 메인 페이지 직속 블록에서 child_page 목록 수집
     try:
         top_blocks = _fetch_children(notion, DB_DAILY)
     except Exception as e:
         log.error(f"[daily] 페이지 읽기 실패: {e}"); return False
 
-    log.info(f"[daily] 페이지 직속 블록 수: {len(top_blocks)}")
+    log.info(f"[daily] 메인 페이지 블록 수: {len(top_blocks)}")
 
-    daily_section_id = None
+    # child_page 블록에서 날짜 추출
+    date_page_map = {}  # {날짜: page_id}
     for b in top_blocks:
-        btype = b.get("type","")
-        txt   = block_text(b).strip()
-        if btype in ("heading_1","heading_2","heading_3") and "일자별" in txt:
-            daily_section_id = b.get("id")
-            log.info(f"[daily] '일자별 분석' 블록 발견: {daily_section_id} / {txt[:40]}")
-            break
-
-    if not daily_section_id:
-        log.info("[daily] '일자별 분석' 블록 미발견 → 스킵"); return False
-
-    # ── 2단계: 일자별 분석 블록의 자식에서 날짜 heading_3 목록 수집
-    try:
-        date_blocks = _fetch_children(notion, daily_section_id)
-    except Exception as e:
-        log.error(f"[daily] 일자별 자식 블록 읽기 실패: {e}"); return False
-
-    log.info(f"[daily] 날짜 블록 후보 수: {len(date_blocks)}")
-
-    # heading_3에서 YYYY-MM-DD 패턴 찾기
-    date_block_map = {}  # {날짜: block_id}
-    for b in date_blocks:
-        btype = b.get("type","")
-        txt   = block_text(b).strip()
-        if btype == "heading_3":
-            dm = re.search(r"(\d{4}-\d{2}-\d{2})", txt)
+        if b.get("type") == "child_page":
+            title = b.get("child_page", {}).get("title", "")
+            dm = re.search(r"(\d{4}-\d{2}-\d{2})", title)
             if dm:
                 d = dm.group(1)
-                date_block_map[d] = b.get("id")
-                log.info(f"[daily] 날짜 블록: {d} → {b.get('id','')[:8]}")
+                date_page_map[d] = b.get("id","")
+                log.info(f"[daily] child_page: {d} → {b.get('id','')[:8]}")
 
-    if not date_block_map:
-        log.info("[daily] 날짜 블록 없음 → 스킵"); return False
+    if not date_page_map:
+        log.info("[daily] child_page 날짜 없음 → 스킵"); return False
 
-    latest_date = max(date_block_map.keys())
+    latest_date = max(date_page_map.keys())
     log.info(f"[daily] 최신 날짜: {latest_date}")
 
     if latest_date != TODAY_KST:
@@ -500,77 +479,80 @@ def sync_daily(notion):
     if latest_date in existing:
         log.info(f"[daily] {latest_date} 이미 존재 → 스킵"); return False
 
-    # ── 3단계: 오늘 날짜 블록의 자식 전체 읽기 (재귀)
-    target_id = date_block_map[latest_date]
+    # ── 2단계: 오늘 날짜 child_page의 블록 읽기 (재귀)
+    target_page_id = date_page_map[latest_date]
+    log.info(f"[daily] 오늘 페이지 읽기: {target_page_id}")
 
     def fetch_all(block_id, depth=0):
-        """블록 자식을 재귀로 읽어 평탄화. bulleted_list_item은 자식도 포함."""
-        if depth > 8:
+        if depth > 6:
             return []
         result = []
         try:
             children = _fetch_children(notion, block_id)
         except Exception as e:
-            log.warning(f"[daily] 블록 읽기 오류 depth={depth}: {e}")
+            log.warning(f"[daily] 블록 읽기 오류: {e}")
             return []
         for b in children:
             result.append(b)
             if b.get("has_children"):
-                sub = fetch_all(b["id"], depth+1)
-                b["_children"] = sub  # 하위 항목을 부모에 첨부
+                subs = fetch_all(b["id"], depth+1)
+                b["_children"] = subs
         return result
 
-    date_children = fetch_all(target_id)
-    log.info(f"[daily] 날짜 {latest_date} 자식 블록 수: {len(date_children)}")
+    page_blocks = fetch_all(target_page_id)
+    log.info(f"[daily] 오늘 페이지 블록 수: {len(page_blocks)}")
 
-    # ── 4단계: 블록을 순서대로 파싱
-    # heading_4: 섹션(이슈동향/기술동향) 또는 도메인
-    # bulleted_list_item: 항목
+    # ── 3단계: 블록 순회 파싱
+    SKIP_HEADINGS = {"메타 분석", "트렌드 시사점"}
 
     issues, techs = [], []
     cur_section = None   # "issue" or "tech"
     cur_domain  = None
     issue_cnt = tech_cnt = 1
 
-    SKIP_HEADINGS = {"메타 분석", "핫토픽", "트렌드 시사점", "분야별", "누적"}
-
-    for b in date_children:
+    for b in page_blocks:
         btype = b.get("type","")
         txt   = block_text(b).strip()
 
         if btype in ("heading_1","heading_2","heading_3","heading_4"):
             clean = txt.replace(" ","")
+            # 스킵 섹션
+            if any(kw in txt for kw in SKIP_HEADINGS):
+                cur_section = "skip"
+                continue
+            # 이슈 섹션
             if "치안이슈" in clean or "이슈동향" in clean:
                 cur_section = "issue"
                 cur_domain  = None
                 log.info(f"[daily] → 이슈 섹션")
+            # 기술 섹션
             elif "치안기술" in clean or "기술동향" in clean:
                 cur_section = "tech"
                 cur_domain  = None
                 log.info(f"[daily] → 기술 섹션")
-            elif cur_section and not any(kw in txt for kw in SKIP_HEADINGS):
+            # 도메인 (섹션 내 heading)
+            elif cur_section in ("issue","tech") and txt:
                 cur_domain = txt
                 log.info(f"[daily] 도메인: {cur_domain}")
             continue
 
-        if btype == "bulleted_list_item" and cur_section and cur_domain:
+        if cur_section not in ("issue","tech") or not cur_domain:
+            continue
+
+        if btype == "bulleted_list_item":
             if "금일 주요 동향 없음" in txt:
                 continue
 
-            # 제목 파싱: **볼드** 또는 전체 텍스트
-            bold_m = re.match(r"\*\*(.+?)\*\*\s*[—–-]?\s*(.*)", txt)
-            if bold_m:
-                title   = bold_m.group(1).strip()
-                summary = (bold_m.group(2) or title).strip()
-            else:
-                title   = txt
-                summary = txt
+            # 제목: 볼드 마크다운 제거
+            title = re.sub(r"\*\*(.+?)\*\*", r"\1", txt).strip()
 
-            # 하위 블록(출처/태그/시사점) 파싱
-            source, tags, detail, url = "", [], "", ""
+            # 하위 블록에서 주요내용/출처/태그/시사점 파싱
+            summary, source, tags, detail, url = "", "", [], "", ""
             for sub in b.get("_children", []):
                 st = block_text(sub).strip()
-                if st.startswith("출처"):
+                if st.startswith("주요 내용") or st.startswith("주요내용"):
+                    summary = re.sub(r"^주요\s*내용\s*[:：]?\s*", "", st).strip()
+                elif st.startswith("출처"):
                     source = re.sub(r"^출처\s*[:：]?\s*", "", st).strip()
                     um = re.search(r"\((https?://[^\)]+)\)", source)
                     if um: url = um.group(1)
@@ -581,8 +563,12 @@ def sync_daily(notion):
                 elif st.startswith("시사점"):
                     detail = re.sub(r"^시사점\s*[:：]?\s*", "", st).strip()
 
+            if not title:
+                continue
+
             entry = {
-                "domain": cur_domain, "title": title, "summary": summary,
+                "domain": cur_domain, "title": title,
+                "summary": summary or title,
                 "detail": detail, "source": source, "url": url, "tags": tags,
             }
 
@@ -593,7 +579,6 @@ def sync_daily(notion):
                 issues.append(entry)
                 issue_cnt += 1
                 log.info(f"[daily] 이슈: [{cur_domain}] {title[:40]}")
-
             else:
                 entry["id"]  = f"T{latest_date.replace('-','')[2:]}{tech_cnt:04d}"
                 entry["trl"] = 1
