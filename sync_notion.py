@@ -412,23 +412,20 @@ def parse_rfp_page_from_blocks(notion, blocks, page_title, page_date):
 # ─────────────────────────────────────────────
 def sync_daily(notion):
     """
-    34b498ee... 페이지를 마크다운 텍스트로 가져와 정규식으로 파싱.
-    구조:
-      ## 📅 일자별 분석 (최신순)  ← 여기부터
-      ### 📆 2026-06-12 (금요일)   ← 최신 날짜 (맨 위)
+    노션 페이지 마크다운 텍스트 기반 파싱.
+    실제 구조:
+      ## 📅 일자별 분석 (최신순)
+      ### 📆 2026-06-15 (월요일)
       #### 📰 치안 이슈 동향
       #### 🤖 AI
-      - **제목** — 내용
-        - 출처: [텍스트](url)
-        - 태그: `#a` `#b`
-        - 시사점: ...
-      #### 🌐 국제 치안
-      ...
+      - **제목 — 본문설명**
+          - 출처: [링크텍스트](url)
+          - 태그: `#tag1` `#tag2`
+          - 시사점: ...
       #### 🔬 치안 기술 동향
       #### 🤖 AI
-      - ...
-      ---
-      ### 📆 2026-06-09 (화요일)   ← 이전 날짜 (파싱 안 함)
+      - **제목 — 본문**
+          - 출처: ...
     """
     path     = DATA_DIR / "daily_reports.json"
     existing = load_json(path) or {}
@@ -436,70 +433,57 @@ def sync_daily(notion):
     if not DB_DAILY:
         log.info("[daily] DB_DAILY 미설정 → 스킵"); return False
 
-    try:
-        result = notion.pages.retrieve(page_id=DB_DAILY)
-    except Exception:
-        pass
-
-    # notion-fetch 스타일 텍스트 얻기: blocks API로 마크다운 재구성
+    # 페이지 전체 블록을 마크다운으로 변환
     try:
         all_blocks = _fetch_children(notion, DB_DAILY)
     except Exception as e:
         log.error(f"[daily] 페이지 읽기 실패: {e}"); return False
 
-    # 재귀적으로 마크다운 텍스트 생성 (헤딩 레벨 보존)
-    def to_markdown(blocks, depth=0):
+    log.info(f"[daily] 1차 블록 수: {len(all_blocks)}")
+
+    def to_md(blocks, depth=0):
         lines = []
         for b in blocks:
             btype = b.get("type","")
             txt   = block_text(b)
-            if btype == "heading_1":
-                lines.append(f"# {txt}")
-            elif btype == "heading_2":
-                lines.append(f"## {txt}")
-            elif btype == "heading_3":
-                lines.append(f"### {txt}")
-            elif btype == "heading_4":
-                lines.append(f"#### {txt}")
+            indent = "  " * depth
+            if btype == "heading_1":   lines.append(f"# {txt}")
+            elif btype == "heading_2": lines.append(f"## {txt}")
+            elif btype == "heading_3": lines.append(f"### {txt}")
+            elif btype == "heading_4": lines.append(f"#### {txt}")
             elif btype == "bulleted_list_item":
-                lines.append(f"{'  '*depth}- {txt}")
-            elif btype == "paragraph":
-                if txt.strip():
-                    lines.append(txt)
-            elif btype == "divider":
-                lines.append("---")
-            else:
-                if txt.strip():
-                    lines.append(txt)
-
+                lines.append(f"{indent}- {txt}")
+            elif btype == "numbered_list_item":
+                lines.append(f"{indent}1. {txt}")
+            elif btype == "divider":   lines.append("---")
+            elif btype == "paragraph" and txt.strip():
+                lines.append(txt)
             if b.get("has_children"):
                 try:
-                    children = _fetch_children(notion, b["id"])
-                    lines.extend(to_markdown(children, depth+1))
+                    ch = _fetch_children(notion, b["id"])
+                    lines.extend(to_md(ch, depth+1))
                 except Exception:
                     pass
         return lines
 
-    md_lines = to_markdown(all_blocks)
+    md_lines = to_md(all_blocks)
     full_text = "\n".join(md_lines)
-    log.info(f"[daily] 마크다운 라인 수: {len(md_lines)}")
+    log.info(f"[daily] 마크다운 라인: {len(md_lines)}")
 
-    # ── "일자별 분석" 섹션 이후만 추출
+    # "일자별 분석" 이후만 사용
     m = re.search(r"##\s*📅\s*일자별 분석", full_text)
     if not m:
-        log.info("[daily] '일자별 분석' 섹션 미발견 → 스킵")
-        return False
+        log.info("[daily] '일자별 분석' 미발견 → 스킵"); return False
     body = full_text[m.end():]
 
-    # ── 첫 번째 날짜(### 📆 YYYY-MM-DD)부터 다음 날짜 헤딩 전까지 추출
-    date_pattern = re.compile(r"###\s*📆\s*(\d{4}-\d{2}-\d{2})")
-    dates_found = list(date_pattern.finditer(body))
-    if not dates_found:
-        log.info("[daily] 날짜 헤딩(### 📆) 미발견 → 스킵")
-        return False
+    # 첫 번째 날짜 (### 📆 YYYY-MM-DD)
+    date_pat = re.compile(r"###\s*📆\s*(\d{4}-\d{2}-\d{2})")
+    dates = list(date_pat.finditer(body))
+    if not dates:
+        log.info("[daily] 날짜 헤딩 미발견 → 스킵"); return False
 
-    latest_date = dates_found[0].group(1)
-    log.info(f"[daily] 가장 최근 날짜: {latest_date}")
+    latest_date = dates[0].group(1)
+    log.info(f"[daily] 최신 날짜: {latest_date}")
 
     if latest_date != TODAY_KST:
         log.info(f"[daily] {latest_date} ≠ 오늘({TODAY_KST}) → 신규 없음 스킵")
@@ -515,112 +499,122 @@ def sync_daily(notion):
         return False
 
     if latest_date in existing:
-        log.info(f"[daily] {latest_date} 이미 존재 → 스킵")
-        return False
+        log.info(f"[daily] {latest_date} 이미 존재 → 스킵"); return False
 
-    # 첫 날짜 섹션 ~ 두 번째 날짜 헤딩 전까지
-    section_start = dates_found[0].end()
-    section_end   = dates_found[1].start() if len(dates_found) > 1 else len(body)
-    section_text  = body[section_start:section_end]
+    # 날짜 섹션 추출 (첫 번째 ~ 두 번째 날짜 헤딩 전)
+    s_start = dates[0].end()
+    s_end   = dates[1].start() if len(dates) > 1 else len(body)
+    sec     = body[s_start:s_end]
 
-    # ── 치안 이슈 동향 / 치안 기술 동향 분리
-    issue_m = re.search(r"####\s*📰\s*치안\s*이슈\s*동향", section_text)
-    tech_m  = re.search(r"####\s*🔬\s*치안\s*기술\s*동향", section_text)
+    # 이슈/기술 섹션 분리
+    iss_m = re.search(r"####\s*[^\n]*치안\s*이슈\s*동향", sec)
+    tec_m = re.search(r"####\s*[^\n]*치안\s*기술\s*동향", sec)
 
     issue_text = ""
     tech_text  = ""
-    if issue_m:
-        issue_end = tech_m.start() if tech_m else len(section_text)
-        issue_text = section_text[issue_m.end():issue_end]
-    if tech_m:
-        tech_text = section_text[tech_m.end():]
+    if iss_m:
+        i_end = tec_m.start() if tec_m else len(sec)
+        issue_text = sec[iss_m.end():i_end]
+    if tec_m:
+        tech_text = sec[tec_m.end():]
 
-    log.info(f"[daily] 이슈 섹션 길이: {len(issue_text)}, 기술 섹션 길이: {len(tech_text)}")
+    log.info(f"[daily] 이슈 섹션 {len(issue_text)}자, 기술 섹션 {len(tech_text)}자")
 
-    new_data = {latest_date: {"issues":[], "technologies":[]}}
-    item_counter = {"I":1, "T":1}
-
-    # ── 도메인별 파싱 함수
-    def parse_domain_section(text, section_type):
-        """#### 🤖 AI 형태의 도메인 헤딩들로 분리 후 각 도메인의 항목(- ** ** — ) 파싱"""
+    def parse_items(text, kind):
+        """
+        #### 🤖 AI  ← 도메인
+        - **제목 텍스트**       ← 최상위 bulleted, 볼드
+          - 출처: ...            ← 들여쓰기 bulleted
+          - 태그: `#a` `#b`
+          - 시사점: ...
+        """
         items = []
-        # 도메인 헤딩으로 분리
-        domain_pattern = re.compile(r"####\s*([^\n]+)")
-        domain_matches = list(domain_pattern.finditer(text))
-        for i, dm in enumerate(domain_matches):
-            domain_name = dm.group(1).strip()
-            d_start = dm.end()
-            d_end   = domain_matches[i+1].start() if i+1 < len(domain_matches) else len(text)
-            d_text  = text[d_start:d_end].strip()
+        # 도메인 헤딩으로 섹션 분리
+        dom_pat = re.compile(r"^####\s+(.+)$", re.M)
+        dom_splits = list(dom_pat.finditer(text))
 
-            if "금일 주요 동향 없음" in d_text or not d_text:
+        for i, dm in enumerate(dom_splits):
+            domain = dm.group(1).strip()
+            # "메타 분석", "핫토픽", "트렌드" 섹션은 스킵
+            skip_kw = ["메타 분석","핫토픽","트렌드","분야별","누적"]
+            if any(kw in domain for kw in skip_kw):
                 continue
 
-            # 최상위 bulleted item: "- **제목** — 본문" (들여쓰기 없음)
-            item_pattern = re.compile(r"^- \*\*(.+?)\*\*\s*[—–-]?\s*(.*?)(?=\n- |\Z)", re.S | re.M)
-            for it_m in item_pattern.finditer(d_text):
-                title = it_m.group(1).strip()
-                rest  = it_m.group(2).strip()
+            d_start = dm.end()
+            d_end   = dom_splits[i+1].start() if i+1 < len(dom_splits) else len(text)
+            d_text  = text[d_start:d_end]
 
-                # 본문과 하위 항목(출처/태그/시사점) 분리
-                # 하위 항목은 "  - 출처: ..." 형태 (들여쓰기 2)
-                sub_pattern = re.compile(r"\n\s+- (.+)")
-                subs = sub_pattern.findall(rest)
-                # 본문 = 하위 항목 이전 텍스트
-                main_body = re.split(r"\n\s+- ", rest)[0].strip()
+            if "금일 주요 동향 없음" in d_text:
+                continue
+
+            # 최상위 bulleted 항목 (들여쓰기 없는 "- ")
+            # 각 항목은 "- **제목..."로 시작, 하위는 "  - "
+            top_items = re.split(r"\n(?=- )", "\n" + d_text.strip())
+            for raw in top_items:
+                raw = raw.strip()
+                if not raw.startswith("- "):
+                    continue
+
+                lines = raw.split("\n")
+                main_line = lines[0][2:].strip()  # "- " 제거
+                sub_lines = [l.strip().lstrip("-").strip() for l in lines[1:] if l.strip()]
+
+                # 제목: 볼드 텍스트 추출 (있으면) 또는 전체
+                bold_m = re.match(r"\*\*(.+?)\*\*\s*[—–-]?\s*(.*)", main_line)
+                if bold_m:
+                    title   = bold_m.group(1).strip()
+                    summary = (bold_m.group(2) or title).strip()
+                else:
+                    # 볼드 없으면 전체를 제목으로
+                    title   = main_line
+                    summary = main_line
 
                 source, tags, detail, url = "", [], "", ""
-                for sub in subs:
-                    sub = sub.strip()
+                for sub in sub_lines:
                     if sub.startswith("출처"):
                         source = re.sub(r"^출처\s*[:：]?\s*", "", sub).strip()
-                        url_m = re.search(r"\((https?://[^\)]+)\)", source)
-                        if url_m:
-                            url = url_m.group(1)
-                        # 마크다운 링크 텍스트만 남기기
+                        um = re.search(r"\((https?://[^\)]+)\)", source)
+                        if um: url = um.group(1)
                         source = re.sub(r"\[([^\]]+)\]\([^\)]+\)", r"\1", source)
-                    elif sub.startswith("태그"):
-                        raw = re.sub(r"^태그\s*[:：]?\s*", "", sub)
-                        tags = re.findall(r"#([^\s`]+)", raw)
+                    elif sub.startswith("태그") or "#" in sub:
+                        raw_t = re.sub(r"^태그\s*[:：]?\s*", "", sub)
+                        tags  = re.findall(r"#([^\s`#]+)", raw_t)
                     elif sub.startswith("시사점"):
                         detail = re.sub(r"^시사점\s*[:：]?\s*", "", sub).strip()
 
+                if not title:
+                    continue
+
                 items.append({
-                    "title": title, "domain": domain_name, "summary": main_body or title,
+                    "domain": domain, "title": title,
+                    "summary": summary or title,
                     "detail": detail, "source": source, "url": url, "tags": tags,
                 })
+                log.info(f"[daily] {kind} [{domain}] {title[:40]}")
+
         return items
 
-    issue_items = parse_domain_section(issue_text, "issue")
-    tech_items  = parse_domain_section(tech_text,  "tech")
+    issue_items = parse_items(issue_text, "이슈")
+    tech_items  = parse_items(tech_text,  "기술")
 
-    for it in issue_items:
-        pfx = "I"; cnt = item_counter[pfx]
-        iid = f"{pfx}{latest_date.replace('-','')[2:]}{cnt:04d}"
-        item_counter[pfx] += 1
-        it["id"] = iid
+    if not issue_items and not tech_items:
+        log.info("[daily] 파싱 항목 0건 → 스킵"); return False
+
+    new_entry = {"issues": [], "technologies": []}
+    for i, it in enumerate(issue_items, 1):
+        it["id"] = f"I{latest_date.replace('-','')[2:]}{i:04d}"
         it["severity"] = "high" if any(w in it["title"] for w in
-                          ["급증","적발","최초","위기","사망","테러","피해","유출"]) else "medium"
-        new_data[latest_date]["issues"].append(it)
-        log.info(f"[daily] 이슈: {it['domain']} | {it['title'][:40]}")
+            ["급증","적발","최초","위기","사망","테러","피해","유출","급락"]) else "medium"
+        new_entry["issues"].append(it)
 
-    for it in tech_items:
-        pfx = "T"; cnt = item_counter[pfx]
-        iid = f"{pfx}{latest_date.replace('-','')[2:]}{cnt:04d}"
-        item_counter[pfx] += 1
-        it["id"]  = iid
+    for i, it in enumerate(tech_items, 1):
+        it["id"]  = f"T{latest_date.replace('-','')[2:]}{i:04d}"
         it["trl"] = 1
-        new_data[latest_date]["technologies"].append(it)
-        log.info(f"[daily] 기술: {it['domain']} | {it['title'][:40]}")
+        new_entry["technologies"].append(it)
 
-    total = len(issue_items) + len(tech_items)
-    if total == 0:
-        log.info("[daily] 파싱된 항목 0건 → 스킵")
-        return False
-
-    merged = dict(sorted({**existing, **new_data}.items(), reverse=True))
+    merged = dict(sorted({**existing, latest_date: new_entry}.items(), reverse=True))
     save_json(path, merged)
-    log.info(f"[daily] {latest_date}: 이슈 {len(issue_items)}건, 기술 {len(tech_items)}건 저장")
+    log.info(f"[daily] 저장 완료: 이슈 {len(issue_items)}건, 기술 {len(tech_items)}건")
     return True
 
 
