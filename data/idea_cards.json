@@ -1,5 +1,35 @@
 [
   {
+    "id": "IDEA-381498EEF533",
+    "notion_id": "381498eef533814babfee4ab2d486583",
+    "date": "2026-06-16",
+    "domain": "🧬 과학 수사",
+    "tech_name": "LiDAR·포토그래메트리 기반 3D 범죄현장 재현 (3D Crime Scene Reconstruction with LiDAR & Photogrammetry)",
+    "target_issue": "",
+    "policing_issues": [],
+    "tags": [],
+    "features": "레이저 펄스로 3D 공간 좌표를 측정하는 LiDAR(Light Detection and Ranging)와 다수의 2D 사진에서 3D 모델을 생성하는 포토그래메트리(Photogrammetry)를 결합하여 범죄·사고 현장을 밀리미터 단위로 디지털 재현하는 기술이다. 생성된 점군(point cloud) 데이터는 법정 제출용 3D 모델, 가상 현장 방문, 증거 위치 측정 등에 활용된다. 최근 iPhone 내장 LiDAR 센서를 활용한 5분 내 신속 스캔도 가능하여 일선 경찰관도 스마트폰으로 현장 데이터를 수집할 수 있게 되었다.",
+    "applications": "① 교통사고 재현: 사고 현장의 차량 위치·충돌 각도·제동 흔적을 3D로 재현하여 과실 판단 근거 및 법정 증거로 활용\n② 총격·살인 사건 수사: 탄도 궤적, 피해자·용의자 위치, 혈흔 패턴을 3D 공간에서 분석하여 사건 재구성 및 밀리미터 정밀도 측정 가능",
+    "constraints": "• 현장 통제 시간 연장: 상세 스캔 시 현장 통제 시간이 길어져 교통 차단 등 2차 문제 유발\n• iPhone LiDAR 정확도 한계: 주간 신속 스캔 시 약 10cm(0.1084m) 오차 발생, 정밀 수사에는 전문 장비 필요\n• 전문인력 부족: 점군 데이터 분석 및 법정 증거화에는 별도 훈련된 포렌식 전문 인력 필요",
+    "companies": "• Leica Geosystems (RTC360 스캐너): 법집행 분야 선도 LiDAR 장비\n• FARO Technologies (Focus 시리즈): 범죄현장 3D 스캔 전문 장비\n• Matterport: 3D 공간 모델링 솔루션\n• Cognitech: 포렌식 영상·3D 재현 분석 플랫폼\n• 3D Scan Crime Scene (3DSCS): 범죄현장 LiDAR 스캔 전문 서비스",
+    "trend": "2024년 11월 Applied Sciences 저널에 LiDAR와 포토그래메트리의 수사 정확도 비교 연구가 발표되며 학술적 기반이 강화되었다. 2025년에는 iPhone 내장 LiDAR를 활용한 현장 스캔 연구가 확대되어 스마트폰으로도 실용적 수준의 신속 스캔이 가능함이 입증되었다. 가우시안 스플래팅(Gaussian Splatting) 기술과 결합한 초고해상도 체적 재현이 도입되어 법정 시각화 수준이 크게 향상되는 추세이다."
+  },
+  {
+    "id": "IDEA-381498EEF533",
+    "notion_id": "381498eef5338174806cc8e2d02fa72b",
+    "date": "2026-06-16",
+    "domain": "🤖 AI",
+    "tech_name": "AI 기반 신고접수·배치 지원 시스템 (AI-Powered 911 Dispatch & CAD)",
+    "target_issue": "",
+    "policing_issues": [],
+    "tags": [],
+    "features": "자연어 처리(NLP)와 음성 인식 기술을 결합하여 신고 전화를 자동 응대하고, 내용을 실시간으로 분석·분류하여 적절한 출동 자원을 배치하는 AI 시스템이다. 신고자의 음성·문자·영상을 통합 분석하고 GPS 위치, 이전 출동 이력, 실시간 자원 현황 등의 데이터와 연계하여 최적 대응 방안을 자동 제안한다. 에이전틱(agentic) AI가 비긴급 신고를 자율 처리하고 긴급 상황은 인간 배치관에게 즉시 전달하는 하이브리드 방식으로 운용된다.",
+    "applications": "① 비긴급 신고 자동 처리: 네바다주 스파크스 경찰서에서 연간 16만 건의 신고 중 71%를 차지하는 비긴급 신고를 AI가 처리, 신고량 36% 감소 효과\n② 긴급 출동 배치 지원: Prepared 플랫폼이 신고 오디오·텍스트·영상·GPS 정보를 통합 분석하여 배치관에게 실시간 대응 정보 제공",
+    "constraints": "• AI 오분류 위험: 긴급 상황을 비긴급으로 잘못 판단할 경우 대응 지연으로 인명 피해 가능\n• 신뢰성 이슈: 농촌·재난 상황 등 AI 학습 데이터가 부족한 환경에서 정확도 저하\n• 책임 소재 불명확: AI 처리 오류로 인한 피해 발생 시 법적 책임 주체 불명확",
+    "companies": "• Axon (Prepared 플랫폼): 음성·영상·GPS 통합 신고 분석 시스템\n• Motorola Solutions (Hyper 에이전틱 AI): 비긴급 신고 자동처리·배치 지원\n• Aurelian AI: 비긴급 전화 응대 자동화 솔루션\n• Desk Officer: 경찰 비긴급 신고 AI 응대 시스템\n• RapidSOS: 신고 위치·의료정보 실시간 배치관 연계 플랫폼",
+    "trend": "2025년 10월 Axon이 AI 기반 911 플랫폼 Prepared를 인수하여 보디캠·테이저·증거관리 생태계에 통합하였다. Motorola Solutions은 2026년 에이전틱 AI 'Hyper'를 출시하여 비긴급 신고 자동처리 및 실시간 배치 지원을 제공하고 있다. 워싱턴주 트라이시티, 네바다주 스파크스 등 미국 내 다수 경찰서가 실제 도입하여 배치관 업무 부담을 감소시키고 있다."
+  },
+  {
     "id": "IDEA-380498EEF533",
     "notion_id": "380498eef53381069b50ca67318d88ee",
     "date": "2026-06-15",
