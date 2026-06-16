@@ -985,19 +985,30 @@ elif menu == "📄 RFP 사업기획":
                 # 기대 효과 — [소제목] 기준으로 초록 블록 분리
                 st.markdown("### ✅ 기대 효과")
                 _eff = rfp.get("effect","")
+
+                def _render_green_block(text):
+                    """줄바꿈을 보존해 초록 박스로 렌더링"""
+                    _html = text.replace("\n", "<br>")
+                    st.markdown(
+                        f'<div style="background:#f0fff4;border:1px solid #c6f6d5;'
+                        f'border-radius:8px;padding:0.9rem 1.1rem;margin-bottom:0.6rem;'
+                        f'color:#276749;font-size:0.88rem;line-height:1.8;">{_html}</div>',
+                        unsafe_allow_html=True
+                    )
+
                 if _eff:
                     import re as _re3
                     _eff_parts = _re3.split(r"\n\[([^\]]+)\]", _eff)
                     if len(_eff_parts) == 1:
-                        st.success(_eff)
+                        _render_green_block(_eff)
                     else:
                         if _eff_parts[0].strip():
-                            st.success(_eff_parts[0].strip())
+                            _render_green_block(_eff_parts[0].strip())
                         _idx = 1
                         while _idx < len(_eff_parts) - 1:
                             _title = _eff_parts[_idx].strip()
                             _body  = _eff_parts[_idx + 1].strip()
-                            st.success(f"**{_title}**\n\n{_body}")
+                            _render_green_block(f"<b>{_title}</b><br><br>{_body}")
                             _idx += 2
 
                 # 아키텍처 다이어그램
