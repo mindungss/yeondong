@@ -260,10 +260,16 @@ def parse_rfp_page_from_blocks(notion, blocks, page_title, page_date):
         btype = block.get("type", "")
         txt   = block_text(block).strip()
 
+        # divider 만나면 effect 섹션 종료 (마지막 안내문/구분선 이후 텍스트 제외)
+        if btype == "divider":
+            if major == "effect_raw":
+                major = None
+            continue
+
         # heading_1 → 대섹션 전환
         if btype == "heading_1":
             clean   = re.sub(r"^\d+[\.\s]+", "", txt).strip()
-            matched = next((v for k, v in MAJOR_MAP.items() if k in clean), None)
+            matched = next((v for k, v in MAJOR_MAP.items() if clean.startswith(k)), None)
             if matched:
                 major = matched
             continue  # heading_1 자체는 저장 안 함
@@ -271,13 +277,17 @@ def parse_rfp_page_from_blocks(notion, blocks, page_title, page_date):
         # heading_2/3 처리
         if btype in ("heading_2", "heading_3"):
             clean   = re.sub(r"^\d+[\.\s]+", "", txt).strip()
-            matched = next((v for k, v in MAJOR_MAP.items() if k in clean), None)
+            # 대섹션 키워드는 heading_2에서만, 그리고 정확히 "숫자.제목" 형태로 시작할 때만 매칭
+            # (예: "정량적 기대 효과"가 "기대 효과"를 부분 포함하는 오인식 방지)
+            matched = None
+            if btype == "heading_2":
+                matched = next((v for k, v in MAJOR_MAP.items() if clean.startswith(k)), None)
             if matched:
                 # 대섹션 키워드 → 섹션 전환만 (저장 안 함)
                 major = matched
                 continue
             else:
-                # 대섹션 키워드 아닌 heading_2 → 현재 섹션에 저장 (기술항목/단계/소제목)
+                # 대섹션 키워드 아닌 heading_2/3 → 현재 섹션에 저장 (기술항목/단계/소제목)
                 if major:
                     sections[major].append(block)
                 continue
