@@ -400,9 +400,6 @@ if menu == "🏢 메인 대시보드":
                 </div>
                 """, unsafe_allow_html=True)
                 for tech in sub_techs:
-                    trl   = tech.get("trl", 1)
-                    trl_c = trl_color(trl)
-                    trl_bar = min(trl / 9 * 100, 100)
                     tags_html = "".join(f'<span class="domain-tag">{t}</span>' for t in tech.get("tags",[]))
                     is_today_item = tech.get("_date") == TODAY
                     today_mark = '<span style="background:#e53e3e;color:white;font-size:0.65rem;padding:2px 7px;border-radius:4px;margin-left:6px;">NEW</span>' if is_today_item else ""
@@ -410,15 +407,8 @@ if menu == "🏢 메인 대시보드":
                     <div class="tech-card">
                       <div class="card-title">
                         {tech.get('title','')} {today_mark}
-                        <span class="trl-badge">TRL {trl}</span>
                       </div>
                       <div class="card-meta">📅 {tech.get('_date','')} </div>
-                      <div style="margin:6px 0 4px;">
-                        <div style="font-size:0.68rem; color:#7f8c8d; margin-bottom:3px;">기술 성숙도 (TRL {trl}/9)</div>
-                        <div class="progress-outer">
-                          <div class="progress-inner" style="width:{trl_bar:.0f}%; background:linear-gradient(90deg,{trl_c}88,{trl_c});">TRL {trl}</div>
-                        </div>
-                      </div>
                       <div class="card-body">{tech.get('summary','')}</div>
                       <div style="margin-top:0.5rem;">{tags_html}</div>
                     </div>
@@ -435,10 +425,7 @@ if menu == "🏢 메인 대시보드":
 **🔗 [관련 기관/연구소 바로가기]({tech.get('url','#')})**
                         """)
                     with st.expander(f"📂 기술 심층 데이터 — {tech.get('title','')[:35]}…"):
-                        c1, c2, c3 = st.columns(3)
-                        c1.metric("기술 성숙도(TRL)", f"{trl} / 9")
-                        c2.metric("수집 날짜", tech.get('_date',''))
-                        c3.metric("분류 태그 수", len(tech.get('tags',[])))
+                        st.metric("수집 날짜", tech.get('_date',''))
                         st.markdown(f"""
 **기술 상세 설명:**
 {tech.get('detail','')}
@@ -734,25 +721,11 @@ elif menu == "📰 일일 DB":
                 </div>
                 """, unsafe_allow_html=True)
                 for tech in daily_techs:
-                    trl      = tech.get("trl", 1) or 1
-                    trl_c    = trl_color(trl)
                     tags_html = "".join(f'<span class="domain-tag">{t}</span>' for t in tech.get("tags",[]))
-                    trl_bar   = min(trl / 9 * 100, 100)
                     st.markdown(f"""
                     <div class="tech-card">
-                      <div class="card-title">
-                        {tech.get('title','')}
-                        <span class="trl-badge">TRL {trl}</span>
-                      </div>
+                      <div class="card-title">{tech.get('title','')}</div>
                       <div class="card-meta">{tech.get('domain','')}</div>
-                      <div style="margin:6px 0 4px;">
-                        <div style="font-size:0.68rem; color:#7f8c8d; margin-bottom:3px;">기술 성숙도 (TRL {trl}/9)</div>
-                        <div class="progress-outer">
-                          <div class="progress-inner" style="width:{trl_bar:.0f}%; background:linear-gradient(90deg,{trl_c}88,{trl_c});">
-                            TRL {trl}
-                          </div>
-                        </div>
-                      </div>
                       <div class="card-body">{tech.get('summary','')}</div>
                       <div style="margin-top:0.5rem;">{tags_html}</div>
                     </div>
