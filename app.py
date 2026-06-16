@@ -836,17 +836,13 @@ elif menu == "💡 기술 아이디어":
             is_new   = date == datetime.now().strftime("%Y-%m-%d")
             new_mark = '<span style="background:#e74c3c;color:white;font-size:0.62rem;font-weight:700;padding:1px 7px;border-radius:99px;margin-left:6px;">NEW</span>' if is_new else ""
 
-            # 해결 가능 치안 이슈: policing_issues 리스트 또는 target_issue 텍스트
-            if policing_issues:
-                _issue_html = "".join(
-                    f'<span style="display:inline-block;background:#fef3c7;color:#92400e;'
-                    f'border:1px solid #fde68a;border-radius:4px;padding:1px 7px;'
-                    f'font-size:0.72rem;margin:2px 2px;">{iss}</span>'
-                    for iss in policing_issues
+            # 해결 가능 치안 이슈: rich_text 문자열
+            _pi = idea.get("policing_issues", "") or idea.get("target_issue", "")
+            if _pi:
+                _issue_block = (
+                    f'<div style="font-size:0.82rem;color:#374151;margin-bottom:0.4rem;">'
+                    f'🎯 해결 가능 치안 이슈: <b>{_pi}</b></div>'
                 )
-                _issue_block = f'<div style="margin-bottom:0.4rem;">🎯 {_issue_html}</div>'
-            elif target_issue:
-                _issue_block = f'<div style="font-size:0.82rem;color:#374151;margin-bottom:0.4rem;">🎯 해결 가능 치안 이슈: <b>{target_issue}</b></div>'
             else:
                 _issue_block = '<div style="font-size:0.82rem;color:#9ca3af;margin-bottom:0.4rem;">🎯 해결 가능 치안 이슈: —</div>'
 
