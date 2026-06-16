@@ -710,7 +710,6 @@ elif menu == "📰 일일 DB":
 **🏷️ 분류 태그:** {' · '.join(issue.get('tags',[]))}
 
 **🔗 [기사·원문 바로가기]({issue.get('url','#')})**
-> ⚠️ 외부 링크는 해당 기관 공식 페이지로 연결됩니다.
                         """)
 
             # 기술 섹션
@@ -732,16 +731,16 @@ elif menu == "📰 일일 DB":
                     """, unsafe_allow_html=True)
                     with st.expander(f"📂 기술 심층 데이터 — {tech.get('title','')[:35]}…"):
                         st.markdown(f"""
-**기술 상세 설명:**
+**🔍 기술 상세 설명**
+
 {tech.get('detail','')}
+
+---
+**📎 관련 도메인:** `{tech.get('domain','')}`  
+**🏷️ 분류 태그:** {' · '.join(tech.get('tags',[]))}
+
+**🔗 [기사·원문 바로가기]({tech.get('url','#')})**
                         """)
-                        if tech.get('domain'):
-                            st.markdown(
-                                f'<span style="font-size:0.75rem;color:#6b7280;">📎 분류 도메인: {tech.get("domain","")}</span>',
-                                unsafe_allow_html=True
-                            )
-                        if tech.get('url','#') != '#':
-                            st.markdown(f"**🔗 [원문/관련 기관 링크]({tech.get('url','#')})**")
 
 
 # ═══════════════════════════════════════════════════════════
