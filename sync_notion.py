@@ -216,8 +216,9 @@ def parse_rfp_page_from_blocks(notion, blocks, page_title, page_date):
       나머지 블록 → 현재 대섹션 또는 소섹션에 적재
     """
     # 대섹션 매핑 (heading_1 기준, 숫자 제거 후 매칭)
-    # ── 과제 개요 테이블에서 budget 먼저 추출 (heading_2 "과제 개요" 아래 table)
+    # ── 과제 개요 테이블에서 budget + 과제 분류(domain) 추출
     budget = ""
+    raw_domain = ""
     _in_overview = False
     for block in blocks:
         btype = block.get("type","")
@@ -240,9 +241,34 @@ def parse_rfp_page_from_blocks(notion, blocks, page_title, page_date):
                     value = _text(cells[1])
                     if "연구 비용" in label or "연구비" in label or "예산" in label:
                         budget = value
-                        break
-            if budget:
+                    elif "과제 분류" in label or "분류" in label:
+                        raw_domain = value
+            if budget and raw_domain:
                 break
+
+    # 노션 자유 텍스트 도메인 → 표준 10개 도메인으로 정규화
+    DOMAIN_NORMALIZE = {
+        "AI":       "🤖 AI",
+        "보안":     "🔐 사이버 보안",
+        "국제":     "🌐 국제 치안",
+        "과학수사": "🧬 과학 수사",
+        "과학 수사":"🧬 과학 수사",
+        "교통":     "🚗 교통",
+        "마약":     "💊 마약",
+        "법":       "📜 법·제도",
+        "제도":     "📜 법·제도",
+        "생활":     "🏘️ 생활 안전",
+        "신종":     "🚓 신종 범죄",
+        "장비":     "🛠️ 장비",
+    }
+    domain = ""
+    _clean_domain = re.sub(r"[^\w가-힣]", "", raw_domain)
+    for kw, std in DOMAIN_NORMALIZE.items():
+        if kw in _clean_domain:
+            domain = std
+            break
+    if not domain and raw_domain:
+        domain = raw_domain  # 매칭 안 되면 원본 그대로
 
     MAJOR_MAP = {
         "추진 배경":  "background",
@@ -430,7 +456,7 @@ def parse_rfp_page_from_blocks(notion, blocks, page_title, page_date):
     return {
         "id":         f"RFP-{date_compact}TEMP",
         "date":       page_date or TODAY_KST,
-        "domain":     "",
+        "domain":     domain,
         "title":      page_title,
         "budget":     budget,
         "tags":       [],
