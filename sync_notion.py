@@ -216,6 +216,34 @@ def parse_rfp_page_from_blocks(notion, blocks, page_title, page_date):
       나머지 블록 → 현재 대섹션 또는 소섹션에 적재
     """
     # 대섹션 매핑 (heading_1 기준, 숫자 제거 후 매칭)
+    # ── 과제 개요 테이블에서 budget 먼저 추출 (heading_2 "과제 개요" 아래 table)
+    budget = ""
+    _in_overview = False
+    for block in blocks:
+        btype = block.get("type","")
+        txt   = block_text(block).strip()
+        if btype in ("heading_1","heading_2","heading_3"):
+            _in_overview = "과제 개요" in txt
+            continue
+        if _in_overview and btype == "table":
+            children = block.get("_children") or []
+            if not children:
+                try:
+                    resp = notion.blocks.children.list(block_id=block["id"])
+                    children = resp.get("results", [])
+                except Exception:
+                    pass
+            for row in children:
+                cells = row.get("table_row", {}).get("cells", [])
+                if len(cells) >= 2:
+                    label = _text(cells[0])
+                    value = _text(cells[1])
+                    if "연구 비용" in label or "연구비" in label or "예산" in label:
+                        budget = value
+                        break
+            if budget:
+                break
+
     MAJOR_MAP = {
         "추진 배경":  "background",
         "최종 목표":  "goal",
@@ -394,7 +422,7 @@ def parse_rfp_page_from_blocks(notion, blocks, page_title, page_date):
         "date":       page_date or TODAY_KST,
         "domain":     "",
         "title":      page_title,
-        "budget":     "",
+        "budget":     budget,
         "tags":       [],
         "background": background,
         "goal":       goal,
@@ -698,7 +726,8 @@ def sync_ideas(notion):
             # ▼ 이미지 기준: 기술명
             "tech_name":    get_title(props, "기술명", "Name", "Tech"),
             # ▼ 이미지 기준: 해결 이슈 (없으면 Target Issue)
-            "target_issue": get_rt(props, "해결 이슈", "Target Issue"),
+            "target_issue":    get_rt(props, "해결 이슈", "Target Issue"),
+            "policing_issues": get_multi(props, "해결 가능 치안 이슈", "치안이슈", "Policing Issues", "policing_issues"),
             "tags":         get_multi(props, "태그", "Tags"),
             # ▼ 이미지 기준: 기술 특징
             "features":     get_rt(props, "기술 특징", "Features"),
