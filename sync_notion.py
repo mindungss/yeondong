@@ -697,8 +697,16 @@ def sync_trend(notion):
 def sync_ideas(notion):
     path     = DATA_DIR / "idea_cards.json"
     existing = load_json(path) or []
+    log.info(f"[idea] DB_IDEA={DB_IDEA}")
     pages    = all_pages(notion, DB_IDEA)
     if not pages: log.info("[idea] 데이터 없음 → 스킵"); return False
+
+    # 첫 페이지의 속성 키 목록을 로그에 출력 (디버그)
+    if pages:
+        _first_props = pages[0].get("properties", {})
+        log.info(f"[idea] 속성 키 목록: {list(_first_props.keys())}")
+        _pi_raw = _first_props.get("해결 가능 치안 이슈", {})
+        log.info(f"[idea] '해결 가능 치안 이슈' 원본: {_pi_raw}")
 
     # ── 중복 체크: notion_id + id + tech_name 3중 방어
     exist_notion_ids = {i.get("notion_id") for i in existing if i.get("notion_id")}
