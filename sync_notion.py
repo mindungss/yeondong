@@ -726,14 +726,8 @@ def sync_ideas(notion):
             # ▼ 이미지 기준: 기술명
             "tech_name":    get_title(props, "기술명", "Name", "Tech"),
             # ▼ 이미지 기준: 해결 이슈 (없으면 Target Issue)
-            "policing_issues": get_multi(props,
-                "해결 가능 치안 이슈", "해결가능치안이슈",
-                "치안 이슈", "치안이슈",
-                "Policing Issues", "policing_issues",
-                "이슈", "Issues"),
-            "target_issue": get_rt(props,
-                "해결 이슈", "Target Issue",
-                "해결 가능 치안 이슈", "치안 이슈", "이슈"),
+            "policing_issues": get_rt(props, "해결 가능 치안 이슈"),
+            "target_issue":    get_rt(props, "해결 이슈", "Target Issue"),
             "tags":         get_multi(props, "태그", "Tags"),
             # ▼ 이미지 기준: 기술 특징
             "features":     get_rt(props, "기술 특징", "Features"),
