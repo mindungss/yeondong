@@ -795,12 +795,27 @@ elif menu == "💡 기술 아이디어":
         "🚗 교통", "🛠️ 장비", "🧬 과학수사"
     ]
 
-    fc1, fc2 = st.columns([2, 4])
-    with fc1:
-        idea_domain_filter = st.selectbox("도메인 필터", DOMAIN_OPTS_9, label_visibility="collapsed")
-    with fc2:
+    if "idea_domain_filter" not in st.session_state:
+        st.session_state.idea_domain_filter = "전체"
+
+    # ── 카테고리 버튼 그리드 (4열) + 검색창
+    _idea_filter_l, _idea_filter_r = st.columns([3, 2])
+    with _idea_filter_l:
+        _idea_rows = [DOMAIN_OPTS_9[i:i+4] for i in range(0, len(DOMAIN_OPTS_9), 4)]
+        for _row in _idea_rows:
+            _btn_cols = st.columns(4)
+            for _ci, _opt in enumerate(_row):
+                with _btn_cols[_ci]:
+                    _is_sel = st.session_state.idea_domain_filter == _opt
+                    if st.button(_opt, key=f"idea_dom_{_opt}",
+                                 type="primary" if _is_sel else "secondary",
+                                 use_container_width=True):
+                        st.session_state.idea_domain_filter = _opt
+                        st.rerun()
+    with _idea_filter_r:
         idea_search = st.text_input("기술명·키워드 검색", placeholder="예: 양자암호, 연합학습, 위성 …", label_visibility="collapsed")
 
+    idea_domain_filter = st.session_state.idea_domain_filter
     filtered_ideas = ideas
     if idea_domain_filter != "전체":
         filtered_ideas = [i for i in filtered_ideas if i.get("domain") == idea_domain_filter]
@@ -915,12 +930,33 @@ elif menu == "📄 RFP 사업기획":
     if not rfp_cards:
         st.info("📭 아직 생성된 RFP 초안이 없습니다. 치안 이슈가 누적되면 자동 업데이트됩니다.")
     else:
-        rfp_domain_filter = st.selectbox(
-            "도메인 필터",
-            ["전체"] + list({r.get("domain","") for r in rfp_cards}),
-            label_visibility="collapsed"
-        )
-        shown_rfps = sorted([r for r in rfp_cards if rfp_domain_filter == "전체" or r.get("domain") == rfp_domain_filter], key=lambda x: x.get("date",""), reverse=True)
+        _rfp_domains = ["전체"] + sorted({r.get("domain","") for r in rfp_cards if r.get("domain")})
+
+        if "rfp_domain_filter" not in st.session_state:
+            st.session_state.rfp_domain_filter = "전체"
+
+        _rfp_filter_l, _rfp_filter_r = st.columns([3, 2])
+        with _rfp_filter_l:
+            _rfp_rows = [_rfp_domains[i:i+4] for i in range(0, len(_rfp_domains), 4)]
+            for _row in _rfp_rows:
+                _btn_cols = st.columns(4)
+                for _ci, _opt in enumerate(_row):
+                    with _btn_cols[_ci]:
+                        _is_sel = st.session_state.rfp_domain_filter == _opt
+                        if st.button(_opt, key=f"rfp_dom_{_opt}",
+                                     type="primary" if _is_sel else "secondary",
+                                     use_container_width=True):
+                            st.session_state.rfp_domain_filter = _opt
+                            st.rerun()
+        with _rfp_filter_r:
+            rfp_search = st.text_input("과제명·키워드 검색", placeholder="예: 딥페이크, 포렌식, AI …", label_visibility="collapsed")
+
+        rfp_domain_filter = st.session_state.rfp_domain_filter
+        shown_rfps = [r for r in rfp_cards if rfp_domain_filter == "전체" or r.get("domain") == rfp_domain_filter]
+        if rfp_search.strip():
+            _sq = rfp_search.lower()
+            shown_rfps = [r for r in shown_rfps if _sq in r.get("title","").lower()]
+        shown_rfps = sorted(shown_rfps, key=lambda x: x.get("date",""), reverse=True)
 
         for rfp in shown_rfps:
             is_new = rfp.get("date","") == datetime.now().strftime("%Y-%m-%d")
