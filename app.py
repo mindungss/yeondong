@@ -848,7 +848,7 @@ elif menu == "💡 기술 아이디어":
             elif target_issue:
                 _issue_block = f'<div style="font-size:0.82rem;color:#374151;margin-bottom:0.4rem;">🎯 해결 가능 치안 이슈: <b>{target_issue}</b></div>'
             else:
-                _issue_block = ""
+                _issue_block = '<div style="font-size:0.82rem;color:#9ca3af;margin-bottom:0.4rem;">🎯 해결 가능 치안 이슈: —</div>'
 
             st.markdown(f"""
             <div style="background:#f0f7ff; border:1px solid #bfdbfe;
