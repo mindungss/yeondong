@@ -222,7 +222,7 @@ if menu == "🏢 메인 대시보드":
     DOMAINS = [
         ("🤖 AI",            "#3498db"),
         ("🌐 국제 치안",     "#1abc9c"),
-        ("🧬 과학수사",      "#16a085"),
+        ("🧬 과학 수사",     "#16a085"),
         ("🚗 교통",          "#2980b9"),
         ("💊 마약",          "#8e44ad"),
         ("📜 법·제도",       "#f39c12"),
@@ -790,9 +790,9 @@ elif menu == "💡 기술 아이디어":
     """, unsafe_allow_html=True)
 
     DOMAIN_OPTS_9 = [
-        "전체", "🤖 AI·보안", "🔍 수사", "📜 법·제도",
-        "🌐 국제 치안", "🚓 신종 범죄", "🏘️ 생활 안전",
-        "🚗 교통", "🛠️ 장비", "🧬 과학수사"
+        "전체", "🤖 AI", "🌐 국제 치안", "🧬 과학 수사",
+        "🚗 교통", "💊 마약", "📜 법·제도",
+        "🔐 사이버 보안", "🏘️ 생활 안전", "🚓 신종 범죄", "🛠️ 장비"
     ]
 
     if "idea_domain_filter" not in st.session_state:
@@ -930,7 +930,11 @@ elif menu == "📄 RFP 사업기획":
     if not rfp_cards:
         st.info("📭 아직 생성된 RFP 초안이 없습니다. 치안 이슈가 누적되면 자동 업데이트됩니다.")
     else:
-        _rfp_domains = ["전체"] + sorted({r.get("domain","") for r in rfp_cards if r.get("domain")})
+        _rfp_domains = [
+            "전체", "🤖 AI", "🌐 국제 치안", "🧬 과학 수사",
+            "🚗 교통", "💊 마약", "📜 법·제도",
+            "🔐 사이버 보안", "🏘️ 생활 안전", "🚓 신종 범죄", "🛠️ 장비"
+        ]
 
         if "rfp_domain_filter" not in st.session_state:
             st.session_state.rfp_domain_filter = "전체"
