@@ -829,11 +829,26 @@ elif menu == "💡 기술 아이디어":
             domain   = idea.get("domain", "")
             tech     = idea.get("tech_name", "")
             date     = idea.get("date", "")
-            issue    = idea.get("target_issue", "")
+            policing_issues = idea.get("policing_issues", []) or []
+            target_issue    = idea.get("target_issue", "")
             tags     = idea.get("tags", [])
             tags_html = "".join(f'<span class="domain-tag">{t}</span>' for t in tags)
             is_new   = date == datetime.now().strftime("%Y-%m-%d")
             new_mark = '<span style="background:#e74c3c;color:white;font-size:0.62rem;font-weight:700;padding:1px 7px;border-radius:99px;margin-left:6px;">NEW</span>' if is_new else ""
+
+            # 해결 가능 치안 이슈: policing_issues 리스트 또는 target_issue 텍스트
+            if policing_issues:
+                _issue_html = "".join(
+                    f'<span style="display:inline-block;background:#fef3c7;color:#92400e;'
+                    f'border:1px solid #fde68a;border-radius:4px;padding:1px 7px;'
+                    f'font-size:0.72rem;margin:2px 2px;">{iss}</span>'
+                    for iss in policing_issues
+                )
+                _issue_block = f'<div style="margin-bottom:0.4rem;">🎯 {_issue_html}</div>'
+            elif target_issue:
+                _issue_block = f'<div style="font-size:0.82rem;color:#374151;margin-bottom:0.4rem;">🎯 해결 가능 치안 이슈: <b>{target_issue}</b></div>'
+            else:
+                _issue_block = ""
 
             st.markdown(f"""
             <div style="background:#f0f7ff; border:1px solid #bfdbfe;
@@ -846,9 +861,7 @@ elif menu == "💡 기술 아이디어":
                 {new_mark}
               </div>
               <div style="font-size:1rem; font-weight:700; color:#111827; margin-bottom:0.3rem;">{tech}</div>
-              <div style="font-size:0.82rem; color:#374151; margin-bottom:0.5rem;">
-                🎯 해결 가능 치안 이슈: <b>{issue}</b>
-              </div>
+              {_issue_block}
               <div style="margin-top:0.3rem;">{tags_html}</div>
             </div>
             """, unsafe_allow_html=True)
@@ -940,9 +953,9 @@ elif menu == "📄 RFP 사업기획":
               <div style="font-size:1.05rem; font-weight:700; color:#111827; margin-bottom:0.3rem;">
                 {rfp.get("title","")}
               </div>
-              <div style="font-size:0.82rem; color:#374151; margin-bottom:0.5rem;">
-                💰 {rfp.get("budget","")}
-              </div>
+              {f'<div style="font-size:0.82rem;color:#374151;margin-bottom:0.4rem;">'
+               f'💰 <span style="font-weight:600;">{rfp.get("budget","")}</span></div>'
+               if rfp.get("budget","") else ""}
               <div>{tags_html}</div>
             </div>
             """, unsafe_allow_html=True)
