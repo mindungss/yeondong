@@ -557,12 +557,16 @@ elif menu == "📰 일일 DB":
         )
     DAILY_DISPLAY = st.session_state.daily_sel_date
 
-    # ── 달력 연/월
+    # ── 달력 연/월 (선택 날짜와 별개로 session_state로 관리 → 월 이동 가능)
     import calendar as _cal
-    try:
-        _cy, _cm = int(DAILY_DISPLAY[:4]), int(DAILY_DISPLAY[5:7])
-    except Exception:
-        _cy, _cm = int(DAILY_TODAY[:4]), int(DAILY_TODAY[5:7])
+    if "daily_cal_ym" not in st.session_state:
+        try:
+            _init_cy, _init_cm = int(DAILY_DISPLAY[:4]), int(DAILY_DISPLAY[5:7])
+        except Exception:
+            _init_cy, _init_cm = int(DAILY_TODAY[:4]), int(DAILY_TODAY[5:7])
+        st.session_state.daily_cal_ym = (_init_cy, _init_cm)
+
+    _cy, _cm = st.session_state.daily_cal_ym
 
     _first_wd, _days_n = _cal.monthrange(_cy, _cm)
     _start_off = (_first_wd + 1) % 7
@@ -602,14 +606,29 @@ elif menu == "📰 일일 DB":
                 st.session_state.daily_type_filter = "기술";  st.rerun()
 
     with _col_right:
-        # ── 순수 Streamlit 버튼 달력 (postMessage 의존 없음)
+        # ── 달력 헤더: 이전/다음 달 이동 버튼
+        _nav1, _nav2, _nav3 = st.columns([1, 5, 1])
+        with _nav1:
+            if st.button("◀", key="cal_prev_month", use_container_width=True):
+                _pm, _py = (_cm - 1, _cy) if _cm > 1 else (12, _cy - 1)
+                st.session_state.daily_cal_ym = (_py, _pm)
+                st.rerun()
+        with _nav2:
+            st.markdown(
+                f'<div style="text-align:center;font-size:0.9rem;font-weight:700;'
+                f'color:#111827;padding-top:6px;">📅 {_cy}년 {_mn[_cm]}</div>',
+                unsafe_allow_html=True
+            )
+        with _nav3:
+            if st.button("▶", key="cal_next_month", use_container_width=True):
+                _nm, _ny = (_cm + 1, _cy) if _cm < 12 else (1, _cy + 1)
+                st.session_state.daily_cal_ym = (_ny, _nm)
+                st.rerun()
+
         st.markdown(
-            f'<div style="display:flex;justify-content:space-between;align-items:center;'
-            f'margin-bottom:0.4rem;">'
-            f'<span style="font-size:0.9rem;font-weight:700;color:#111827;">📅 {_cy}년 {_mn[_cm]}</span>'
-            f'<span style="font-size:0.68rem;color:#6b7280;">'
-            f'<span style="color:#1d4ed8;">■</span> 업데이트됨 &nbsp;'
-            f'<span style="color:#d1d5db;">■</span> 미수집</span></div>',
+            '<div style="text-align:right;font-size:0.68rem;color:#6b7280;margin-bottom:0.3rem;">'
+            '<span style="color:#1d4ed8;">■</span> 업데이트됨 &nbsp;'
+            '<span style="color:#d1d5db;">■</span> 미수집</div>',
             unsafe_allow_html=True
         )
         # 요일 헤더
