@@ -973,7 +973,7 @@ elif menu == "📄 RFP 사업기획":
                  padding:1rem 1.2rem; margin-bottom:0.8rem;
                  box-shadow:0 1px 3px rgba(0,0,0,0.05);">
               <div style="display:flex; align-items:center; gap:8px; margin-bottom:0.4rem;">
-                <span style="font-size:0.75rem; color:#15803d; font-weight:600;">{rfp.get("domain","")}</span>
+                <span style="font-size:0.75rem; color:#15803d; font-weight:600;">{rfp.get("domain","") or "📂 미분류"}</span>
                 <span style="font-size:0.7rem; color:#6b7280;">📅 {rfp.get("date","")}</span>
                 {new_mark}
               </div>
