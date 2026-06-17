@@ -225,26 +225,33 @@ def parse_rfp_page_from_blocks(notion, blocks, page_title, page_date):
         txt   = block_text(block).strip()
         if btype in ("heading_1","heading_2","heading_3"):
             _in_overview = "과제 개요" in txt
+            if _in_overview:
+                log.info(f"[rfp] 과제 개요 섹션 진입: {txt[:30]}")
             continue
         if _in_overview and btype == "table":
+            log.info(f"[rfp] 과제 개요 table 블록 발견: {block.get('id','')[:8]}")
             children = block.get("_children") or []
             if not children:
                 try:
                     resp = notion.blocks.children.list(block_id=block["id"])
                     children = resp.get("results", [])
-                except Exception:
-                    pass
+                except Exception as e:
+                    log.warning(f"[rfp] table 행 읽기 실패: {e}")
+            log.info(f"[rfp] table 행 수: {len(children)}")
             for row in children:
                 cells = row.get("table_row", {}).get("cells", [])
                 if len(cells) >= 2:
                     label = _text(cells[0])
                     value = _text(cells[1])
+                    log.info(f"[rfp]   행: label={repr(label)} value={repr(value)}")
                     if "연구 비용" in label or "연구비" in label or "예산" in label:
                         budget = value
                     elif "과제 분류" in label or "분류" in label:
                         raw_domain = value
             if budget and raw_domain:
                 break
+
+    log.info(f"[rfp] 추출된 budget={repr(budget)} raw_domain={repr(raw_domain)}")
 
     # 노션 자유 텍스트 도메인 → 표준 10개 도메인으로 정규화
     DOMAIN_NORMALIZE = {
