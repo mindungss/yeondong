@@ -1071,7 +1071,6 @@ elif menu == "📋 NTIS 치안 분야 과제":
          padding:0.9rem 1.2rem; margin-bottom:1.2rem;">
       <p style="color:#74b9ff; font-size:0.87rem; margin:0;">
         🔄 NTiS(국가과학기술지식정보서비스)에 신규 등록되는 치안 관련 국가 R&amp;D 과제를 모니터링합니다.<br>
-        새로운 과제가 등록되면 자동으로 리스트업됩니다.
       </p>
     </div>
     """, unsafe_allow_html=True)
