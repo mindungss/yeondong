@@ -74,13 +74,16 @@ def get_available_dates(data: dict) -> list:
 
 def get_domain_stats(data: dict, date: str) -> dict:
     domains = [
-        "🤖 AI/머신러닝 기반 치안",
-        "📹 영상분석·CCTV·드론",
-        "🔐 디지털포렌식·사이버수사",
-        "🧬 과학수사·감식·법과학",
-        "📜 정책·법·제도",
+        "🤖 AI",
         "🌐 국제 치안",
-        "🚓 신종 범죄"
+        "🧬 과학 수사",
+        "🚗 교통",
+        "💊 마약",
+        "📜 법·제도",
+        "🔐 사이버 보안",
+        "🏘️ 생활 안전",
+        "🚓 신종 범죄",
+        "🛠️ 장비", 
     ]
     stats = {d: 0 for d in domains}
     if date in data:
