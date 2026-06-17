@@ -375,13 +375,13 @@ if menu == "🏢 메인 대시보드":
                       <div class="card-meta">
                         📅 {issue.get('_date','')} &nbsp;|&nbsp; 출처: {issue.get('source','')}
                       </div>
-                      <div class="card-body"><strong>🔍 심층 분석</strong><br>{issue.get('summary','')}</div>
+                      <div class="card-body">{issue.get('summary','')}</div>
                       <div style="margin-top:0.5rem;">{tags_html}</div>
                     </div>
                     """, unsafe_allow_html=True)
                     with st.expander(f"🔎 상세 분석 + 원문 링크 — {issue.get('title','')[:35]}…"):
                         st.markdown(f"""
-**💡 시사점**
+**🔍 심층 분석**
 
 {issue.get('detail','')}
 
@@ -409,15 +409,15 @@ if menu == "🏢 메인 대시보드":
                         {tech.get('title','')} {today_mark}
                       </div>
                       <div class="card-meta">📅 {tech.get('_date','')} </div>
-                      <div class="card-body"><strong>🔬 기술 원리 및 상세 정보</strong><br>{tech.get('summary','')}</div>
+                      <div class="card-body">{tech.get('summary','')}</div>
                       <div style="margin-top:0.5rem;">{tags_html}</div>
                     </div>
                     """, unsafe_allow_html=True)
-                    with st.popover(f"💡 시사점 — {tech.get('title','')[:20]}…"):
+                    with st.popover(f"🔬 기술 원리 설명 — {tech.get('title','')[:20]}…"):
                         st.markdown(f"""
 ### 🔬 {tech.get('title','')}
 
-**💡 시사점**
+**📋 기술 원리 및 상세 정보**
 
 {tech.get('detail','')}
 
@@ -427,10 +427,7 @@ if menu == "🏢 메인 대시보드":
                     with st.expander(f"📂 기술 심층 데이터 — {tech.get('title','')[:35]}…"):
                         st.metric("수집 날짜", tech.get('_date',''))
                         st.markdown(f"""
-**기술 원리 및 상세 정보:**
-{tech.get('summary','')}
-
-**💡 시사점:**
+**기술 상세 설명:**
 {tech.get('detail','')}
 
 **🔗 [원문/관련 기관 링크]({tech.get('url','#')})**
@@ -717,13 +714,13 @@ elif menu == "📰 일일 DB":
                       <div class="card-meta">
                         {issue.get('domain','')} &nbsp;|&nbsp; 출처: {issue.get('source','')}
                       </div>
-                      <div class="card-body"><strong>🔍 심층 분석</strong><br>{issue.get('summary','')}</div>
+                      <div class="card-body">{issue.get('summary','')}</div>
                       <div style="margin-top:0.5rem;">{tags_html}</div>
                     </div>
                     """, unsafe_allow_html=True)
                     with st.expander(f"🔎 상세 분석 + 원문 링크 — {issue.get('title','')[:35]}…"):
                         st.markdown(f"""
-**💡 시사점**
+**🔍 심층 분석**
 
 {issue.get('detail','')}
 
@@ -747,13 +744,13 @@ elif menu == "📰 일일 DB":
                     <div class="tech-card">
                       <div class="card-title">{tech.get('title','')}</div>
                       <div class="card-meta">{tech.get('domain','')}</div>
-                      <div class="card-body"><strong>🔬 기술 원리 및 상세 정보</strong><br>{tech.get('summary','')}</div>
+                      <div class="card-body">{tech.get('summary','')}</div>
                       <div style="margin-top:0.5rem;">{tags_html}</div>
                     </div>
                     """, unsafe_allow_html=True)
                     with st.expander(f"📂 기술 심층 데이터 — {tech.get('title','')[:35]}…"):
                         st.markdown(f"""
-**💡 시사점**
+**🔍 기술 상세 설명**
 
 {tech.get('detail','')}
 
