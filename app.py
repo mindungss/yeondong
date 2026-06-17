@@ -771,6 +771,7 @@ elif menu == "💡 기술 아이디어":
         return []
 
     ideas = load_ideas()
+    ideas = sorted(ideas, key=lambda x: x.get("date", ""), reverse=True)
 
     st.markdown("## 💡 치안 접목 가능 과학기술 아이디어")
     st.markdown("""
