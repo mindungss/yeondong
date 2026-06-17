@@ -134,7 +134,7 @@ def find_common_keywords(query: str, text: str) -> list:
 # ─────────────────────────────────────────────
 with st.sidebar:
     st.markdown("# 🚔 치안 과학기술 동향")
-    st.caption("KIPoT Intelligence Platform")
+    st.caption("KIPoT Platform")
     st.divider()
 
     # 세션에서 메뉴 상태 관리
@@ -186,7 +186,7 @@ with st.sidebar:
 # 4. 메인 헤더
 # ─────────────────────────────────────────────
 st.title("🚔 치안 과학기술 동향 플랫폼")
-st.caption("경찰청 R&D 예산 확보 및 사업기획 전문 지원 시스템 · 국내외 치안·공공안전 기술 동향 메타 분석")
+st.caption("경찰청 R&D 국내외 치안 이슈·기술 동향 메타 분석")
 st.divider()
 
 
