@@ -778,7 +778,6 @@ elif menu == "💡 기술 아이디어":
          padding:0.9rem 1.2rem; margin-bottom:1.2rem;">
       <p style="color:#1e40af; font-size:0.87rem; margin:0;">
         📡 일반 과학기술 뉴스·동향을 분석하여 치안 현장에 접목 가능한 기술 아이디어를 정리합니다.<br>
-        <b>기술 중심</b>으로 해결 가능한 치안 이슈를 도출합니다. 매일 09:00 업데이트.
       </p>
     </div>
     """, unsafe_allow_html=True)
