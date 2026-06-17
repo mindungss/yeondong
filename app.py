@@ -915,7 +915,6 @@ elif menu == "📄 RFP 사업기획":
          padding:0.9rem 1.2rem; margin-bottom:1.2rem;">
       <p style="color:#14532d; font-size:0.87rem; margin:0;">
         📡 누적 치안 이슈를 바탕으로 추진 배경을 설정하고, 관련 기술들을 조합하여 R&amp;D 사업기획서 초안을 생성합니다.<br>
-        <b>이슈 → 기술</b> 방향으로 기획. 좋은 조합이 형성될 때마다 업데이트됩니다.
       </p>
     </div>
     """, unsafe_allow_html=True)
