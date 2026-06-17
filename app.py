@@ -744,7 +744,7 @@ elif menu == "📰 일일 DB":
                     <div class="tech-card">
                       <div class="card-title">{tech.get('title','')}</div>
                       <div class="card-meta">{tech.get('domain','')}</div>
-                      <div class="card-body">{tech.get('summary','')}</div>
+                      <div class="card-body">{tech.get('detail','')}</div>
                       <div style="margin-top:0.5rem;">{tags_html}</div>
                     </div>
                     """, unsafe_allow_html=True)
@@ -752,7 +752,7 @@ elif menu == "📰 일일 DB":
                         st.markdown(f"""
 **🔍 기술 상세 설명**
 
-{tech.get('detail','')}
+{tech.get('summary','')}
 
 ---
 **📎 관련 도메인:** `{tech.get('domain','')}`  
