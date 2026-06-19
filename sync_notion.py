@@ -652,10 +652,10 @@ def sync_daily(notion):
             summary, source, tags, detail, url = "", "", [], "", ""
             for sub in b.get("_children", []):
                 st = block_text(sub).strip()
-                if st.startswith("요약"):
-                    summary = re.sub(r"^요약\s*[:：]?\s*", "", st).strip()
-                elif st.startswith("주요 내용") or st.startswith("주요내용"):
+                if st.startswith("주요 내용") or st.startswith("주요내용"):
                     detail = re.sub(r"^주요\s*내용\s*[:：]?\s*", "", st).strip()
+                elif st.startswith("요약"):
+                    summary = re.sub(r"^요약\s*[:：]?\s*", "", st).strip()
                 elif st.startswith("시사점"):
                     detail = re.sub(r"^시사점\s*[:：]?\s*", "", st).strip()
                 elif st.startswith("출처"):
