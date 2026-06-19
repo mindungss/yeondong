@@ -618,7 +618,6 @@ def sync_daily(notion):
         log.info(f"[daily] [{i:02d}] type={b.get('type','')} / {block_text(b)[:60]}")
 
     # ── 4단계: 이슈/기술 파싱
-    SKIP_HEADINGS = {"메타 분석", "트렌드 시사점"}
     issues, techs = [], []
     cur_section = None
     cur_domain  = None
@@ -653,8 +652,8 @@ def sync_daily(notion):
             summary, source, tags, detail, url = "", "", [], "", ""
             for sub in b.get("_children", []):
                 st = block_text(sub).strip()
-                if st.startswith("주요 내용") or st.startswith("주요내용"):
-                    summary = re.sub(r"^주요\s*내용\s*[:：]?\s*", "", st).strip()
+                if st.startswith("요약") or st.startswith("주요내용"):
+                    summary = re.sub(r"^요약\s*[:：]?\s*", "", st).strip()
                 elif st.startswith("출처"):
                     source = re.sub(r"^출처\s*[:：]?\s*", "", st).strip()
                     um = re.search(r"\((https?://[^\)]+)\)", source)
@@ -663,8 +662,8 @@ def sync_daily(notion):
                 elif st.startswith("태그") or "#" in st:
                     raw_t = re.sub(r"^태그\s*[:：]?\s*", "", st)
                     tags  = re.findall(r"#([^\s`#]+)", raw_t)
-                elif st.startswith("시사점"):
-                    detail = re.sub(r"^시사점\s*[:：]?\s*", "", st).strip()
+                elif st.startswith("주요 내용"):
+                    detail = re.sub(r"^주요\s*내용\s*[:：]?\s*", "", st).strip()
 
             if not title: continue
             entry = {"domain": cur_domain, "title": title,
