@@ -656,6 +656,8 @@ def sync_daily(notion):
                 if st.startswith("주요 내용") or st.startswith("주요내용"):
                     first = re.sub(r"^주요\s*내용\s*[:：]?\s*", "", st).strip()
                     detail = (first + ("\n" + sub_children_text if sub_children_text else "")).strip()
+                elif st.startswith("요약"):
+                    first = re.sub(r"^요약\s*[:：]?\s*", "", st).strip()
                     summary = (first + ("\n" + sub_children_text if sub_children_text else "")).strip()
                 elif st.startswith("출처"):
                     source = re.sub(r"^출처\s*[:：]?\s*", "", st).strip()
@@ -665,8 +667,6 @@ def sync_daily(notion):
                 elif st.startswith("태그") or "#" in st:
                     raw_t = re.sub(r"^태그\s*[:：]?\s*", "", st)
                     tags  = re.findall(r"#([^\s`#]+)", raw_t)
-                elif st.startswith("요약"):
-                    first = re.sub(r"^요약\s*[:：]?\s*", "", st).strip()
 
             if not title: continue
             entry = {"domain": cur_domain, "title": title,
