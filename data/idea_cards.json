@@ -1,5 +1,20 @@
 [
   {
+    "id": "IDEA-384498EEF533",
+    "notion_id": "384498eef53381128f3ff4a05fe31735",
+    "date": "2026-06-19",
+    "domain": "🛠️ 장비",
+    "tech_name": "법집행 대드론 시스템 (Counter-UAS / C-UAS for Law Enforcement)",
+    "policing_issues": "드론 무기화·도촬·밀수 등 악성 드론 위협에 대한 경찰의 합법적 탐지·추적·식별·무력화 역량 확보 (SAFER SKIES Act 이후 주·지방 경찰 최초 법제화)",
+    "target_issue": "",
+    "tags": [],
+    "features": "① 개발 기관 및 현황: 2025년 12월 18일 미국 FY2026 국방수권법(NDAA) 'SAFER SKIES Act'가 서명되어 주·지방 경찰에 드론 무력화 권한이 최초로 부여되었다. 기존에는 FBI·DHS·국방부 등 연방기관만 대드론(C-UAS) 무력화 권한을 보유했으나, 이번 법제화로 인증받은 주·지방 경찰관이 조건부로 드론을 탐지·추적·식별·무력화할 수 있게 됐다. NYPD는 2026년 5월 650만 달러를 투입해 미국 최초 상설 C-UAS 전담 부대를 창설했으며, 보스턴 경찰청은 FEMA 연방 보조금 1,060만 달러를 수령해 장비를 구비 중이다. FEMA는 FIFA 월드컵 2026 보안 명목으로 11개 주에 6억 2,500만 달러를 배정하고, FY2027부터는 56개 주·자치령 전체를 대상으로 5억 달러 C-UAS 보조금 프로그램을 운영한다. 무력화 권한은 FBI 헌츠빌 국가 대드론 훈련센터(FBI National Counter-UAS Training Center)에서 DOJ 인증을 받은 개별 경찰관에게만 허가된다(현재 FIFA 월드컵 개최 11개 도시에 60명 파견). ② 핵심 작동 메커니즘 — DTIM 4단계: [탐지(Detect)] RF 센서가 드론-조종기 간 무선 주파수 신호를 스캔해 드론 기종과 조종기 위치 파악. 레이더(Radar)가 신호를 송출하지 않는 자율 비행 드론도 물리적 탐지. Remote ID 수신기가 FAA 의무 브로드캐스트 신호에서 기체 시리얼 번호·조종사 GPS 좌표 추출. EO/IR 카메라가 주·야간 시각 확인. 음향 센서(Acoustic sensor)가 프로펠러 소음 패턴 탐지. [추적(Track)] 복수 센서 데이터를 데이터 퓨전 알고리즘(Data fusion algorithm)으로 단일 운용 화면(Common Operating Picture)에 통합, PTZ 카메라 자동 조준. [식별(Identify)] RF 핑거프린팅(RF fingerprinting)으로 기체 기종 특정. 레이더 마이크로-도플러 분류(Micro-Doppler classification)로 드론-조류 판별. Remote ID 디코딩으로 조종사 위치 확보. [무력화(Mitigate)] RF 재밍(RF jamming)으로 통신 차단하여 강제 착륙 또는 귀환 유도. 사이버-오버-RF(Cyber-over-RF, CoRF) 기술로 조종 신호 탈취 후 지정 위치 강제 착륙. 드론-온-드론 방식으로 네트건(Netgun) 탑재 요격 드론 발사. ③ 하드웨어·플랫폼: Fortem Technologies DroneHunter® F700/5.0 — TrueView 레이더 및 AI 자율 유도 시스템(Autonomous guidance system)과 연동. 네트건 탑재 요격 드론이 목표 드론을 물리적으로 포획. 2026년 3월 Lockheed Martin Sanctum C2 플랫폼 통합. Sentrycs Scout — 휴대형(Man-portable) CoRF 장비. 재밍이나 운동에너지 방식 없이 RF 신호 통해 조종 권한 탈취. 도심·밀집 공간에서도 타 통신망 방해 없이 운용 가능. Airsight AirGuard — RF·레이더·EO/IR 다중 센서 퓨전 소프트웨어 C2 플랫폼. ④ 성능 수치: Fortem DroneHunter 실전 포획 4,500+ 건 달성(2026년 기준). DroneHunter 5.0은 복수 드론 스웜(Swarm) 동시 요격 지원. Sentrycs CoRF — 재밍·운동에너지 없이 조종 신호 탈취 후 지정 위치 착륙(탐지 거리는 배치 환경에 따라 상이, 수치 미공개). DOJ·DHS·DoD·DOT·FCC·NTIA 공동 관리 연방 인증 장비 목록에 등재된 장비만 무력화 운용 허가. ⑤ 치안 현장 적용 시나리오: 대형 공개 행사(경기장·군중 집회)에서 요격·도촬 드론 탐지 후 CoRF로 조종권 탈취하여 지정 위치 강제 착륙. 교도소 상공 마약·휴대폰 밀반입 드론 레이더 탐지·포획. VIP 경호 현장에서 무기화 드론 위협 대응. 국경·항만에서 신호 없이 비행하는 자율 밀수 드론 레이더 탐지.",
+    "applications": "① 대형 행사 공공안전: FIFA 월드컵 2026 등 초대형 행사 경기장·팬존 상공 불법 드론 탐지·무력화. NYPD가 FIFA 월드컵·America 250 행사에서 FBI와 공동 운용 중이며, Sentrycs가 16개 도시 벤뉴 보안 계약 수주. ② 교정시설 보안: 교도소 상공 드론을 통한 마약·무기 밀반입 탐지 및 포획. FEMA C-UAS 보조금 지원 대상에 교정시설 포함되어 미국 전역 교도소 대드론 시스템 도입 가속화.",
+    "constraints": "• 무력화 권한은 DOJ 인증을 받은 개별 경찰관에게만 허용 — FBI 헌츠빌 훈련 대기 병목으로 기관 단위 즉시 운용 불가. 기관 전체가 아닌 인증 개인에게만 권한 부여.\n• RF 재밍은 주변 통신 인프라(항공·휴대폰·응급 무선) 방해 위험 존재 — 도심 밀집 지역 운용 시 FAA·FCC 사전 협의 필수. RF 방해 없는 CoRF 기술이 도심 대안이나 아직 일부 공급사에 한정.\n• 신호 없이 비행하는 자율 드론 또는 비표준 주파수 사용 드론은 RF 센서 단독으로 탐지 불가 — 레이더 추가 없이는 탐지 공백 존재.",
+    "companies": "• Fortem Technologies (미국) — DroneHunter® F700 / DroneHunter 5.0 (자율 요격 드론, 네트건 포획, TrueView 레이더 연동)\n• Sentrycs / Ondas Inc. (이스라엘/미국) — Sentrycs Scout (휴대형 CoRF 방식 대드론 시스템, 재밍 없는 조종권 탈취)\n• Airsight (미국) — AirGuard (RF·레이더·EO/IR 다중 센서 퓨전 C2 플랫폼)\n• D-Fend Solutions (이스라엘) — EnforceAir2 (CoRF 방식, 공항·주요 인프라 특화)\n• Dedrone / Axon (독일/미국) — Dedrone RF-450D + 레이더 통합 플랫폼 (탐지·추적 특화)",
+    "trend": "2025년 12월 미국 SAFER SKIES Act 서명으로 주·지방 경찰의 C-UAS 권한이 최초 법제화되며 법집행 대드론 시장이 급성장 중이다. FEMA는 FIFA 월드컵 보안 명목만으로 6억 2,500만 달러를 배정했으며, FY2027부터 56개 주·자치령 대상 5억 달러 상설 보조금 프로그램을 운영한다. Fortem Technologies는 2026년 1월 드론 스웜 동시 요격이 가능한 DroneHunter 5.0 납품을 개시했으며, Sentrycs는 재밍 없는 CoRF 방식으로 2026 FIFA 월드컵 16개 도시 보안 계약을 수주했다. 미 육군은 2026년 10~50kW 고에너지 레이저(HEL) 대드론 시스템 경쟁입찰을 예고하고 있으며, 향후 군사 기술의 경찰 이전이 가속화될 전망이다."
+  },
+  {
     "id": "IDEA-383498EEF533",
     "notion_id": "383498eef533810789e9f73496598659",
     "date": "2026-06-18",
