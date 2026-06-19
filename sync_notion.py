@@ -662,7 +662,7 @@ def sync_daily(notion):
                 elif st.startswith("태그") or "#" in st:
                     raw_t = re.sub(r"^태그\s*[:：]?\s*", "", st)
                     tags  = re.findall(r"#([^\s`#]+)", raw_t)
-                elif st.startswith("주요 내용"):
+                elif st.startswith("주요 내용") or st.startswith("주요내용"):
                     detail = re.sub(r"^주요\s*내용\s*[:：]?\s*", "", st).strip()
 
             if not title: continue
