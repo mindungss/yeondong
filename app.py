@@ -708,7 +708,7 @@ elif menu == "📰 일일 DB":
                       <div class="card-meta">
                         {issue.get('domain','')} &nbsp;|&nbsp; 출처: {issue.get('source','')}
                       </div>
-                      <div class="card-body">{issue.get('detail','')}</div>
+                      <div class="card-body">{issue.get('summary','')}</div>
                       <div style="margin-top:0.5rem;">{tags_html}</div>
                     </div>
                     """, unsafe_allow_html=True)
@@ -738,7 +738,7 @@ elif menu == "📰 일일 DB":
                     <div class="tech-card">
                       <div class="card-title">{tech.get('title','')}</div>
                       <div class="card-meta">{tech.get('domain','')}</div>
-                      <div class="card-body">{tech.get('detail','')}</div>
+                      <div class="card-body">{tech.get('summary','')}</div>
                       <div style="margin-top:0.5rem;">{tags_html}</div>
                     </div>
                     """, unsafe_allow_html=True)
