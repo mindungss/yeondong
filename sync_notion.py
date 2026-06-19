@@ -158,10 +158,10 @@ def get_all_blocks(notion, block_id, _depth=0):
         btype = block.get("type", "")
         has_children = block.get("has_children", False)
         # toggle, bulleted_list_item, numbered_list_item, quote 등 자식 있는 블록 재귀
-    if has_children and btype in (
-        "toggle", "bulleted_list_item", "numbered_list_item",
-        "quote", "callout", "column", "column_list", "table"
-    ):
+        if has_children and btype in (
+            "toggle", "bulleted_list_item", "numbered_list_item",
+            "quote", "callout", "column", "column_list", "table"
+        ):
             block["_children"] = get_all_blocks(notion, block["id"], _depth + 1)
     return blocks
 
@@ -654,6 +654,10 @@ def sync_daily(notion):
                 st = block_text(sub).strip()
                 if st.startswith("요약"):
                     summary = re.sub(r"^요약\s*[:：]?\s*", "", st).strip()
+                elif st.startswith("주요 내용") or st.startswith("주요내용"):
+                    detail = re.sub(r"^주요\s*내용\s*[:：]?\s*", "", st).strip()
+                elif st.startswith("시사점"):
+                    detail = re.sub(r"^시사점\s*[:：]?\s*", "", st).strip()
                 elif st.startswith("출처"):
                     source = re.sub(r"^출처\s*[:：]?\s*", "", st).strip()
                     um = re.search(r"\((https?://[^\)]+)\)", source)
@@ -662,8 +666,6 @@ def sync_daily(notion):
                 elif st.startswith("태그") or "#" in st:
                     raw_t = re.sub(r"^태그\s*[:：]?\s*", "", st)
                     tags  = re.findall(r"#([^\s`#]+)", raw_t)
-                elif st.startswith("주요 내용") or st.startswith("주요내용"):
-                    detail = re.sub(r"^주요\s*내용\s*[:：]?\s*", "", st).strip()
 
             if not title: continue
             entry = {"domain": cur_domain, "title": title,
