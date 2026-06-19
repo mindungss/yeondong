@@ -629,8 +629,6 @@ def sync_daily(notion):
 
         if btype in ("heading_1","heading_2","heading_3","heading_4"):
             clean = txt.replace(" ","")
-            if any(kw in txt for kw in SKIP_HEADINGS):
-                cur_section = "skip"; continue
             if "치안이슈" in clean or "이슈동향" in clean:
                 cur_section = "issue"; cur_domain = None
                 log.info(f"[daily] → 이슈 섹션")
