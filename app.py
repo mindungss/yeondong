@@ -716,7 +716,7 @@ elif menu == "📰 일일 DB":
                         st.markdown(f"""
 **🔍 심층 분석**
 
-{issue.get('summary','')}
+{issue.get('detail','')}
 
 ---
 **📎 관련 도메인:** `{issue.get('domain','')}`  
@@ -746,7 +746,7 @@ elif menu == "📰 일일 DB":
                         st.markdown(f"""
 **🔍 기술 상세 설명**
 
-{tech.get('summary','')}
+{tech.get('detail','')}
 
 ---
 **📎 관련 도메인:** `{tech.get('domain','')}`  
