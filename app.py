@@ -434,95 +434,260 @@ if menu == "🏢 메인 대시보드":
                         """)
 
     # ════════════════════════════════════════
-    # 메인: 도메인 블록 그리드
+    # 메인: 4분할 인텔리전스 대시보드
     # ════════════════════════════════════════
     else:
-        # 날짜 필터 — 오른쪽 정렬
-        _, _, filt_col_main = st.columns([2, 2, 2])
-        with filt_col_main:
-            filter_opts = ["📊 전체 누적"] + [f"📅 {d}" for d in avail_dates]
-            filter_sel  = st.selectbox("날짜 필터", options=filter_opts,
-                                       label_visibility="collapsed",
-                                       help="특정 날짜를 선택하면 해당 날짜 데이터만 블록에 표시됩니다.")
+        from collections import Counter
+        from datetime import datetime, timedelta
 
-        # 필터 적용
-        if filter_sel == "📊 전체 누적":
-            block_items = all_items
-            block_label = "누적 전체"
-        else:
-            chosen_date = filter_sel.replace("📅 ", "")
-            chosen_day  = trend_data.get(chosen_date, {})
-            block_items = []
-            for item in chosen_day.get("issues", []):
-                item = dict(item); item["_date"] = chosen_date; block_items.append(item)
-            for item in chosen_day.get("technologies", []):
-                item = dict(item); item["_date"] = chosen_date; block_items.append(item)
-            block_label = chosen_date
+        # ── 데이터 준비
+        today_dt   = datetime.now()
+        week_ago   = (today_dt - timedelta(days=7)).strftime("%Y-%m-%d")
+        month_ago  = (today_dt - timedelta(days=30)).strftime("%Y-%m-%d")
 
+        DOMAIN_LIST = [
+            "🤖 AI", "🌐 국제 치안", "🧬 과학 수사", "🚗 교통",
+            "💊 마약", "📜 법·제도", "🔐 사이버 보안",
+            "🏘️ 생활 안전", "🚓 신종 범죄", "🛠️ 장비"
+        ]
+        DOMAIN_COLORS = {
+            "🤖 AI": "#3498db", "🌐 국제 치안": "#1abc9c", "🧬 과학 수사": "#16a085",
+            "🚗 교통": "#2980b9", "💊 마약": "#8e44ad", "📜 법·제도": "#f39c12",
+            "🔐 사이버 보안": "#e74c3c", "🏘️ 생활 안전": "#27ae60",
+            "🚓 신종 범죄": "#e67e22", "🛠️ 장비": "#7f8c8d"
+        }
+        DOMAIN_SHORT = {
+            "🤖 AI": "AI", "🌐 국제 치안": "국제", "🧬 과학 수사": "과학수사",
+            "🚗 교통": "교통", "💊 마약": "마약", "📜 법·제도": "법제도",
+            "🔐 사이버 보안": "사이버", "🏘️ 생활 안전": "생활안전",
+            "🚓 신종 범죄": "신종범죄", "🛠️ 장비": "장비"
+        }
 
+        # 최근 7일 이슈 분야별 카운트
+        week_issues_by_domain = Counter()
+        for date_key, day in trend_data.items():
+            if date_key >= week_ago:
+                for item in day.get("issues", []):
+                    d = item.get("domain", "")
+                    if d: week_issues_by_domain[d] += 1
 
-        row1 = st.columns(3)
-        row2 = st.columns(3)
-        row3 = st.columns(3)
-        row4_col = st.columns(1)[0]
-        grid_cols = list(row1) + list(row2) + list(row3) + [row4_col]
+        # 최근 30일 날짜별·분야별 이슈 카운트
+        month_dates = sorted([d for d in trend_data.keys() if d >= month_ago])
+        month_domain_series = {dom: [] for dom in DOMAIN_LIST}
+        for date_key in month_dates:
+            day = trend_data.get(date_key, {})
+            day_counts = Counter(item.get("domain","") for item in day.get("issues",[]))
+            for dom in DOMAIN_LIST:
+                month_domain_series[dom].append(day_counts.get(dom, 0))
 
-        for col, (domain, color) in zip(grid_cols, DOMAINS):
-            # 날짜 필터 적용된 블록 카운트 (블록 숫자 표시용)
-            domain_items  = [it for it in block_items if it.get("domain") == domain]
-            is_new        = domain in today_domains
-            issue_cnt     = sum(1 for it in domain_items if it.get("id","").startswith("I"))
-            tech_cnt      = sum(1 for it in domain_items if it.get("id","").startswith("T"))
-            total_cnt     = len(domain_items)
-            today_cnt     = sum(1 for it in domain_items if it.get("_date") == TODAY)
+        # ── CSS
+        st.markdown("""
+        <style>
+        .dash-panel {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 1.1rem 1.2rem 1rem;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            height: 100%;
+        }
+        .dash-panel-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .rank-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 0.45rem;
+        }
+        .rank-num {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #9ca3af;
+            width: 16px;
+            text-align: center;
+        }
+        .rank-bar-wrap {
+            flex: 1;
+            background: #f3f4f6;
+            border-radius: 4px;
+            height: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        .rank-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            padding-left: 7px;
+        }
+        .rank-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #fff;
+            white-space: nowrap;
+        }
+        .rank-count {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #374151;
+            width: 28px;
+            text-align: right;
+        }
+        .sparkline-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .spark-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .spark-label {
+            font-size: 0.68rem;
+            color: #374151;
+            width: 52px;
+            flex-shrink: 0;
+        }
+        .spark-dots {
+            flex: 1;
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 22px;
+        }
+        .wc-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 160px;
+            color: #9ca3af;
+            font-size: 0.8rem;
+            gap: 8px;
+        }
+        </style>
+        """, unsafe_allow_html=True)
 
-            with col:
-                dot = '<span style="display:inline-block;width:7px;height:7px;background:#ef4444;border-radius:50%;margin-left:5px;vertical-align:super;"></span>' if is_new else ""
-                st.markdown(f"""
-                <div style="background:#fff; border:1px solid #e5e7eb;
-                     border-top:3px solid {color}; border-radius:8px;
-                     padding:0.8rem 1rem 0.7rem; margin-bottom:0rem;
-                     box-shadow:0 1px 3px rgba(0,0,0,0.05);">
-                  <div style="font-size:0.85rem; font-weight:600; color:#111827;
-                       margin-bottom:0.65rem; line-height:1.3;">{domain}{dot}</div>
-                  <div style="display:flex; border-top:1px solid #f3f4f6; padding-top:0.5rem;">
-                    <div style="flex:1; text-align:center;">
-                      <div style="font-size:1.45rem; font-weight:700; color:#111827;">{issue_cnt}</div>
-                      <div style="font-size:0.7rem; color:#9ca3af; margin-top:2px;">이슈</div>
-                    </div>
-                    <div style="width:1px; background:#f3f4f6;"></div>
-                    <div style="flex:1; text-align:center;">
-                      <div style="font-size:1.45rem; font-weight:700; color:#111827;">{tech_cnt}</div>
-                      <div style="font-size:0.7rem; color:#9ca3af; margin-top:2px;">기술</div>
-                    </div>
-                    <div style="width:1px; background:#f3f4f6;"></div>
-                    <div style="flex:1; text-align:center;">
-                      <div style="font-size:1.45rem; font-weight:700; color:{color};">{total_cnt}</div>
-                      <div style="font-size:0.7rem; color:#9ca3af; margin-top:2px;">합계</div>
+        col_left, col_right = st.columns(2)
+
+        # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        # 패널 1 (왼쪽 위): 최근 7일 급상승 분야
+        # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        with col_left:
+            top_domains = week_issues_by_domain.most_common(10)
+            max_cnt = top_domains[0][1] if top_domains else 1
+
+            rows_html = ""
+            for i, (dom, cnt) in enumerate(top_domains, 1):
+                color  = DOMAIN_COLORS.get(dom, "#6b7280")
+                short  = DOMAIN_SHORT.get(dom, dom)
+                pct    = int(cnt / max_cnt * 100)
+                medal  = ["🥇","🥈","🥉"][i-1] if i <= 3 else str(i)
+                rows_html += f"""
+                <div class="rank-row">
+                  <span class="rank-num">{medal}</span>
+                  <div class="rank-bar-wrap">
+                    <div class="rank-bar-fill" style="width:{pct}%; background:{color};">
+                      <span class="rank-label">{short}</span>
                     </div>
                   </div>
-                </div>
-                """, unsafe_allow_html=True)
-                bc1, bc2, bc3 = st.columns(3)
-                with bc1:
-                    if st.button("이슈", key=f"btn_iss_{domain}", use_container_width=True,
-                                 disabled=(issue_cnt==0)):
-                        st.session_state.dash_domain = domain
-                        st.session_state.dash_filter = "issues"
-                        st.rerun()
-                with bc2:
-                    if st.button("기술", key=f"btn_tec_{domain}", use_container_width=True,
-                                 disabled=(tech_cnt==0)):
-                        st.session_state.dash_domain = domain
-                        st.session_state.dash_filter = "techs"
-                        st.rerun()
-                with bc3:
-                    if st.button("전체", key=f"btn_all_{domain}", use_container_width=True,
-                                 disabled=(total_cnt==0)):
-                        st.session_state.dash_domain = domain
-                        st.session_state.dash_filter = "all"
-                        st.rerun()
-                st.markdown("<div style='margin-bottom:0.4rem;'></div>", unsafe_allow_html=True)
+                  <span class="rank-count">{cnt}건</span>
+                </div>"""
+
+            if not top_domains:
+                rows_html = '<div style="color:#9ca3af;font-size:0.8rem;">데이터 없음</div>'
+
+            st.markdown(f"""
+            <div class="dash-panel">
+              <div class="dash-panel-title">📈 최근 7일 급상승 분야</div>
+              {rows_html}
+            </div>
+            """, unsafe_allow_html=True)
+
+        # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        # 패널 2 (오른쪽 위): 30일 분야별 추이
+        # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        with col_right:
+            # 30일 중 누적 건수 있는 도메인만 표시
+            active_domains = [(dom, sum(month_domain_series[dom]))
+                              for dom in DOMAIN_LIST if sum(month_domain_series[dom]) > 0]
+            active_domains.sort(key=lambda x: -x[1])
+
+            spark_rows_html = ""
+            n_dates = len(month_dates)
+
+            for dom, total in active_domains:
+                color  = DOMAIN_COLORS.get(dom, "#6b7280")
+                short  = DOMAIN_SHORT.get(dom, dom)
+                series = month_domain_series[dom]
+                max_v  = max(series) if max(series) > 0 else 1
+
+                dots_html = ""
+                for v in series:
+                    h = max(2, int(v / max_v * 20))
+                    opacity = "1.0" if v > 0 else "0.15"
+                    dots_html += f'<div style="flex:1;height:{h}px;background:{color};opacity:{opacity};border-radius:1px;min-width:3px;"></div>'
+
+                spark_rows_html += f"""
+                <div class="spark-row">
+                  <span class="spark-label">{short}</span>
+                  <div class="spark-dots">{dots_html}</div>
+                  <span style="font-size:0.68rem;font-weight:700;color:{color};width:24px;text-align:right;">{total}</span>
+                </div>"""
+
+            if not active_domains:
+                spark_rows_html = '<div style="color:#9ca3af;font-size:0.8rem;">데이터 없음</div>'
+
+            date_range = f"{month_dates[0]} ~ {month_dates[-1]}" if month_dates else "—"
+            st.markdown(f"""
+            <div class="dash-panel">
+              <div class="dash-panel-title">📊 30일 분야별 이슈 추이 &nbsp;<span style="font-weight:400;text-transform:none;letter-spacing:0;color:#9ca3af;font-size:0.7rem;">{date_range}</span></div>
+              <div class="sparkline-wrap">{spark_rows_html}</div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        st.markdown("<div style='margin-top:0.8rem;'></div>", unsafe_allow_html=True)
+        col_left2, col_right2 = st.columns(2)
+
+        # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        # 패널 3 (왼쪽 아래): 이슈 워드클라우드
+        # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        with col_left2:
+            st.markdown("""
+            <div class="dash-panel">
+              <div class="dash-panel-title">☁️ 이슈 키워드 워드클라우드</div>
+              <div class="wc-placeholder">
+                <span style="font-size:2rem;">🚧</span>
+                <span>이슈 키워드 DB 연동 예정</span>
+                <span style="font-size:0.72rem;color:#d1d5db;">wordcloud_issues.json 준비 후 활성화</span>
+              </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        # 패널 4 (오른쪽 아래): 기술 워드클라우드
+        # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        with col_right2:
+            st.markdown("""
+            <div class="dash-panel">
+              <div class="dash-panel-title">☁️ 기술 키워드 워드클라우드</div>
+              <div class="wc-placeholder">
+                <span style="font-size:2rem;">🚧</span>
+                <span>기술 키워드 DB 연동 예정</span>
+                <span style="font-size:0.72rem;color:#d1d5db;">wordcloud_techs.json 준비 후 활성화</span>
+              </div>
+            </div>
+            """, unsafe_allow_html=True)
 
 
 
