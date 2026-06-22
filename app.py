@@ -588,7 +588,6 @@ if menu == "🏢 메인 대시보드":
         with col_left:
             weekly_domains = weekly_data.get("domains", [])
             weekly_period  = weekly_data.get("period", "")
-            weekly_updated = weekly_data.get("updated", "")
             top_domains    = [(d["domain"], d["count"]) for d in weekly_domains if d.get("count", 0) > 0][:3]
             max_cnt        = top_domains[0][1] if top_domains else 1
 
@@ -597,28 +596,33 @@ if menu == "🏢 메인 대시보드":
                 color  = DOMAIN_COLORS.get(dom, "#6b7280")
                 short  = DOMAIN_SHORT.get(dom, dom)
                 pct    = int(cnt / max_cnt * 100)
-                medal  = ["🥇","🥈","🥉"][i-1] if i <= 3 else str(i)
-                rows_html += f"""
-                <div class="rank-row">
-                  <span class="rank-num">{medal}</span>
-                  <div class="rank-bar-wrap">
-                    <div class="rank-bar-fill" style="width:{pct}%; background:{color};">
-                      <span class="rank-label">{short}</span>
-                    </div>
-                  </div>
-                  <span class="rank-count">{cnt}건</span>
-                </div>"""
+                medal  = ["🥇","🥈","🥉"][i-1]
+                rows_html += (
+                    f'<div style="display:flex;align-items:center;gap:8px;margin-bottom:0.5rem;">'
+                    f'<span style="font-size:1rem;width:22px;text-align:center;">{medal}</span>'
+                    f'<div style="flex:1;background:#f3f4f6;border-radius:4px;height:22px;overflow:hidden;">'
+                    f'<div style="width:{pct}%;height:100%;background:{color};border-radius:4px;'
+                    f'display:flex;align-items:center;padding-left:7px;">'
+                    f'<span style="font-size:0.72rem;font-weight:600;color:#fff;white-space:nowrap;">{short}</span>'
+                    f'</div></div>'
+                    f'<span style="font-size:0.72rem;font-weight:700;color:#374151;width:28px;text-align:right;">{cnt}건</span>'
+                    f'</div>'
+                )
 
             if not top_domains:
                 rows_html = '<div style="color:#9ca3af;font-size:0.8rem;padding:1rem 0;">동기화 대기 중...</div>'
 
-            period_html = f'<span style="font-weight:400;text-transform:none;letter-spacing:0;color:#9ca3af;font-size:0.7rem;">{weekly_period}</span>' if weekly_period else ""
-            st.markdown(f"""
-            <div class="dash-panel">
-              <div class="dash-panel-title">📈 최근 7일 급상승 분야 &nbsp;{period_html}</div>
-            """ + rows_html + """
-            </div>
-            """, unsafe_allow_html=True)
+            period_txt = f'<span style="font-weight:400;color:#9ca3af;font-size:0.7rem;margin-left:6px;">{weekly_period}</span>' if weekly_period else ""
+            st.markdown(
+                f'<div style="background:#fff;border:1px solid #e5e7eb;border-radius:10px;'
+                f'padding:1.1rem 1.2rem 1rem;box-shadow:0 1px 4px rgba(0,0,0,0.06);">'
+                f'<div style="font-size:0.78rem;font-weight:700;color:#6b7280;text-transform:uppercase;'
+                f'letter-spacing:0.05em;margin-bottom:0.8rem;padding-bottom:0.5rem;border-bottom:1px solid #f3f4f6;">'
+                f'📈 최근 7일 급상승 분야{period_txt}</div>'
+                + rows_html +
+                f'</div>',
+                unsafe_allow_html=True
+            )
 
         # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         # 패널 2 (오른쪽 위): 30일 분야별 추이
