@@ -589,7 +589,7 @@ if menu == "🏢 메인 대시보드":
             weekly_domains = weekly_data.get("domains", [])
             weekly_period  = weekly_data.get("period", "")
             weekly_updated = weekly_data.get("updated", "")
-            top_domains    = [(d["domain"], d["count"]) for d in weekly_domains if d.get("count", 0) > 0]
+            top_domains    = [(d["domain"], d["count"]) for d in weekly_domains if d.get("count", 0) > 0][:3]
             max_cnt        = top_domains[0][1] if top_domains else 1
 
             rows_html = ""
