@@ -687,7 +687,7 @@ if menu == "🏢 메인 대시보드":
             st.session_state.wc_tech_domain = None
 
         def render_wc_panel(title, wc_key, kw_type, session_key):
-            import random, hashlib
+            import random, hashlib, json as _json
             st.markdown(
                 f'<div style="background:#fff;border:1px solid #e5e7eb;border-radius:10px 10px 0 0;'
                 f'padding:0.8rem 1.2rem 0.6rem;border-bottom:1px solid #f3f4f6;">'
@@ -713,64 +713,101 @@ if menu == "🏢 메인 대시보드":
             keywords = wc_domains.get(sel_dom, {}).get(kw_type, [])
             color    = DOMAIN_COLORS.get(sel_dom, "#3498db")
 
-            # SVG 워드클라우드 (버튼 위)
+            # Canvas 워드클라우드
             if keywords:
-                W, H    = 480, 230
-                max_cnt = keywords[0]["count"]
-                r_hex   = int(color[1:3], 16)
-                g_hex   = int(color[3:5], 16)
-                b_hex   = int(color[5:7], 16)
-                palettes = [
+                r_hex = int(color[1:3], 16)
+                g_hex = int(color[3:5], 16)
+                b_hex = int(color[5:7], 16)
+                palette = [
                     color,
-                    f"rgb({max(0,r_hex-40)},{max(0,g_hex-40)},{max(0,b_hex-40)})",
-                    f"rgb({min(255,r_hex+50)},{min(255,g_hex+30)},{min(255,b_hex+30)})",
-                    f"rgb({max(0,r_hex-20)},{min(255,g_hex+20)},{max(0,b_hex-20)})",
-                    "#374151",
+                    f"#{max(0,r_hex-40):02x}{max(0,g_hex-40):02x}{max(0,b_hex-40):02x}",
+                    f"#{min(255,r_hex+60):02x}{min(255,g_hex+40):02x}{min(255,b_hex+40):02x}",
+                    f"#{max(0,r_hex-20):02x}{min(255,g_hex+30):02x}{max(0,b_hex-10):02x}",
+                    "#4b5563",
                 ]
-                seed = int(hashlib.md5(sel_dom.encode()).hexdigest()[:8], 16)
-                rng  = random.Random(seed)
-                placed = []
-                svg_words = ""
+                kw_json = _json.dumps(keywords[:40], ensure_ascii=False)
+                palette_json = _json.dumps(palette)
+                seed = int(hashlib.md5(sel_dom.encode()).hexdigest()[:8], 16) % 9999
+                canvas_id = f"wc_{wc_key}_{sel_dom[:4].encode().hex()}"
 
-                def overlaps(x, y, w, h):
-                    pad = 3
-                    for px, py, pw, ph in placed:
-                        if not (x+w+pad < px or x > px+pw+pad or y+h+pad < py or y > py+ph+pad):
-                            return True
-                    return False
+                html = f"""
+<div style="background:#fff;border-left:1px solid #e5e7eb;border-right:1px solid #e5e7eb;padding:4px 8px;">
+<canvas id="{canvas_id}" width="600" height="240" style="width:100%;height:240px;"></canvas>
+</div>
+<script>
+(function(){{
+  var canvas = document.getElementById('{canvas_id}');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
+  var words = {kw_json};
+  var palette = {palette_json};
+  var seed = {seed};
+  var maxCnt = words[0].count;
 
-                for idx, kw in enumerate(keywords[:35]):
-                    ratio  = kw["count"] / max_cnt
-                    fs     = int(11 + ratio * 28)
-                    angle  = rng.choice([0, 0, 0, 90, -90]) if ratio < 0.4 else 0
-                    c      = palettes[idx % len(palettes)]
-                    weight = 800 if ratio > 0.6 else (600 if ratio > 0.3 else 400)
-                    word   = kw["word"]
-                    char_w = fs * 0.62
-                    tw = int(len(word) * char_w); th = fs + 6
-                    if angle != 0: tw, th = th, tw
-                    for _ in range(100):
-                        cx = rng.randint(tw//2+6, W-tw//2-6)
-                        cy = rng.randint(th//2+6, H-th//2-6)
-                        bx, by = cx-tw//2, cy-th//2
-                        if not overlaps(bx, by, tw, th):
-                            placed.append((bx, by, tw, th))
-                            tr = f'rotate({angle},{cx},{cy})' if angle else ''
-                            svg_words += (
-                                f'<text x="{cx}" y="{cy}" font-size="{fs}" font-weight="{weight}" '
-                                f'fill="{c}" opacity="{0.5+ratio*0.5:.2f}" '
-                                f'text-anchor="middle" dominant-baseline="middle" '
-                                f'font-family="Arial,sans-serif" transform="{tr}">{word}</text>'
-                            )
-                            break
+  function seededRand(s){{
+    var x = Math.sin(s) * 10000;
+    return x - Math.floor(x);
+  }}
 
-                st.markdown(
-                    f'<div style="background:#fff;border-left:1px solid #e5e7eb;'
-                    f'border-right:1px solid #e5e7eb;padding:0.5rem 1rem;">'
-                    f'<svg viewBox="0 0 {W} {H}" width="100%" height="{H}" '
-                    f'xmlns="http://www.w3.org/2000/svg">{svg_words}</svg></div>',
-                    unsafe_allow_html=True
-                )
+  ctx.clearRect(0,0,W,H);
+  var placed = [];
+  var s = seed;
+
+  function rand(){{ s++; return seededRand(s); }}
+  function overlap(x,y,w,h){{
+    for(var i=0;i<placed.length;i++){{
+      var p=placed[i];
+      if(!(x+w+2<p.x||x>p.x+p.w+2||y+h+2<p.y||y>p.y+p.h+2)) return true;
+    }}
+    return false;
+  }}
+
+  for(var i=0;i<words.length;i++){{
+    var ratio = words[i].count / maxCnt;
+    var fs = Math.round(10 + ratio * 30);
+    var weight = ratio > 0.6 ? '800' : (ratio > 0.3 ? '600' : '400');
+    var angle = (ratio < 0.35 && rand() > 0.6) ? (rand()>0.5?Math.PI/2:-Math.PI/2) : 0;
+    var col = palette[i % palette.length];
+    var word = words[i].word;
+
+    ctx.font = weight+' '+fs+'px Arial,sans-serif';
+    var tw = ctx.measureText(word).width;
+    var th = fs * 1.2;
+    var rw = angle===0 ? tw : th;
+    var rh = angle===0 ? th : tw;
+
+    // 나선형 탐색
+    var placed_ok = false;
+    var cx0 = W/2, cy0 = H/2;
+    for(var t=0;t<600;t++){{
+      var angle_t = t * 0.25;
+      var r_t = t * 0.7;
+      var cx = Math.round(cx0 + r_t * Math.cos(angle_t) + (rand()-0.5)*4);
+      var cy = Math.round(cy0 + r_t * Math.sin(angle_t) + (rand()-0.5)*4);
+      var bx = cx - rw/2, by = cy - rh/2;
+      if(bx<2||by<2||bx+rw>W-2||by+rh>H-2) continue;
+      if(!overlap(bx,by,rw,rh)){{
+        placed.push({{x:bx,y:by,w:rw,h:rh}});
+        ctx.save();
+        ctx.translate(cx,cy);
+        ctx.rotate(angle);
+        ctx.fillStyle = col;
+        ctx.globalAlpha = 0.5 + ratio*0.5;
+        ctx.font = weight+' '+fs+'px Arial,sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(word, 0, 0);
+        ctx.restore();
+        placed_ok = true;
+        break;
+      }}
+    }}
+  }}
+}})();
+</script>
+"""
+                st.markdown(html, unsafe_allow_html=True)
             else:
                 st.markdown(
                     '<div style="background:#fff;border-left:1px solid #e5e7eb;'
@@ -779,7 +816,7 @@ if menu == "🏢 메인 대시보드":
                     unsafe_allow_html=True
                 )
 
-            # 5개씩 2행 버튼 (워드클라우드 아래)
+            # 5개씩 2행 버튼
             for row_doms in [DOMAIN_LIST[:5], DOMAIN_LIST[5:]]:
                 row_cols = st.columns(5)
                 for i, dom in enumerate(row_doms):
