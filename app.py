@@ -689,7 +689,7 @@ if menu == "🏢 메인 대시보드":
         def render_wc_panel(title, wc_key, kw_type, session_key):
             import random, hashlib, json as _json
             st.markdown(
-                f'<div style="background:#f0f2f6;border:1px solid #e5e7eb;border-radius:10px 10px 0 0;'
+                f'<div style="background:#F5F5F4;border:1px solid #e5e7eb;border-radius:10px 10px 0 0;'
                 f'padding:0.8rem 1.2rem 0.6rem;border-bottom:1px solid #e5e7eb;">'
                 f'<span style="font-size:0.78rem;font-weight:700;color:#6b7280;'
                 f'text-transform:uppercase;letter-spacing:0.05em;">{title}</span></div>',
