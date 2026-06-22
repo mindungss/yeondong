@@ -656,9 +656,9 @@ def sync_daily(notion):
             is_detail  = txt.startswith("주요 내용") or txt.startswith("주요내용")
             is_summary = txt.startswith("요약")
             is_source  = txt.startswith("출처")
-            is_tags    = txt.startswith("태그") or (txt.startswith("`#") or txt.startswith("#"))
-            is_num     = bool(re.match(r"^[①②③④⑤⑥⑦⑧⑨⑩]", txt))
-            is_field   = is_detail or is_summary or is_source or is_tags or is_num
+            is_tags    = txt.startswith("태그") or txt.startswith("`#") or txt.startswith("#")
+            is_stop    = is_source or is_tags or is_summary  # detail 누적 중단 신호
+            is_field   = is_detail or is_summary or is_source or is_tags
 
             # ── 새 항목 제목: 필드 키워드가 아닌 최상위 불릿
             if not is_field:
@@ -708,15 +708,10 @@ def sync_daily(notion):
                 cur_field = None
                 raw_t = re.sub(r"^태그\s*[:：]?\s*", "", txt)
                 cur_entry["tags"] = re.findall(r"#([^\s`#]+)", raw_t)
-            elif is_num:
-                # ①②③ 번호 항목 → detail에 누적
-                if cur_field == "detail" or cur_entry["detail"]:
-                    cur_field = "detail"
-                    cur_entry["detail"] += ("\n" + txt if cur_entry["detail"] else txt)
             else:
-                # 기타 → 현재 필드에 누적
-                if cur_field in ("detail", "summary"):
-                    cur_entry[cur_field] += ("\n" + txt if cur_entry[cur_field] else txt)
+                # 키워드 없는 줄 → detail 누적 중 (출처/태그/요약 나오기 전까지)
+                if cur_field == "detail" and txt:
+                    cur_entry["detail"] += ("\n" + txt if cur_entry["detail"] else txt)
 
     # 마지막 항목 저장
     if cur_entry and cur_entry.get("title"):
