@@ -614,14 +614,19 @@ def sync_daily(notion):
 
     page_blocks = fetch_all(target_id)
     log.info(f"[daily] 날짜 페이지 블록 수: {len(page_blocks)}")
-    for i, b in enumerate(page_blocks[:15]):
-        log.info(f"[daily] [{i:02d}] type={b.get('type','')} / {block_text(b)[:60]}")
+    for i, b in enumerate(page_blocks[:20]):
+        log.info(f"[daily] [{i:02d}] type={b.get('type','')} text={block_text(b)[:80]!r}")
+        for j, c in enumerate(b.get("_children", [])[:10]):
+            log.info(f"[daily]   └─ [{i:02d}-{j:02d}] type={c.get('type','')} text={block_text(c)[:80]!r}")
+            for k, cc in enumerate(c.get("_children", [])[:5]):
+                log.info(f"[daily]       └─ [{i:02d}-{j:02d}-{k:02d}] type={cc.get('type','')} text={block_text(cc)[:80]!r}")
 
     # ── 4단계: 이슈/기술 파싱
     issues, techs = [], []
     cur_section = None
     cur_domain  = None
-    issue_cnt = tech_cnt = 1
+    cur_entry   = None
+    cur_field   = None
 
     for b in page_blocks:
         btype = b.get("type","")
@@ -645,45 +650,88 @@ def sync_daily(notion):
 
         if btype == "bulleted_list_item":
             if "금일 주요 동향 없음" in txt: continue
-            title = re.sub(r"\*\*(.+?)\*\*", r"\1", txt).strip()
 
-            summary, source, tags, detail, url = "", "", [], "", ""
-            for sub in b.get("_children", []):
-                st = block_text(sub).strip()
-                sub_children_text = "\n".join(
-                    block_text(c).strip() for c in sub.get("_children", []) if block_text(c).strip()
-                )
-                if st.startswith("주요 내용") or st.startswith("주요내용"):
-                    first = re.sub(r"^주요\s*내용\s*[:：]?\s*", "", st).strip()
-                    detail = (first + ("\n" + sub_children_text if sub_children_text else "")).strip()
-                    summary = (first + ("\n" + sub_children_text if sub_children_text else "")).strip()
-                elif st.startswith("출처"):
-                    source = re.sub(r"^출처\s*[:：]?\s*", "", st).strip()
-                    um = re.search(r"\((https?://[^\)]+)\)", source)
-                    if um: url = um.group(1)
-                    source = re.sub(r"\[([^\]]+)\]\([^\)]+\)", r"\1", source)
-                elif st.startswith("태그") or "#" in st:
-                    raw_t = re.sub(r"^태그\s*[:：]?\s*", "", st)
-                    tags  = re.findall(r"#([^\s`#]+)", raw_t)
-                elif st.startswith("요약"):
-                    first = re.sub(r"^요약\s*[:：]?\s*", "", st).strip()
+            # ── 필드 키워드 판별
+            is_detail  = txt.startswith("주요 내용") or txt.startswith("주요내용")
+            is_summary = txt.startswith("요약")
+            is_source  = txt.startswith("출처")
+            is_tags    = txt.startswith("태그") or (txt.startswith("`#") or txt.startswith("#"))
+            is_num     = bool(re.match(r"^[①②③④⑤⑥⑦⑧⑨⑩]", txt))
+            is_field   = is_detail or is_summary or is_source or is_tags or is_num
 
-            if not title: continue
-            entry = {"domain": cur_domain, "title": title,
-                     "summary": summary or title,
-                     "detail": detail, "source": source, "url": url, "tags": tags}
+            # ── 새 항목 제목: 필드 키워드가 아닌 최상위 불릿
+            if not is_field:
+                # 이전 항목 저장
+                if cur_entry and cur_entry.get("title"):
+                    e = cur_entry
+                    e["summary"] = e.get("summary") or e["title"]
+                    if cur_section == "issue":
+                        e["id"] = f"I{latest_date.replace('-','')[2:]}{len(issues)+1:04d}"
+                        e["severity"] = "high" if any(w in e["title"] for w in
+                            ["급증","적발","최초","위기","사망","테러","피해","유출"]) else "medium"
+                        issues.append(e)
+                        log.info(f"[daily] 이슈: [{cur_domain}] {e['title'][:40]}")
+                    else:
+                        e["id"] = f"T{latest_date.replace('-','')[2:]}{len(techs)+1:04d}"
+                        e["trl"] = 1
+                        techs.append(e)
+                        log.info(f"[daily] 기술: [{cur_domain}] {e['title'][:40]}")
+                title = re.sub(r"\*\*(.+?)\*\*", r"\1", txt).strip()
+                if not title: continue
+                cur_entry = {"domain": cur_domain, "title": title,
+                             "summary": "", "detail": "", "source": "", "url": "", "tags": []}
+                cur_field = None
+                log.info(f"[daily] 항목 시작: {title[:40]}")
+                continue
 
-            if cur_section == "issue":
-                entry["id"] = f"I{latest_date.replace('-','')[2:]}{issue_cnt:04d}"
-                entry["severity"] = "high" if any(w in title for w in
-                    ["급증","적발","최초","위기","사망","테러","피해","유출"]) else "medium"
-                issues.append(entry); issue_cnt += 1
-                log.info(f"[daily] 이슈: [{cur_domain}] {title[:40]}")
+            if cur_entry is None:
+                continue
+
+            # ── 필드 파싱
+            if is_detail:
+                cur_field = "detail"
+                val = re.sub(r"^주요\s*내용\s*[:：]?\s*", "", txt).strip()
+                cur_entry["detail"] = val
+            elif is_summary:
+                cur_field = "summary"
+                val = re.sub(r"^요약\s*[:：]?\s*", "", txt).strip()
+                cur_entry["summary"] = val
+                log.info(f"[daily] 요약 파싱: {val[:40]}")
+            elif is_source:
+                cur_field = None
+                val = re.sub(r"^출처\s*[:：]?\s*", "", txt).strip()
+                um = re.search(r"\((https?://[^\)]+)\)", val)
+                if um: cur_entry["url"] = um.group(1)
+                cur_entry["source"] = re.sub(r"\[([^\]]+)\]\([^\)]+\)", r"\1", val)
+            elif is_tags:
+                cur_field = None
+                raw_t = re.sub(r"^태그\s*[:：]?\s*", "", txt)
+                cur_entry["tags"] = re.findall(r"#([^\s`#]+)", raw_t)
+            elif is_num:
+                # ①②③ 번호 항목 → detail에 누적
+                if cur_field == "detail" or cur_entry["detail"]:
+                    cur_field = "detail"
+                    cur_entry["detail"] += ("\n" + txt if cur_entry["detail"] else txt)
             else:
-                entry["id"] = f"T{latest_date.replace('-','')[2:]}{tech_cnt:04d}"
-                entry["trl"] = 1
-                techs.append(entry); tech_cnt += 1
-                log.info(f"[daily] 기술: [{cur_domain}] {title[:40]}")
+                # 기타 → 현재 필드에 누적
+                if cur_field in ("detail", "summary"):
+                    cur_entry[cur_field] += ("\n" + txt if cur_entry[cur_field] else txt)
+
+    # 마지막 항목 저장
+    if cur_entry and cur_entry.get("title"):
+        e = cur_entry
+        e["summary"] = e.get("summary") or e["title"]
+        if cur_section == "issue":
+            e["id"] = f"I{latest_date.replace('-','')[2:]}{len(issues)+1:04d}"
+            e["severity"] = "high" if any(w in e["title"] for w in
+                ["급증","적발","최초","위기","사망","테러","피해","유출"]) else "medium"
+            issues.append(e)
+            log.info(f"[daily] 이슈(last): [{cur_domain}] {e['title'][:40]}")
+        else:
+            e["id"] = f"T{latest_date.replace('-','')[2:]}{len(techs)+1:04d}"
+            e["trl"] = 1
+            techs.append(e)
+            log.info(f"[daily] 기술(last): [{cur_domain}] {e['title'][:40]}")
 
     if not issues and not techs:
         log.info("[daily] 파싱 항목 0건 → 스킵"); return False
@@ -936,6 +984,114 @@ def sync_ntis(notion):
     return True
 
 # ─────────────────────────────────────────────
+# 주간 요약 파싱 (메인 페이지 일주일 섹션)
+# ─────────────────────────────────────────────
+def sync_weekly_summary(notion):
+    """
+    일일 리포트 메인 페이지(DB_DAILY)에서
+    '### 📊 분야별 누적 — 최근 일주일' 섹션을 파싱 →
+    data/weekly_summary.json 저장
+
+    저장 형식:
+    {
+      "updated": "2026-06-22",
+      "period": "2026-06-16 ~ 2026-06-22",
+      "domains": [
+        {"domain": "🤖 AI", "count": 4},
+        ...
+      ]
+    }
+    """
+    path = DATA_DIR / "weekly_summary.json"
+    if not DB_DAILY:
+        log.info("[weekly] DB_DAILY 미설정 → 스킵"); return False
+
+    try:
+        blocks = _fetch_children(notion, DB_DAILY)
+    except Exception as e:
+        log.error(f"[weekly] 블록 읽기 오류: {e}"); return False
+
+    # ── '최근 일주일' heading3 찾기
+    in_section = False
+    period     = ""
+    domains    = []
+
+    DOMAIN_MAP = {
+        "AI": "🤖 AI", "국제 치안": "🌐 국제 치안", "국제치안": "🌐 국제 치안",
+        "과학 수사": "🧬 과학 수사", "과학수사": "🧬 과학 수사",
+        "교통": "🚗 교통", "마약": "💊 마약", "법": "📜 법·제도",
+        "법·제도": "📜 법·제도", "법/제도": "📜 법·제도",
+        "사이버 보안": "🔐 사이버 보안", "사이버보안": "🔐 사이버 보안",
+        "생활 안전": "🏘️ 생활 안전", "생활안전": "🏘️ 생활 안전",
+        "신종 범죄": "🚓 신종 범죄", "신종범죄": "🚓 신종 범죄",
+        "장비": "🛠️ 장비",
+    }
+
+    for b in blocks:
+        btype = b.get("type", "")
+        txt   = block_text(b).strip()
+
+        # heading3 기준으로 섹션 진입/탈출
+        if btype == "heading_3":
+            if "최근 일주일" in txt:
+                in_section = True
+                log.info(f"[weekly] 섹션 진입: {txt}")
+            elif in_section:
+                # 다음 heading이 나오면 종료
+                break
+            continue
+
+        if not in_section:
+            continue
+
+        # quote 블록 → 기간 추출
+        if btype == "quote":
+            m = re.search(r"(\d{4}-\d{2}-\d{2})\s*[~～]\s*(\d{4}-\d{2}-\d{2})", txt)
+            if m:
+                period = f"{m.group(1)} ~ {m.group(2)}"
+                log.info(f"[weekly] 기간: {period}")
+            continue
+
+        # 불릿 항목: 도메인 건수 파싱
+        if btype == "bulleted_list_item":
+            # 예: "🤖 AI: **4건** ★★★★ (이슈 분야 1위)"
+            # 또는 "🚗 교통: 0건 —"
+            count_m = re.search(r"\*?\*?(\d+)건\*?\*?", txt)
+            count   = int(count_m.group(1)) if count_m else 0
+
+            # 도메인 이름 추출: 이모지 포함 앞부분
+            domain_raw = re.sub(r"[:：].*", "", txt).strip()
+            # 이모지 포함 그대로 매핑 시도
+            matched_domain = None
+            for key, val in DOMAIN_MAP.items():
+                if key in domain_raw:
+                    matched_domain = val
+                    break
+            # 이모지가 이미 포함된 경우 그대로 사용
+            if not matched_domain:
+                matched_domain = domain_raw
+
+            if matched_domain:
+                domains.append({"domain": matched_domain, "count": count})
+                log.info(f"[weekly] {matched_domain}: {count}건")
+
+    if not domains:
+        log.warning("[weekly] 파싱된 도메인 없음 → 스킵"); return False
+
+    # 건수 내림차순 정렬
+    domains.sort(key=lambda x: -x["count"])
+
+    result = {
+        "updated": TODAY_KST,
+        "period":  period or f"최근 7일",
+        "domains": domains,
+    }
+    save_json(path, result)
+    log.info(f"[weekly] 저장 완료: {len(domains)}개 도메인")
+    return True
+
+
+# ─────────────────────────────────────────────
 # 메인
 # ─────────────────────────────────────────────
 def main():
@@ -953,6 +1109,7 @@ def main():
 
     results, errors = {}, []
     for name, func, db_id in [
+        ("weekly", sync_weekly_summary, DB_DAILY),
         ("daily", sync_daily, DB_DAILY),
         ("trend", sync_trend, DB_TREND), ("idea",  sync_ideas, DB_IDEA),
         ("rfp",   sync_rfp,   DB_RFP),   ("ntis",  sync_ntis,  DB_NTIS),
