@@ -610,6 +610,7 @@ def sync_daily(notion):
             if b.get("has_children"):
                 subs = fetch_all(b["id"], depth+1)
                 b["_children"] = subs
+                result.extend(subs)   # ← 자식 블록을 플랫 리스트에도 추가
         return result
 
     page_blocks = fetch_all(target_id)
