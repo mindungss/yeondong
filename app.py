@@ -687,6 +687,7 @@ if menu == "🏢 메인 대시보드":
             st.session_state.wc_tech_domain = None
 
         def render_wc_panel(col, title, wc_key, kw_type, session_key):
+            import random, math, hashlib
             with col:
                 # 패널 헤더
                 st.markdown(
@@ -697,9 +698,7 @@ if menu == "🏢 메인 대시보드":
                     unsafe_allow_html=True
                 )
 
-                # 분야 선택 버튼 (데이터 있는 분야만)
-                active_doms = [d for d in DOMAIN_LIST if wc_domains.get(d, {}).get(kw_type)]
-                if not active_doms:
+                if not wc_domains:
                     st.markdown(
                         '<div style="background:#fff;border:1px solid #e5e7eb;border-top:0;'
                         'border-radius:0 0 10px 10px;padding:1.5rem;text-align:center;'
@@ -708,61 +707,117 @@ if menu == "🏢 메인 대시보드":
                     )
                     return
 
-                # 기본 선택: 첫 번째 도메인
-                if st.session_state[session_key] not in active_doms:
-                    st.session_state[session_key] = active_doms[0]
+                # 기본 선택: 데이터 있는 첫 번째 도메인
+                has_data = [d for d in DOMAIN_LIST if wc_domains.get(d, {}).get(kw_type)]
+                if st.session_state[session_key] not in DOMAIN_LIST:
+                    st.session_state[session_key] = has_data[0] if has_data else DOMAIN_LIST[0]
 
-                # 분야 버튼 행
-                btn_cols = st.columns(len(active_doms))
-                for i, dom in enumerate(active_doms):
-                    color  = DOMAIN_COLORS.get(dom, "#6b7280")
-                    short  = DOMAIN_SHORT.get(dom, dom)
-                    is_sel = (st.session_state[session_key] == dom)
-                    with btn_cols[i]:
+                # 10개 분야 버튼 — 5개씩 2행
+                row_a = st.columns(5)
+                row_b = st.columns(5)
+                btn_rows = list(row_a) + list(row_b)
+                for i, dom in enumerate(DOMAIN_LIST):
+                    short   = DOMAIN_SHORT.get(dom, dom)
+                    color   = DOMAIN_COLORS.get(dom, "#6b7280")
+                    is_sel  = (st.session_state[session_key] == dom)
+                    has_d   = bool(wc_domains.get(dom, {}).get(kw_type))
+                    with btn_rows[i]:
                         if st.button(
                             short,
                             key=f"{wc_key}_btn_{dom}",
                             use_container_width=True,
-                            type="primary" if is_sel else "secondary"
+                            type="primary" if is_sel else "secondary",
+                            disabled=not has_d
                         ):
                             st.session_state[session_key] = dom
                             st.rerun()
 
-                # 선택된 도메인 키워드
+                # 선택 도메인 키워드
                 sel_dom  = st.session_state[session_key]
                 keywords = wc_domains.get(sel_dom, {}).get(kw_type, [])
-                color    = DOMAIN_COLORS.get(sel_dom, "#6b7280")
+                color    = DOMAIN_COLORS.get(sel_dom, "#3498db")
 
                 if not keywords:
                     st.markdown(
                         '<div style="background:#fff;border:1px solid #e5e7eb;border-top:0;'
-                        'border-radius:0 0 10px 10px;padding:1.5rem;text-align:center;'
+                        'border-radius:0 0 10px 10px;padding:2rem;text-align:center;'
                         'color:#9ca3af;font-size:0.8rem;">해당 기간 데이터 없음</div>',
                         unsafe_allow_html=True
                     )
                     return
 
-                # 워드클라우드 시각화 (크기 비례 태그 클라우드)
-                max_cnt = keywords[0]["count"] if keywords else 1
-                tags_html = ""
-                for kw in keywords:
-                    ratio   = kw["count"] / max_cnt
-                    size    = 0.72 + ratio * 1.1   # 0.72rem ~ 1.82rem
-                    opacity = 0.45 + ratio * 0.55
-                    tags_html += (
-                        f'<span style="font-size:{size:.2f}rem;color:{color};'
-                        f'opacity:{opacity:.2f};font-weight:{"700" if ratio > 0.6 else "500"};'
-                        f'margin:3px 5px;display:inline-block;line-height:1.4;">'
-                        f'{kw["word"]}</span>'
-                    )
+                # ── SVG 워드클라우드 (랜덤 배치 + 크기/각도 변화)
+                W, H   = 480, 220
+                max_cnt = keywords[0]["count"]
 
-                st.markdown(
+                # 도메인별 색상 팔레트
+                r = int(color[1:3], 16)
+                g = int(color[3:5], 16)
+                b = int(color[5:7], 16)
+                palettes = [
+                    color,
+                    f"rgb({max(0,r-40)},{max(0,g-40)},{max(0,b-40)})",
+                    f"rgb({min(255,r+50)},{min(255,g+30)},{min(255,b+30)})",
+                    f"rgb({max(0,r-20)},{min(255,g+20)},{max(0,b-20)})",
+                    "#374151",
+                ]
+
+                # 재현 가능한 랜덤 (도메인명 seed)
+                seed = int(hashlib.md5(sel_dom.encode()).hexdigest()[:8], 16)
+                rng  = random.Random(seed)
+
+                placed = []
+                svg_words = ""
+
+                def overlaps(x, y, w, h):
+                    pad = 4
+                    for px, py, pw, ph in placed:
+                        if not (x + w + pad < px or x > px + pw + pad or
+                                y + h + pad < py or y > py + ph + pad):
+                            return True
+                    return False
+
+                for idx, kw in enumerate(keywords[:35]):
+                    ratio   = kw["count"] / max_cnt
+                    fs      = int(11 + ratio * 26)          # 11~37px
+                    angle   = rng.choice([0, 0, 0, 90, -90]) if ratio < 0.5 else 0
+                    c       = palettes[idx % len(palettes)]
+                    weight  = 800 if ratio > 0.6 else (600 if ratio > 0.3 else 400)
+                    word    = kw["word"]
+                    # 글자 너비 근사
+                    char_w  = fs * 0.62
+                    tw      = int(len(word) * char_w)
+                    th      = fs + 4
+                    if angle != 0:
+                        tw, th = th, tw
+
+                    placed_ok = False
+                    for _ in range(80):
+                        cx = rng.randint(tw // 2 + 4, W - tw // 2 - 4)
+                        cy = rng.randint(th // 2 + 4, H - th // 2 - 4)
+                        bx, by = cx - tw // 2, cy - th // 2
+                        if not overlaps(bx, by, tw, th):
+                            placed.append((bx, by, tw, th))
+                            transform = f'rotate({angle},{cx},{cy})' if angle else ''
+                            svg_words += (
+                                f'<text x="{cx}" y="{cy}" '
+                                f'font-size="{fs}" font-weight="{weight}" '
+                                f'fill="{c}" opacity="{0.5 + ratio * 0.5:.2f}" '
+                                f'text-anchor="middle" dominant-baseline="middle" '
+                                f'font-family="Arial,sans-serif" '
+                                f'transform="{transform}">{word}</text>'
+                            )
+                            placed_ok = True
+                            break
+
+                svg_html = (
                     f'<div style="background:#fff;border:1px solid #e5e7eb;border-top:0;'
-                    f'border-radius:0 0 10px 10px;padding:1rem 1.2rem 1.2rem;">'
-                    f'<div style="line-height:2;text-align:center;">{tags_html}</div>'
-                    f'</div>',
-                    unsafe_allow_html=True
+                    f'border-radius:0 0 10px 10px;padding:0.5rem 1rem 1rem;">'
+                    f'<svg viewBox="0 0 {W} {H}" width="100%" height="{H}" '
+                    f'xmlns="http://www.w3.org/2000/svg">{svg_words}</svg>'
+                    f'</div>'
                 )
+                st.markdown(svg_html, unsafe_allow_html=True)
 
         # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         # 패널 3 (왼쪽 아래): 이슈 워드클라우드
