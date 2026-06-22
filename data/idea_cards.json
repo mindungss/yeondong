@@ -1,5 +1,35 @@
 [
   {
+    "id": "IDEA-387498EEF533",
+    "notion_id": "387498eef533814fa417f6851ca3ce63",
+    "date": "2026-06-22",
+    "domain": "🛠️ 장비",
+    "tech_name": "MESA® 메타물질 전자 스캔 어레이 레이더 기반 법집행 드론 공역 인식 및 대드론 탐지 플랫폼 (Echodyne MESA® Metamaterial Electronically Scanned Array Radar for Law Enforcement UAS Airspace Awareness and Counter-Drone Detection)",
+    "policing_issues": "법집행 DFR 드론 운용 시 저고도 공역 충돌 위험 및 비인가 드론으로 인한 범죄(마약 밀수·보안 침입·행사장 위협) 조기 탐지 부재",
+    "target_issue": "",
+    "tags": [],
+    "features": "미국 Echodyne사(마이크로소프트 투자사)가 개발한 MESA®(Metamaterial Electronically Scanned Array, 메타물질 전자 스캔 어레이) 특허 레이더 플랫폼이다. 2026년 6월 18일 공공안전 기술 선도기업 Axon(Axon Air 드론 플랫폼 및 Dedrone 대드론 솔루션 포함)과 법집행기관 드론 운용 인프라 구축을 위한 파트너십을 공식 체결했다. 현재 매일 수백 건의 DFR(Drone as First Responder, 드론 선착대) 운용을 지원하는 운용 배치 단계(TRL 9)이며, 호주 국방군(ADF, Australian Defence Force) 대드론 이니셔티브에도 공급 중이다.\n\n① 개발 기관 및 현황: Echodyne사가 MESA® 특허 기술 개발. Axon 파트너십(2026.06.18 발표), ADF 공급, 일일 수백 건 DFR 실운용 지원 중.\n\n② 핵심 작동 메커니즘: 전통적 위상배열(phased-array) 레이더가 위상 편이(phase shift) 또는 시간 지연(time delay)으로 빔을 조향하는 것과 달리, MESA® 레이더는 수백 개의 Tx/Rx(송수신) 모듈 셀(cell)을 개별적으로 ON/OFF하여 빔을 전자적으로 조향한다. 이 메타물질 기반 안테나 설계는 동일 단가 대비 Tx/Rx 모듈 수를 대폭 늘려 빔폭(beamwidth)을 좊히고 각도 분해능(angular resolution)을 향상시킨다—소형·저반사 드론처럼 레이더 반사 단면적(RCS, Radar Cross Section)이 작은 표적 탐지·추적에 결정적으로 유리하다. 고해상도 거리-속도 맵(range-velocity map)을 실시간 생성하여 최대 3km 거리의 이동 물체를 구분·추적한다.\n\n③ 하드웨어·플랫폼: 손바닥 크기(palm-sized) 소형 레이더 유닛으로 단가 $50,000 미만이며, 전통 군용 ESA 레이더 대비 획기적으로 낙은 비용으로 법집행 예산 내 조달이 가능하다. 제품군은 EchoGuard®(공역 보호 반경 최대 6km)와 EchoShield®(공역 인식 반경 최대 18km)로 구성된다. Axon Air 드론 관제 플랫폼 및 Dedrone 대드론 솔루션과 API 통합하여 DFR 운용 공역 안전 관리와 비인가 드론 탐지를 단일 운용환경에서 처리한다.\n\n④ 성능 수치: EchoGuard® 기준 최대 6km 공역 보호, EchoShield® 기준 최대 18km 공역 인식. 소형 드론 탐지·추적 최대 3km. 단가 $50,000 미만. 현재 일일 수백 건 DFR 운용 지원 중.\n\n⑤ 치안 현장 적용 시나리오: 도심 DFR 프로그램에서 경찰 드론이 저고도 공역에서 안전하게 임무 수행하도록 주변 비행체를 실시간 인식하고 충돌 회피 정보를 제공한다. Dedrone와 연계하여 마약 밀수·보안구역 침입·공공 행사장 위협 등 비인가 드론을 조기 탐지·추적하여 경찰에 경보한다.",
+    "applications": "① DFR(드론 선착대) 운용 안전 지원: 법집행기관 DFR 프로그램에서 경찰 드론이 저고도 공역에서 안전하게 임무 수행하도록 주변 비행체를 실시간 인식하고 충돌 회피 정보를 제공한다. 도심 고밀도 공역에서 경찰 드론 운용 규모를 안전하게 확장하는 기반 인프라로 기능한다.\n② 비인가 드론 위협 탐지 및 대응: 마약 밀수·교도소 담널 드론 반입·공공 행사장 위협 등 비인가 드론을 조기 탐지·추적하여 경찰이 적시에 대응하거나 대드론(C-UAS) 시스템과 연동해 상황 인식을 제공한다.",
+    "constraints": "• C-UAS 무력화 권한 제한: 미국 내 법집행기관은 FAA 규정상 비인가 드론을 독립적으로 무력화하거나 격추할 법적 권한이 제한되어 있어, 탐지는 가능하나 즉각적 물리적 대응에는 연방 접고 절차가 더 필요한 경우가 있다.\n• 클러터 환경 타지 정확도: 빌딩 밀집 도심이나 전파 반사 환경에서는 소형 드론과 새·기타 이동체를 구분하는 분류(classification) 정확도가 저하될 수 있으며, 탐지 신뢰도 확보를 위해 카메라·RF 센서와의 다중 센서 융합(sensor fusion)이 권장된다.\n• 공역 관할 불명확성: 경찰 드론 DFR 운용 공역의 법적 관할은 FAA·지방정부·연방 기관 간 복잡하게 얽혀 있어 운용 권한 확보 및 인접 공항·비행금지구역과의 조율이 상시 필요하다.",
+    "companies": "• Echodyne — EchoGuard® (6km 공역 보호 레이더), EchoShield® (18km 공역 인식 레이더), MESA-DAA\n• Axon — Axon Air 드론 관제 플랫폼, Dedrone 대드론 솔루션 (2025년 Axon 인수)\n• D-Fend Solutions — EnforceAir 사이버 대드론 시스템 (미국 알라바마대 등 적용 중)\n• Airwayz — Overwatch 공역 관리 플랫폼 (2026 FIFA 월드컵 마이애미 경찰청 적용)\n• SRC Inc. — Silent Archer 대드론 레이더 시스템 (미 국방부 및 경찰청 납품 실적)",
+    "trend": "미국 내 DFR 프로그램은 2024~2026년 급격히 확산 중이며, 오하이오 주는 2026년 전국 최초 주(州) 단위 DFR 프로그램을 공식 출범시켰다. Axon이 2025년 대드론 전문기업 Dedrone를 인수한 이후 공공안전 드론 에코시스템 통합이 가속화되며, Echodyne와의 레이더 파트너십(2026년 6월)은 이 에코시스템에 정밀 공역 인식 인프라를 추가했다. 글로벌 C-UAS 시장 규모는 2025년 기준 수십억 달러 규모로 성장 중이며, 경찰 및 공공안전 분야로의 확대가 빠르게 진행되고 있다."
+  },
+  {
+    "id": "IDEA-387498EEF533",
+    "notion_id": "387498eef5338142903ee94772d8b0e1",
+    "date": "2026-06-22",
+    "domain": "🛠️ 장비",
+    "tech_name": "96-속성 음향 지능 엔진 기반 총기 발사 탐지 시스템 (Acoem ATD 96-Attribute Acoustic Intelligence Engine for Gunshot Detection)",
+    "policing_issues": "총기 발사 사건 미신고·지연 신고로 인한 골든타임 상실 및 수사 단서 소멸; 기존 총기 탐지 시스템의 높은 오탐율(뉴욕시 기준 확인율 16.57%)로 인한 경찰 자원 낭비와 지역사회 신뢰 저하",
+    "target_issue": "",
+    "tags": [],
+    "features": "미국 Acoem ATD(Acoustic Threat Detection)사가 미 국방부(DoD) 군용 음향 위협 탐지 기술을 민간 공공안전 분야로 전환 개발한 총기 발사 실시간 탐지 시스템이다. 2026년 2월 공개된 최신 버전은 96-속성 음향 지능 엔진을 탑재하며, 2026년 3월 미국 라스베이거스 ISC West 2026에서 공식 공개됐다. 루이지애나 주 라파예트(Lafayette) 경찰청이 연간 $25,000 계약으로 현장 운용 중이며, 미국 내 다수 캠퍼스·공공시설에도 배치 완료된 운용 단계(TRL 9) 기술이다. 관리이사는 Timothy English.\n\n① 개발 기관 및 현황: Acoem ATD사가 DoD 군용 음향 위협 탐지 기술 기반으로 개발. ISC West 2026 전시 및 Lafayette PD 등 실운용 중.\n\n② 핵심 작동 메커니즘: 단일 AI 센서가 총기 발사 시 발생하는 포구 폭음(muzzle blast)과 발사체 탄도 충격파(ballistic shockwave) 두 신호를 동시 분석하는 이중 신호 분석(dual-signature analysis) 방식이다. 96개 속성은 ①파형(waveform) 특성(임펄스 형태·상승 시간(rise time)), ②스펙트럼(spectral content), ③시간적(temporal) 패턴, ④탄도 기하학(shockwave geometry) 4개 범주로 구성된다. 엣지 AI 신경망(Edge AI neural network)이 이를 실시간 평가하여 탐지·분류·위치 추정을 클라우드 전송 없이 단일 센서 내에서 완결한다. 기존 다중 센서 삼각측량(multi-sensor triangulation) 방식과 달리 단일 센서만으로 발사 지점 특정이 가능하다.\n\n③ 하드웨어·플랫폼: 단일 AI 탑재 음향 센서 유닛으로 기존 전신주·구조물 또는 이동식 보안 트레일러에 설치 가능하다. Cadence 관제 소프트웨어와 연동하며, 2026년 ISC West에서 사이버보안 요구 기관용 온프레미스(on-premise) Cadence 버전을 최초 공개했다. 발사 확인 시 ONVIF-S 개방 표준으로 PTZ(Pan-Tilt-Zoom) 카메라를 발사 방향으로 자동 슬루(auto-slew)하여 오디오·영상 복합 경보를 제공한다. 이벤트 트리거 단음 클립(brief event-triggered audio clip) 저장으로 프라이버시 보호 설계(privacy-by-design) 원칙 준수.\n\n④ 성능 수치: 독립 기관 검증 정확도 수치는 미공개. 비교 기준으로, 시장 선도 제품 ShotSpotter(현 SoundThinking)는 뉴욕시 감사원(NYC Comptroller, 2024) 기준 확인율 16.57%, 미확인 경보 비율 80~92%로 나타났다. Acoem ATD는 96속성 심층 분석으로 이 오탐 문제 해결을 핵심 가치로 제시한다.\n\n⑤ 치안 현장 적용 시나리오: 도심 주차장·대학 캠퍼스·공공 광장에 단일 센서 설치 후 총기 발사 직후 PTZ 카메라 자동 전환으로 골든타임 내 경찰 대응을 지원한다. 이동식 트레일러 탑재로 임시 행사장·집회에도 신속 배치하며, 정부·유틸리티 시설에는 오프라인 온프레미스 Cadence로 사이버보안 요건을 충족한다.",
+    "applications": "① 도심 총기 사건 즉각 대응: 총기 발사 즉시 자동 경보 및 PTZ 카메라 자동 전환으로 경찰 현장 도착 전 상황을 파악하고 골든타임 내 대응력을 향상시킨다. 총기 사건 신고율이 낮은 지역에서 미신고 총기 사건을 자동 탐지하여 수사 단서를 확보하는 효과가 기대된다.\n② 임시 행사·대형 이벤트 보안: 이동식 트레일러 탑재 배치로 고정 인프라 없이 스포츠 경기·집회·야외 행사장에 즉시 총기 탐지 시스템을 구축할 수 있으며, 발사 이벤트 오디오 클립은 사후 수사에서 독립적 청각 증거자료로 활용 가능하다.",
+    "constraints": "• 독립 검증 부재: Acoem ATD의 실제 오탐율·탐지율에 대한 외부 학술 검증 연구가 공개되지 않아 성능 주장의 객관적 확인이 어려우며, 공공기관 구매 의사결정에 제약이 될 수 있다.\n• 상시 음향 수집 프라이버시 논란: 경쟁사 Flock Safety의 Raven이 총기 탐지 마이크로 '인간 고통 음성(human distress audio)' 탐지를 추가한 사례처럼, 상시 환경 음향 수집 기기가 대화 감청 목적으로 전용될 법적·윤리적 우려가 존재한다.\n• 고소음 환경 오탐 가능성: 폭죽·금속 충격음 등 총성 유사 소리가 많은 도심 환경에서 96속성 분석으로 크게 개선되나 오탐을 완전히 제거하기 어려우며, 최적 설치 위치 선정이 운용 효과에 결정적이다.",
+    "companies": "• Acoem ATD — ATD-300 Gun Detection Sensor, Cadence 관제 소프트웨어 (온프레미스 버전 포함)\n• SoundThinking (구 ShotSpotter) — ShotSpotter Gunshot Detection (미국 60여 도시 운용 중)\n• Flock Safety — Raven 음향 총기 발사 탐지 시스템 (ALPR 플랫폼 통합, 2021 출시)\n• Purdue University Northwest 연구팀 — $500 이하 저비용 AI 총기 탐지 연구 시스템 (대학 캠퍼스 실증 중, 3,631회 테스트 무오탐 기록)",
+    "trend": "미국 총기 발사 탐지 시장은 ShotSpotter(현 SoundThinking)가 장기 독점했으나, 뉴욕시 감사원 공식 감사(2024)에서 확인율 16.57%·미확인 경보 80~92%가 드러나며 계약 해지 움직임이 확산됐다. 클리블랜드 시는 2026년 4월 ShotSpotter 계약 만료 후 Flock Safety로의 전환을 공식 제안했으며, Flock Safety Raven·Acoem ATD 등 차세대 음향 탐지 솔루션들이 공백을 메우며 급성장 중이다. Acoem ATD는 2026년 ISC West에서 96속성 엣지 AI 버전 및 정부 전용 온프레미스 Cadence를 공개하며 기술 고도화 경쟁을 주도하고 있으며, Purdue University Northwest는 $500 이하 저비용 AI 총기 탐지 시스템 연구로 가격 접근성 향상을 병행 모색 중이다."
+  },
+  {
     "id": "IDEA-384498EEF533",
     "notion_id": "384498eef53381128f3ff4a05fe31735",
     "date": "2026-06-19",
