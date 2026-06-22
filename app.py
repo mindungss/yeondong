@@ -669,35 +669,110 @@ if menu == "🏢 메인 대시보드":
         st.markdown("<div style='margin-top:0.8rem;'></div>", unsafe_allow_html=True)
         col_left2, col_right2 = st.columns(2)
 
+        # ── wordcloud.json 로드
+        WC_PATH = "data/wordcloud.json"
+        wc_data = {}
+        if os.path.exists(WC_PATH):
+            try:
+                with open(WC_PATH, "r", encoding="utf-8") as f:
+                    wc_data = json.load(f)
+            except Exception:
+                wc_data = {}
+        wc_domains = wc_data.get("domains", {})
+
+        # ── 세션 상태 초기화
+        if "wc_issue_domain" not in st.session_state:
+            st.session_state.wc_issue_domain = None
+        if "wc_tech_domain" not in st.session_state:
+            st.session_state.wc_tech_domain = None
+
+        def render_wc_panel(col, title, wc_key, kw_type, session_key):
+            with col:
+                # 패널 헤더
+                st.markdown(
+                    f'<div style="background:#fff;border:1px solid #e5e7eb;border-radius:10px 10px 0 0;'
+                    f'padding:0.8rem 1.2rem 0.6rem;border-bottom:1px solid #f3f4f6;">'
+                    f'<span style="font-size:0.78rem;font-weight:700;color:#6b7280;'
+                    f'text-transform:uppercase;letter-spacing:0.05em;">{title}</span></div>',
+                    unsafe_allow_html=True
+                )
+
+                # 분야 선택 버튼 (데이터 있는 분야만)
+                active_doms = [d for d in DOMAIN_LIST if wc_domains.get(d, {}).get(kw_type)]
+                if not active_doms:
+                    st.markdown(
+                        '<div style="background:#fff;border:1px solid #e5e7eb;border-top:0;'
+                        'border-radius:0 0 10px 10px;padding:1.5rem;text-align:center;'
+                        'color:#9ca3af;font-size:0.8rem;">동기화 대기 중...</div>',
+                        unsafe_allow_html=True
+                    )
+                    return
+
+                # 기본 선택: 첫 번째 도메인
+                if st.session_state[session_key] not in active_doms:
+                    st.session_state[session_key] = active_doms[0]
+
+                # 분야 버튼 행
+                btn_cols = st.columns(len(active_doms))
+                for i, dom in enumerate(active_doms):
+                    color  = DOMAIN_COLORS.get(dom, "#6b7280")
+                    short  = DOMAIN_SHORT.get(dom, dom)
+                    is_sel = (st.session_state[session_key] == dom)
+                    with btn_cols[i]:
+                        if st.button(
+                            short,
+                            key=f"{wc_key}_btn_{dom}",
+                            use_container_width=True,
+                            type="primary" if is_sel else "secondary"
+                        ):
+                            st.session_state[session_key] = dom
+                            st.rerun()
+
+                # 선택된 도메인 키워드
+                sel_dom  = st.session_state[session_key]
+                keywords = wc_domains.get(sel_dom, {}).get(kw_type, [])
+                color    = DOMAIN_COLORS.get(sel_dom, "#6b7280")
+
+                if not keywords:
+                    st.markdown(
+                        '<div style="background:#fff;border:1px solid #e5e7eb;border-top:0;'
+                        'border-radius:0 0 10px 10px;padding:1.5rem;text-align:center;'
+                        'color:#9ca3af;font-size:0.8rem;">해당 기간 데이터 없음</div>',
+                        unsafe_allow_html=True
+                    )
+                    return
+
+                # 워드클라우드 시각화 (크기 비례 태그 클라우드)
+                max_cnt = keywords[0]["count"] if keywords else 1
+                tags_html = ""
+                for kw in keywords:
+                    ratio   = kw["count"] / max_cnt
+                    size    = 0.72 + ratio * 1.1   # 0.72rem ~ 1.82rem
+                    opacity = 0.45 + ratio * 0.55
+                    tags_html += (
+                        f'<span style="font-size:{size:.2f}rem;color:{color};'
+                        f'opacity:{opacity:.2f};font-weight:{"700" if ratio > 0.6 else "500"};'
+                        f'margin:3px 5px;display:inline-block;line-height:1.4;">'
+                        f'{kw["word"]}</span>'
+                    )
+
+                st.markdown(
+                    f'<div style="background:#fff;border:1px solid #e5e7eb;border-top:0;'
+                    f'border-radius:0 0 10px 10px;padding:1rem 1.2rem 1.2rem;">'
+                    f'<div style="line-height:2;text-align:center;">{tags_html}</div>'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
+
         # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         # 패널 3 (왼쪽 아래): 이슈 워드클라우드
         # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        with col_left2:
-            st.markdown("""
-            <div class="dash-panel">
-              <div class="dash-panel-title">☁️ 이슈 키워드 워드클라우드</div>
-              <div class="wc-placeholder">
-                <span style="font-size:2rem;">🚧</span>
-                <span>이슈 키워드 DB 연동 예정</span>
-                <span style="font-size:0.72rem;color:#d1d5db;">wordcloud_issues.json 준비 후 활성화</span>
-              </div>
-            </div>
-            """, unsafe_allow_html=True)
+        render_wc_panel(col_left2,  "☁️ 이슈 키워드 워드클라우드",  "wc_issue", "issues", "wc_issue_domain")
 
         # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         # 패널 4 (오른쪽 아래): 기술 워드클라우드
         # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        with col_right2:
-            st.markdown("""
-            <div class="dash-panel">
-              <div class="dash-panel-title">☁️ 기술 키워드 워드클라우드</div>
-              <div class="wc-placeholder">
-                <span style="font-size:2rem;">🚧</span>
-                <span>기술 키워드 DB 연동 예정</span>
-                <span style="font-size:0.72rem;color:#d1d5db;">wordcloud_techs.json 준비 후 활성화</span>
-              </div>
-            </div>
-            """, unsafe_allow_html=True)
+        render_wc_panel(col_right2, "☁️ 기술 키워드 워드클라우드", "wc_tech",  "techs",  "wc_tech_domain")
 
 
 
