@@ -686,128 +686,129 @@ if menu == "🏢 메인 대시보드":
         if "wc_tech_domain" not in st.session_state:
             st.session_state.wc_tech_domain = None
 
-        def render_wc_panel(col, title, wc_key, kw_type, session_key):
+        def render_wc_panel(title, wc_key, kw_type, session_key):
             import random, hashlib
-            with col:
+            st.markdown(
+                f'<div style="background:#fff;border:1px solid #e5e7eb;border-radius:10px 10px 0 0;'
+                f'padding:0.8rem 1.2rem 0.6rem;border-bottom:1px solid #f3f4f6;">'
+                f'<span style="font-size:0.78rem;font-weight:700;color:#6b7280;'
+                f'text-transform:uppercase;letter-spacing:0.05em;">{title}</span></div>',
+                unsafe_allow_html=True
+            )
+
+            if not wc_domains:
                 st.markdown(
-                    f'<div style="background:#fff;border:1px solid #e5e7eb;border-radius:10px 10px 0 0;'
-                    f'padding:0.8rem 1.2rem 0.6rem;border-bottom:1px solid #f3f4f6;">'
-                    f'<span style="font-size:0.78rem;font-weight:700;color:#6b7280;'
-                    f'text-transform:uppercase;letter-spacing:0.05em;">{title}</span></div>',
+                    '<div style="background:#fff;border:1px solid #e5e7eb;border-top:0;'
+                    'border-radius:0 0 10px 10px;padding:1.5rem;text-align:center;'
+                    'color:#9ca3af;font-size:0.8rem;">동기화 대기 중...</div>',
                     unsafe_allow_html=True
                 )
+                return
 
-                if not wc_domains:
-                    st.markdown(
-                        '<div style="background:#fff;border:1px solid #e5e7eb;border-top:0;'
-                        'border-radius:0 0 10px 10px;padding:1.5rem;text-align:center;'
-                        'color:#9ca3af;font-size:0.8rem;">동기화 대기 중...</div>',
-                        unsafe_allow_html=True
-                    )
-                    return
+            has_data = [d for d in DOMAIN_LIST if wc_domains.get(d, {}).get(kw_type)]
+            if st.session_state[session_key] not in DOMAIN_LIST:
+                st.session_state[session_key] = has_data[0] if has_data else DOMAIN_LIST[0]
 
-                has_data = [d for d in DOMAIN_LIST if wc_domains.get(d, {}).get(kw_type)]
-                if st.session_state[session_key] not in DOMAIN_LIST:
-                    st.session_state[session_key] = has_data[0] if has_data else DOMAIN_LIST[0]
+            # 5개씩 2행 버튼
+            for row_doms in [DOMAIN_LIST[:5], DOMAIN_LIST[5:]]:
+                row_cols = st.columns(5)
+                for i, dom in enumerate(row_doms):
+                    short  = DOMAIN_SHORT.get(dom, dom)
+                    is_sel = (st.session_state[session_key] == dom)
+                    has_d  = bool(wc_domains.get(dom, {}).get(kw_type))
+                    with row_cols[i]:
+                        if st.button(
+                            short,
+                            key=f"{wc_key}_btn_{dom}",
+                            use_container_width=True,
+                            type="primary" if is_sel else "secondary",
+                            disabled=not has_d
+                        ):
+                            st.session_state[session_key] = dom
+                            st.rerun()
 
-                # 5개씩 2행 버튼
-                for row_doms in [DOMAIN_LIST[:5], DOMAIN_LIST[5:]]:
-                    row_cols = st.columns(5)
-                    for i, dom in enumerate(row_doms):
-                        short  = DOMAIN_SHORT.get(dom, dom)
-                        is_sel = (st.session_state[session_key] == dom)
-                        has_d  = bool(wc_domains.get(dom, {}).get(kw_type))
-                        with row_cols[i]:
-                            if st.button(
-                                short,
-                                key=f"{wc_key}_btn_{dom}",
-                                use_container_width=True,
-                                type="primary" if is_sel else "secondary",
-                                disabled=not has_d
-                            ):
-                                st.session_state[session_key] = dom
-                                st.rerun()
+            sel_dom  = st.session_state[session_key]
+            keywords = wc_domains.get(sel_dom, {}).get(kw_type, [])
+            color    = DOMAIN_COLORS.get(sel_dom, "#3498db")
 
-                sel_dom  = st.session_state[session_key]
-                keywords = wc_domains.get(sel_dom, {}).get(kw_type, [])
-                color    = DOMAIN_COLORS.get(sel_dom, "#3498db")
-
-                if not keywords:
-                    st.markdown(
-                        '<div style="background:#fff;border:1px solid #e5e7eb;border-top:0;'
-                        'border-radius:0 0 10px 10px;padding:2rem;text-align:center;'
-                        'color:#9ca3af;font-size:0.8rem;">해당 기간 데이터 없음</div>',
-                        unsafe_allow_html=True
-                    )
-                    return
-
-                # SVG 워드클라우드
-                W, H    = 480, 230
-                max_cnt = keywords[0]["count"]
-                r_hex   = int(color[1:3], 16)
-                g_hex   = int(color[3:5], 16)
-                b_hex   = int(color[5:7], 16)
-                palettes = [
-                    color,
-                    f"rgb({max(0,r_hex-40)},{max(0,g_hex-40)},{max(0,b_hex-40)})",
-                    f"rgb({min(255,r_hex+50)},{min(255,g_hex+30)},{min(255,b_hex+30)})",
-                    f"rgb({max(0,r_hex-20)},{min(255,g_hex+20)},{max(0,b_hex-20)})",
-                    "#374151",
-                ]
-                seed = int(hashlib.md5(sel_dom.encode()).hexdigest()[:8], 16)
-                rng  = random.Random(seed)
-                placed = []
-                svg_words = ""
-
-                def overlaps(x, y, w, h):
-                    pad = 3
-                    for px, py, pw, ph in placed:
-                        if not (x+w+pad < px or x > px+pw+pad or y+h+pad < py or y > py+ph+pad):
-                            return True
-                    return False
-
-                for idx, kw in enumerate(keywords[:35]):
-                    ratio  = kw["count"] / max_cnt
-                    fs     = int(11 + ratio * 28)
-                    angle  = rng.choice([0, 0, 0, 90, -90]) if ratio < 0.4 else 0
-                    c      = palettes[idx % len(palettes)]
-                    weight = 800 if ratio > 0.6 else (600 if ratio > 0.3 else 400)
-                    word   = kw["word"]
-                    char_w = fs * 0.62
-                    tw = int(len(word) * char_w); th = fs + 6
-                    if angle != 0: tw, th = th, tw
-                    for _ in range(100):
-                        cx = rng.randint(tw//2+6, W-tw//2-6)
-                        cy = rng.randint(th//2+6, H-th//2-6)
-                        bx, by = cx-tw//2, cy-th//2
-                        if not overlaps(bx, by, tw, th):
-                            placed.append((bx, by, tw, th))
-                            tr = f'rotate({angle},{cx},{cy})' if angle else ''
-                            svg_words += (
-                                f'<text x="{cx}" y="{cy}" font-size="{fs}" font-weight="{weight}" '
-                                f'fill="{c}" opacity="{0.5+ratio*0.5:.2f}" '
-                                f'text-anchor="middle" dominant-baseline="middle" '
-                                f'font-family="Arial,sans-serif" transform="{tr}">{word}</text>'
-                            )
-                            break
-
+            if not keywords:
                 st.markdown(
-                    f'<div style="background:#fff;border:1px solid #e5e7eb;border-top:0;'
-                    f'border-radius:0 0 10px 10px;padding:0.5rem 1rem 1rem;">'
-                    f'<svg viewBox="0 0 {W} {H}" width="100%" height="{H}" '
-                    f'xmlns="http://www.w3.org/2000/svg">{svg_words}</svg></div>',
+                    '<div style="background:#fff;border:1px solid #e5e7eb;border-top:0;'
+                    'border-radius:0 0 10px 10px;padding:2rem;text-align:center;'
+                    'color:#9ca3af;font-size:0.8rem;">해당 기간 데이터 없음</div>',
                     unsafe_allow_html=True
                 )
+                return
+
+            # SVG 워드클라우드
+            W, H    = 480, 230
+            max_cnt = keywords[0]["count"]
+            r_hex   = int(color[1:3], 16)
+            g_hex   = int(color[3:5], 16)
+            b_hex   = int(color[5:7], 16)
+            palettes = [
+                color,
+                f"rgb({max(0,r_hex-40)},{max(0,g_hex-40)},{max(0,b_hex-40)})",
+                f"rgb({min(255,r_hex+50)},{min(255,g_hex+30)},{min(255,b_hex+30)})",
+                f"rgb({max(0,r_hex-20)},{min(255,g_hex+20)},{max(0,b_hex-20)})",
+                "#374151",
+            ]
+            seed = int(hashlib.md5(sel_dom.encode()).hexdigest()[:8], 16)
+            rng  = random.Random(seed)
+            placed = []
+            svg_words = ""
+
+            def overlaps(x, y, w, h):
+                pad = 3
+                for px, py, pw, ph in placed:
+                    if not (x+w+pad < px or x > px+pw+pad or y+h+pad < py or y > py+ph+pad):
+                        return True
+                return False
+
+            for idx, kw in enumerate(keywords[:35]):
+                ratio  = kw["count"] / max_cnt
+                fs     = int(11 + ratio * 28)
+                angle  = rng.choice([0, 0, 0, 90, -90]) if ratio < 0.4 else 0
+                c      = palettes[idx % len(palettes)]
+                weight = 800 if ratio > 0.6 else (600 if ratio > 0.3 else 400)
+                word   = kw["word"]
+                char_w = fs * 0.62
+                tw = int(len(word) * char_w); th = fs + 6
+                if angle != 0: tw, th = th, tw
+                for _ in range(100):
+                    cx = rng.randint(tw//2+6, W-tw//2-6)
+                    cy = rng.randint(th//2+6, H-th//2-6)
+                    bx, by = cx-tw//2, cy-th//2
+                    if not overlaps(bx, by, tw, th):
+                        placed.append((bx, by, tw, th))
+                        tr = f'rotate({angle},{cx},{cy})' if angle else ''
+                        svg_words += (
+                            f'<text x="{cx}" y="{cy}" font-size="{fs}" font-weight="{weight}" '
+                            f'fill="{c}" opacity="{0.5+ratio*0.5:.2f}" '
+                            f'text-anchor="middle" dominant-baseline="middle" '
+                            f'font-family="Arial,sans-serif" transform="{tr}">{word}</text>'
+                        )
+                        break
+
+            st.markdown(
+                f'<div style="background:#fff;border:1px solid #e5e7eb;border-top:0;'
+                f'border-radius:0 0 10px 10px;padding:0.5rem 1rem 1rem;">'
+                f'<svg viewBox="0 0 {W} {H}" width="100%" height="{H}" '
+                f'xmlns="http://www.w3.org/2000/svg">{svg_words}</svg></div>',
+                unsafe_allow_html=True
+            )
 
         # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         # 패널 3 (왼쪽 아래): 이슈 워드클라우드
         # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        render_wc_panel(col_left2,  "☁️ 이슈 키워드 워드클라우드",  "wc_issue", "issues", "wc_issue_domain")
+        with col_left2:
+            render_wc_panel("☁️ 이슈 키워드 워드클라우드", "wc_issue", "issues", "wc_issue_domain")
 
         # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         # 패널 4 (오른쪽 아래): 기술 워드클라우드
         # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        render_wc_panel(col_right2, "☁️ 기술 키워드 워드클라우드", "wc_tech",  "techs",  "wc_tech_domain")
+        with col_right2:
+            render_wc_panel("☁️ 기술 키워드 워드클라우드", "wc_tech", "techs", "wc_tech_domain")
 
 
 
