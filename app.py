@@ -616,7 +616,7 @@ if menu == "🏢 메인 대시보드":
             st.markdown(f"""
             <div class="dash-panel">
               <div class="dash-panel-title">📈 최근 7일 급상승 분야 &nbsp;{period_html}</div>
-              {rows_html}
+            """ + rows_html + """
             </div>
             """, unsafe_allow_html=True)
 
