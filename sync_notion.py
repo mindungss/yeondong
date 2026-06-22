@@ -1088,6 +1088,100 @@ def sync_weekly_summary(notion):
 
 
 # ─────────────────────────────────────────────
+# 워드클라우드 키워드 파싱
+# ─────────────────────────────────────────────
+DB_WORDCLOUD = os.environ.get("NOTION_DB_WORDCLOUD", "387498eef533811d88ccf7c239eb7f8f")
+
+def sync_wordcloud(notion):
+    """
+    워드클라우드 키워드 소스 페이지를 파싱 → data/wordcloud.json 저장
+    형식: {
+      "updated": "2026-06-22",
+      "domains": {
+        "🤖 AI": {
+          "issues":  [{"word":"딥페이크","count":7}, ...],
+          "techs":   [{"word":"AI","count":12}, ...]
+        }, ...
+      }
+    }
+    """
+    path = DATA_DIR / "wordcloud.json"
+    if not DB_WORDCLOUD:
+        log.info("[wc] DB_WORDCLOUD 미설정 → 스킵"); return False
+
+    try:
+        blocks = _fetch_children(notion, DB_WORDCLOUD)
+    except Exception as e:
+        log.error(f"[wc] 블록 읽기 오류: {e}"); return False
+
+    domains = {}
+    cur_domain   = None
+    cur_type     = None   # "issues" | "techs"
+    in_code      = False
+    code_lines   = []
+
+    def flush_code():
+        nonlocal code_lines, cur_domain, cur_type
+        if cur_domain and cur_type and code_lines:
+            keywords = []
+            for line in code_lines:
+                line = line.strip()
+                if not line or "해당 기간 데이터 없음" in line:
+                    continue
+                parts = line.split(",")
+                if len(parts) >= 2:
+                    try:
+                        keywords.append({"word": parts[0].strip(), "count": int(parts[1].strip())})
+                    except ValueError:
+                        pass
+            if cur_domain not in domains:
+                domains[cur_domain] = {"issues": [], "techs": []}
+            domains[cur_domain][cur_type] = keywords
+            log.info(f"[wc] {cur_domain} {cur_type}: {len(keywords)}개")
+        code_lines = []
+
+    for b in blocks:
+        btype = b.get("type", "")
+        txt   = block_text(b).strip()
+
+        # heading2 → 도메인
+        if btype == "heading_2":
+            flush_code()
+            cur_domain = txt
+            cur_type   = None
+            log.info(f"[wc] 도메인: {cur_domain}")
+            continue
+
+        # heading3 → 이슈/기술 구분
+        if btype == "heading_3":
+            flush_code()
+            if "이슈" in txt:
+                cur_type = "issues"
+            elif "기술" in txt:
+                cur_type = "techs"
+            continue
+
+        # code 블록 → CSV 내용
+        if btype == "code":
+            flush_code()
+            raw = b.get("code", {}).get("rich_text", [])
+            code_text = "".join(r.get("plain_text", "") for r in raw)
+            code_lines = code_text.splitlines()
+            flush_code()
+            continue
+
+    flush_code()
+
+    if not domains:
+        log.warning("[wc] 파싱된 도메인 없음"); return False
+
+    result = {"updated": TODAY_KST, "domains": domains}
+    save_json(path, result)
+    log.info(f"[wc] 저장 완료: {len(domains)}개 도메인")
+    return True
+
+
+# ─────────────────────────────────────────────
 # 메인
 # ─────────────────────────────────────────────
 def main():
@@ -1105,10 +1199,13 @@ def main():
 
     results, errors = {}, []
     for name, func, db_id in [
-        ("weekly", sync_weekly_summary, DB_DAILY),
-        ("daily", sync_daily, DB_DAILY),
-        ("trend", sync_trend, DB_TREND), ("idea",  sync_ideas, DB_IDEA),
-        ("rfp",   sync_rfp,   DB_RFP),   ("ntis",  sync_ntis,  DB_NTIS),
+        ("weekly",    sync_weekly_summary, DB_DAILY),
+        ("wordcloud", sync_wordcloud,      DB_WORDCLOUD),
+        ("daily",     sync_daily,          DB_DAILY),
+        ("trend",     sync_trend,          DB_TREND),
+        ("idea",      sync_ideas,          DB_IDEA),
+        ("rfp",       sync_rfp,            DB_RFP),
+        ("ntis",      sync_ntis,           DB_NTIS),
     ]:
         if not db_id:
             log.warning(f"[{name}] DB ID 미설정 → 스킵"); results[name] = False; continue
