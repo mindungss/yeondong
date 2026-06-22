@@ -61,16 +61,19 @@ jobs:
           python sync_notion.py
           echo "스크립트 실행 완료 (exit: $?)"
 
-      # 5. 실제 파일 변경 여부 확인 (git diff 기준)
+      # 5. 실제 파일 변경 여부 확인 (수정 + 신규 파일 모두 감지)
       - name: 🔍 JSON 파일 변경 여부 확인
         id: check_changes
         run: |
-          # data/ 폴더의 JSON 파일 변경 여부만 확인
-          git diff --quiet data/ && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
-
-          # 변경된 파일 목록 출력 (로그용)
-          CHANGED_FILES=$(git diff --name-only data/ 2>/dev/null || echo "없음")
-          echo "변경된 파일: $CHANGED_FILES"
+          MODIFIED=$(git diff --name-only data/ 2>/dev/null)
+          UNTRACKED=$(git ls-files --others --exclude-standard data/ 2>/dev/null)
+          if [ -n "$MODIFIED" ] || [ -n "$UNTRACKED" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "변경/신규 파일: $MODIFIED $UNTRACKED"
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "변경된 파일 없음"
+          fi
 
       # 6. 변경이 있을 때만 커밋 & 푸시
       - name: 📤 변경사항 커밋 & 푸시
