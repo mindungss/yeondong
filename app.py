@@ -445,6 +445,16 @@ if menu == "🏢 메인 대시보드":
         week_ago   = (today_dt - timedelta(days=7)).strftime("%Y-%m-%d")
         month_ago  = (today_dt - timedelta(days=30)).strftime("%Y-%m-%d")
 
+        # weekly_summary.json 로드
+        WEEKLY_PATH = "data/weekly_summary.json"
+        weekly_data = {}
+        if os.path.exists(WEEKLY_PATH):
+            try:
+                with open(WEEKLY_PATH, "r", encoding="utf-8") as f:
+                    weekly_data = json.load(f)
+            except Exception:
+                weekly_data = {}
+
         DOMAIN_LIST = [
             "🤖 AI", "🌐 국제 치안", "🧬 과학 수사", "🚗 교통",
             "💊 마약", "📜 법·제도", "🔐 사이버 보안",
@@ -462,14 +472,6 @@ if menu == "🏢 메인 대시보드":
             "🔐 사이버 보안": "사이버", "🏘️ 생활 안전": "생활안전",
             "🚓 신종 범죄": "신종범죄", "🛠️ 장비": "장비"
         }
-
-        # 최근 7일 이슈 분야별 카운트
-        week_issues_by_domain = Counter()
-        for date_key, day in trend_data.items():
-            if date_key >= week_ago:
-                for item in day.get("issues", []):
-                    d = item.get("domain", "")
-                    if d: week_issues_by_domain[d] += 1
 
         # 최근 30일 날짜별·분야별 이슈 카운트
         month_dates = sorted([d for d in trend_data.keys() if d >= month_ago])
@@ -581,11 +583,14 @@ if menu == "🏢 메인 대시보드":
         col_left, col_right = st.columns(2)
 
         # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        # 패널 1 (왼쪽 위): 최근 7일 급상승 분야
+        # 패널 1 (왼쪽 위): 최근 7일 급상승 분야 (노션 동기화)
         # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         with col_left:
-            top_domains = week_issues_by_domain.most_common(10)
-            max_cnt = top_domains[0][1] if top_domains else 1
+            weekly_domains = weekly_data.get("domains", [])
+            weekly_period  = weekly_data.get("period", "")
+            weekly_updated = weekly_data.get("updated", "")
+            top_domains    = [(d["domain"], d["count"]) for d in weekly_domains if d.get("count", 0) > 0]
+            max_cnt        = top_domains[0][1] if top_domains else 1
 
             rows_html = ""
             for i, (dom, cnt) in enumerate(top_domains, 1):
@@ -605,11 +610,12 @@ if menu == "🏢 메인 대시보드":
                 </div>"""
 
             if not top_domains:
-                rows_html = '<div style="color:#9ca3af;font-size:0.8rem;">데이터 없음</div>'
+                rows_html = '<div style="color:#9ca3af;font-size:0.8rem;padding:1rem 0;">동기화 대기 중...</div>'
 
+            period_html = f'<span style="font-weight:400;text-transform:none;letter-spacing:0;color:#9ca3af;font-size:0.7rem;">{weekly_period}</span>' if weekly_period else ""
             st.markdown(f"""
             <div class="dash-panel">
-              <div class="dash-panel-title">📈 최근 7일 급상승 분야</div>
+              <div class="dash-panel-title">📈 최근 7일 급상승 분야 &nbsp;{period_html}</div>
               {rows_html}
             </div>
             """, unsafe_allow_html=True)
