@@ -689,70 +689,44 @@ if menu == "🏢 메인 대시보드":
         def render_wc_panel(col, title, wc_key, kw_type, session_key):
             import random, hashlib
             with col:
-                if not wc_domains:
-                    st.markdown(
-                        f'<div style="background:#fff;border:1px solid #e5e7eb;border-radius:10px;'
-                        f'padding:1.5rem;text-align:center;color:#9ca3af;font-size:0.8rem;">'
-                        f'{title}<br><br>동기화 대기 중...</div>',
-                        unsafe_allow_html=True
-                    )
-                    return
-
-                # 기본 선택
-                has_data = [d for d in DOMAIN_LIST if wc_domains.get(d, {}).get(kw_type)]
-                if st.session_state[session_key] not in DOMAIN_LIST:
-                    st.session_state[session_key] = has_data[0] if has_data else DOMAIN_LIST[0]
-                sel_dom = st.session_state[session_key]
-
-                # 분야 텍스트 탭 (인라인, Streamlit 버튼)
                 st.markdown(
-                    f'<div style="background:#fff;border:1px solid #e5e7eb;'
-                    f'border-radius:10px 10px 0 0;padding:0.6rem 1rem 0.4rem;">'
-                    f'<span style="font-size:0.75rem;font-weight:700;color:#6b7280;'
+                    f'<div style="background:#fff;border:1px solid #e5e7eb;border-radius:10px 10px 0 0;'
+                    f'padding:0.8rem 1.2rem 0.6rem;border-bottom:1px solid #f3f4f6;">'
+                    f'<span style="font-size:0.78rem;font-weight:700;color:#6b7280;'
                     f'text-transform:uppercase;letter-spacing:0.05em;">{title}</span></div>',
                     unsafe_allow_html=True
                 )
 
-                # 도메인 탭 — 두 줄 인라인 텍스트
-                tab_items = ""
-                for dom in DOMAIN_LIST:
-                    short   = DOMAIN_SHORT.get(dom, dom)
-                    color   = DOMAIN_COLORS.get(dom, "#6b7280")
-                    has_d   = bool(wc_domains.get(dom, {}).get(kw_type))
-                    is_sel  = (sel_dom == dom)
-                    if is_sel:
-                        style = (f'font-weight:700;color:{color};'
-                                 f'border-bottom:2px solid {color};padding-bottom:1px;'
-                                 f'cursor:pointer;font-size:0.78rem;white-space:nowrap;')
-                    elif has_d:
-                        style = 'color:#374151;cursor:pointer;font-size:0.78rem;white-space:nowrap;'
-                    else:
-                        style = 'color:#d1d5db;cursor:default;font-size:0.78rem;white-space:nowrap;'
-                    tab_items += f'<span style="{style}" data-dom="{dom}">{short}</span>'
-
-                # 선택용 hidden radio (Streamlit 네이티브)
-                with st.container():
+                if not wc_domains:
                     st.markdown(
-                        f'<div style="background:#f9fafb;border-left:1px solid #e5e7eb;'
-                        f'border-right:1px solid #e5e7eb;padding:0.4rem 1rem;'
-                        f'display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;">'
-                        + tab_items + '</div>',
+                        '<div style="background:#fff;border:1px solid #e5e7eb;border-top:0;'
+                        'border-radius:0 0 10px 10px;padding:1.5rem;text-align:center;'
+                        'color:#9ca3af;font-size:0.8rem;">동기화 대기 중...</div>',
                         unsafe_allow_html=True
                     )
-                    # 실제 선택은 radio로
-                    dom_labels = [DOMAIN_SHORT.get(d, d) for d in DOMAIN_LIST]
-                    cur_idx    = DOMAIN_LIST.index(sel_dom) if sel_dom in DOMAIN_LIST else 0
-                    chosen_idx = st.radio(
-                        "분야", range(len(DOMAIN_LIST)),
-                        format_func=lambda i: DOMAIN_SHORT.get(DOMAIN_LIST[i], DOMAIN_LIST[i]),
-                        index=cur_idx,
-                        horizontal=True,
-                        key=f"{wc_key}_radio",
-                        label_visibility="collapsed"
-                    )
-                    if DOMAIN_LIST[chosen_idx] != sel_dom:
-                        st.session_state[session_key] = DOMAIN_LIST[chosen_idx]
-                        st.rerun()
+                    return
+
+                has_data = [d for d in DOMAIN_LIST if wc_domains.get(d, {}).get(kw_type)]
+                if st.session_state[session_key] not in DOMAIN_LIST:
+                    st.session_state[session_key] = has_data[0] if has_data else DOMAIN_LIST[0]
+
+                # 5개씩 2행 버튼
+                for row_doms in [DOMAIN_LIST[:5], DOMAIN_LIST[5:]]:
+                    row_cols = st.columns(5)
+                    for i, dom in enumerate(row_doms):
+                        short  = DOMAIN_SHORT.get(dom, dom)
+                        is_sel = (st.session_state[session_key] == dom)
+                        has_d  = bool(wc_domains.get(dom, {}).get(kw_type))
+                        with row_cols[i]:
+                            if st.button(
+                                short,
+                                key=f"{wc_key}_btn_{dom}",
+                                use_container_width=True,
+                                type="primary" if is_sel else "secondary",
+                                disabled=not has_d
+                            ):
+                                st.session_state[session_key] = dom
+                                st.rerun()
 
                 sel_dom  = st.session_state[session_key]
                 keywords = wc_domains.get(sel_dom, {}).get(kw_type, [])
