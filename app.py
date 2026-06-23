@@ -815,13 +815,13 @@ if menu == "🏢 메인 대시보드":
         # 패널 3 (왼쪽 아래): 이슈 워드클라우드
         # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         with col_left2:
-            render_wc_panel("☁️ 이슈 키워드 워드클라우드", "wc_issue", "issues", "wc_issue_domain")
+            render_wc_panel("☁️ 이슈 키워드", "wc_issue", "issues", "wc_issue_domain")
 
         # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         # 패널 4 (오른쪽 아래): 기술 워드클라우드
         # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         with col_right2:
-            render_wc_panel("☁️ 기술 키워드 워드클라우드", "wc_tech", "techs", "wc_tech_domain")
+            render_wc_panel("☁️ 기술 키워드", "wc_tech", "techs", "wc_tech_domain")
 
 
 
