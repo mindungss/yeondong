@@ -175,11 +175,7 @@ with st.sidebar:
     _today_str = datetime.now().strftime("%Y-%m-%d")
     _latest    = avail_dates[0] if avail_dates else "-"
     _has_today = _latest == _today_str
-    st.caption(f"🕐 데이터 기준일: {_latest}")
-    if _has_today:
-        st.success("✅ 오늘 업데이트됨", icon=None)
-    else:
-        st.warning("⚠️ 오늘 데이터 미수집", icon=None)
+    st.caption(f"📅 {_today_str}")
 
 
 # ─────────────────────────────────────────────
