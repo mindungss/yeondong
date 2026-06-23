@@ -13,6 +13,13 @@ import math
 from datetime import datetime, timedelta, timezone
 from collections import Counter
 
+def md_safe(text):
+    """마크다운 취소선(~~) 등 파싱을 방지하기 위해 텍스트를 안전하게 변환"""
+    if not text:
+        return ""
+    text = text.replace("~~", r"\~\~")
+    return text
+
 # ─────────────────────────────────────────────
 # 0. 페이지 설정 (가장 먼저 호출해야 함)
 # ─────────────────────────────────────────────
@@ -372,17 +379,12 @@ if menu == "🏢 메인 대시보드":
                     </div>
                     """, unsafe_allow_html=True)
                     with st.expander(f"🔎 상세 분석 + 원문 링크 — {issue.get('title','')[:35]}…"):
-                        st.markdown(f"""
-**🔍 심층 분석**
-
-{issue.get('detail','')}
-
----
-**🏷️ 분류 태그:** {" · ".join(issue.get('tags',[]))}
-
-**🔗 [기사·원문 바로가기]({issue.get('url','#')})**
-> ⚠️ 외부 링크는 해당 기관 공식 페이지로 연결됩니다.
-                        """)
+                        st.markdown("**🔍 심층 분석**")
+                        st.write(issue.get('detail',''))
+                        st.markdown("---")
+                        st.markdown(f"**🏷️ 분류 태그:** {' · '.join(issue.get('tags',[]))}")
+                        st.markdown(f"**🔗 [기사·원문 바로가기]({issue.get('url','#')})**")
+                        st.caption("⚠️ 외부 링크는 해당 기관 공식 페이지로 연결됩니다.")
 
             # 기술 카드
             if sub_techs:
@@ -406,24 +408,15 @@ if menu == "🏢 메인 대시보드":
                     </div>
                     """, unsafe_allow_html=True)
                     with st.popover(f"🔬 기술 원리 설명 — {tech.get('title','')[:20]}…"):
-                        st.markdown(f"""
-### 🔬 {tech.get('title','')}
-
-**📋 기술 원리 및 상세 정보**
-
-{tech.get('detail','')}
-
----
-**🔗 [관련 기관/연구소 바로가기]({tech.get('url','#')})**
-                        """)
+                        st.markdown(f"### 🔬 {tech.get('title','')}")
+                        st.markdown("**📋 기술 원리 및 상세 정보**")
+                        st.write(tech.get('detail',''))
+                        st.markdown(f"---\n**🔗 [관련 기관/연구소 바로가기]({tech.get('url','#')})**")
                     with st.expander(f"📂 기술 심층 데이터 — {tech.get('title','')[:35]}…"):
                         st.metric("수집 날짜", tech.get('_date',''))
-                        st.markdown(f"""
-**기술 상세 설명:**
-{tech.get('detail','')}
-
-**🔗 [원문/관련 기관 링크]({tech.get('url','#')})**
-                        """)
+                        st.markdown("**기술 상세 설명:**")
+                        st.write(tech.get('detail',''))
+                        st.markdown(f"**🔗 [원문/관련 기관 링크]({tech.get('url','#')})**")
 
     # ════════════════════════════════════════
     # 메인: 4분할 인텔리전스 대시보드
@@ -1007,17 +1000,12 @@ elif menu == "📰 일일 DB":
                     </div>
                     """, unsafe_allow_html=True)
                     with st.expander(f"🔎 상세 분석 + 원문 링크 — {issue.get('title','')[:35]}…"):
-                        st.markdown(f"""
-**🔍 심층 분석**
-
-{issue.get('detail','')}
-
----
-**📎 관련 도메인:** `{issue.get('domain','')}`  
-**🏷️ 분류 태그:** {' · '.join(issue.get('tags',[]))}
-
-**🔗 [기사·원문 바로가기]({issue.get('url','#')})**
-                        """)
+                        st.markdown("**🔍 심층 분석**")
+                        st.write(issue.get('detail',''))
+                        st.markdown("---")
+                        st.markdown(f"**📎 관련 도메인:** `{issue.get('domain','')}`")
+                        st.markdown(f"**🏷️ 분류 태그:** {' · '.join(issue.get('tags',[]))}")
+                        st.markdown(f"**🔗 [기사·원문 바로가기]({issue.get('url','#')})**")
 
             # 기술 섹션
             if daily_techs:
@@ -1037,17 +1025,12 @@ elif menu == "📰 일일 DB":
                     </div>
                     """, unsafe_allow_html=True)
                     with st.expander(f"📂 기술 심층 데이터 — {tech.get('title','')[:35]}…"):
-                        st.markdown(f"""
-**🔍 기술 상세 설명**
-
-{tech.get('detail','')}
-
----
-**📎 관련 도메인:** `{tech.get('domain','')}`  
-**🏷️ 분류 태그:** {' · '.join(tech.get('tags',[]))}
-
-**🔗 [기사·원문 바로가기]({tech.get('url','#')})**
-                        """)
+                        st.markdown("**🔍 기술 상세 설명**")
+                        st.write(tech.get('detail',''))
+                        st.markdown("---")
+                        st.markdown(f"**📎 관련 도메인:** `{tech.get('domain','')}`")
+                        st.markdown(f"**🏷️ 분류 태그:** {' · '.join(tech.get('tags',[]))}")
+                        st.markdown(f"**🔗 [기사·원문 바로가기]({tech.get('url','#')})**")
 
 
 # ═══════════════════════════════════════════════════════════
