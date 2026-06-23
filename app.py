@@ -1362,9 +1362,9 @@ elif menu == "📋 NTIS 치안 분야 과제":
 
     st.markdown("## 📋 유사 과제 모니터링")
     st.markdown("""
-    <div style="background:#0d1f33; border:1px solid #1e4d7b; border-radius:10px;
+    <div style="background:#EAF5D2; border:1px solid #283B51; border-radius:10px;
          padding:0.9rem 1.2rem; margin-bottom:1.2rem;">
-      <p style="color:#74b9ff; font-size:0.87rem; margin:0;">
+      <p style="color:#283B51; font-size:0.87rem; margin:0;">
         🔄 NTiS(국가과학기술지식정보서비스)에 신규 등록되는 치안 관련 국가 R&amp;D 과제를 모니터링합니다.<br>
       </p>
     </div>
