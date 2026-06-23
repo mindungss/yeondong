@@ -1069,9 +1069,9 @@ elif menu == "💡 기술 아이디어":
 
     st.markdown("## 💡 치안 접목 가능 과학기술 아이디어")
     st.markdown("""
-    <div style="background:#EAF5D2; border:1px solid #bfdbfe; border-radius:8px;
+    <div style="background:#EAF5D2; border:1px solid #283B51; border-radius:8px;
          padding:0.9rem 1.2rem; margin-bottom:1.2rem;">
-      <p style="color:#81A76A; font-size:0.87rem; margin:0;">
+      <p style="color:#283B51; font-size:0.87rem; margin:0;">
         📡 일반 과학기술 뉴스·동향을 분석하여 치안 현장에 접목 가능한 기술 아이디어를 정리합니다.<br>
       </p>
     </div>
