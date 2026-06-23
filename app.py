@@ -172,10 +172,14 @@ with st.sidebar:
     trend_data = load_trend_data()
     avail_dates = get_available_dates(trend_data)
 
-    _today_str = datetime.now().strftime("%Y-%m-%d")
+# ─────────────────────────────────────────────
+# 사이드바 날짜
+# ─────────────────────────────────────────────
+'''    _today_str = datetime.now().strftime("%Y-%m-%d")
     _latest    = avail_dates[0] if avail_dates else "-"
     _has_today = _latest == _today_str
     st.markdown(f"<span style='font-size: 18px; font-weight: 500;'>🗓️ {_today_str}</span>", unsafe_allow_html=True)
+    '''
 
 
 # ─────────────────────────────────────────────
