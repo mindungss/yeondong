@@ -4,19 +4,47 @@
     "🤖 AI": {
       "issues": [
         {
+          "word": "AI",
+          "count": 31
+        },
+        {
+          "word": "코드",
+          "count": 11
+        },
+        {
+          "word": "위험",
+          "count": 10
+        },
+        {
+          "word": "NCSC",
+          "count": 9
+        },
+        {
           "word": "딥페이크",
           "count": 7
         },
         {
-          "word": "AI",
+          "word": "코딩",
+          "count": 7
+        },
+        {
+          "word": "영국",
           "count": 6
         },
         {
-          "word": "경찰청",
-          "count": 4
+          "word": "보안",
+          "count": 6
         },
         {
           "word": "사이버",
+          "count": 5
+        },
+        {
+          "word": "시스템",
+          "count": 5
+        },
+        {
+          "word": "경찰청",
           "count": 4
         },
         {
@@ -60,6 +88,18 @@
           "count": 4
         },
         {
+          "word": "공식",
+          "count": 4
+        },
+        {
+          "word": "스펙트럼",
+          "count": 4
+        },
+        {
+          "word": "생성",
+          "count": 4
+        },
+        {
           "word": "성폭력",
           "count": 3
         },
@@ -93,6 +133,30 @@
         },
         {
           "word": "인식",
+          "count": 3
+        },
+        {
+          "word": "탐지",
+          "count": 3
+        },
+        {
+          "word": "경고",
+          "count": 3
+        },
+        {
+          "word": "바이브",
+          "count": 3
+        },
+        {
+          "word": "가이던스",
+          "count": 3
+        },
+        {
+          "word": "전수",
+          "count": 3
+        },
+        {
+          "word": "도구",
           "count": 3
         },
         {
@@ -164,41 +228,305 @@
           "count": 2
         },
         {
-          "word": "탐지",
+          "word": "보조",
           "count": 2
+        },
+        {
+          "word": "의무",
+          "count": 2
+        },
+        {
+          "word": "권고",
+          "count": 2
+        },
+        {
+          "word": "소프트웨어",
+          "count": 2
+        },
+        {
+          "word": "취약점",
+          "count": 2
+        },
+        {
+          "word": "감사",
+          "count": 2
+        },
+        {
+          "word": "가능",
+          "count": 2
+        },
+        {
+          "word": "분류",
+          "count": 2
+        },
+        {
+          "word": "배포",
+          "count": 2
+        },
+        {
+          "word": "정부",
+          "count": 2
+        },
+        {
+          "word": "국가",
+          "count": 1
+        },
+        {
+          "word": "안보",
+          "count": 1
+        },
+        {
+          "word": "센터",
+          "count": 1
+        },
+        {
+          "word": "안전장치",
+          "count": 1
+        },
+        {
+          "word": "유형",
+          "count": 1
+        },
+        {
+          "word": "수준",
+          "count": 1
+        },
+        {
+          "word": "주의",
+          "count": 1
+        },
+        {
+          "word": "감독",
+          "count": 1
+        },
+        {
+          "word": "원칙",
+          "count": 1
+        },
+        {
+          "word": "명시",
+          "count": 1
+        },
+        {
+          "word": "사용",
+          "count": 1
+        },
+        {
+          "word": "개인",
+          "count": 1
+        },
+        {
+          "word": "실험",
+          "count": 1
+        },
+        {
+          "word": "허용",
+          "count": 1
+        },
+        {
+          "word": "의료",
+          "count": 1
+        },
+        {
+          "word": "금융",
+          "count": 1
+        },
+        {
+          "word": "독립",
+          "count": 1
+        },
+        {
+          "word": "필수",
+          "count": 1
+        },
+        {
+          "word": "규정",
+          "count": 1
+        },
+        {
+          "word": "블로그",
+          "count": 1
+        },
+        {
+          "word": "공공",
+          "count": 1
+        },
+        {
+          "word": "조직",
+          "count": 1
+        },
+        {
+          "word": "프로세스",
+          "count": 1
+        },
+        {
+          "word": "보유",
+          "count": 1
+        },
+        {
+          "word": "지적",
+          "count": 1
+        },
+        {
+          "word": "대상",
+          "count": 1
+        },
+        {
+          "word": "개발자",
+          "count": 1
+        },
+        {
+          "word": "전반",
+          "count": 1
+        },
+        {
+          "word": "GitHub",
+          "count": 1
+        },
+        {
+          "word": "Copilot",
+          "count": 1
+        },
+        {
+          "word": "Cursor",
+          "count": 1
+        },
+        {
+          "word": "Claude",
+          "count": 1
+        },
+        {
+          "word": "Code",
+          "count": 1
+        },
+        {
+          "word": "사용자",
+          "count": 1
         }
       ],
       "techs": [
         {
           "word": "AI",
-          "count": 12
+          "count": 35
+        },
+        {
+          "word": "NCSC",
+          "count": 11
+        },
+        {
+          "word": "위험",
+          "count": 11
+        },
+        {
+          "word": "코드",
+          "count": 9
+        },
+        {
+          "word": "스펙트럼",
+          "count": 8
+        },
+        {
+          "word": "보안",
+          "count": 7
+        },
+        {
+          "word": "영국",
+          "count": 6
+        },
+        {
+          "word": "시스템",
+          "count": 6
+        },
+        {
+          "word": "도구",
+          "count": 6
+        },
+        {
+          "word": "기준",
+          "count": 6
+        },
+        {
+          "word": "치안",
+          "count": 5
         },
         {
           "word": "LFR",
           "count": 4
         },
         {
-          "word": "치안",
-          "count": 3
+          "word": "검증",
+          "count": 4
+        },
+        {
+          "word": "자동",
+          "count": 4
+        },
+        {
+          "word": "코딩",
+          "count": 4
+        },
+        {
+          "word": "분류",
+          "count": 4
+        },
+        {
+          "word": "소프트웨어",
+          "count": 4
+        },
+        {
+          "word": "공공",
+          "count": 4
+        },
+        {
+          "word": "가능",
+          "count": 4
         },
         {
           "word": "딥페이크",
           "count": 3
         },
         {
-          "word": "영국",
-          "count": 2
-        },
-        {
-          "word": "PoliceAI",
-          "count": 2
-        },
-        {
           "word": "국가",
-          "count": 2
+          "count": 3
         },
         {
           "word": "센터",
+          "count": 3
+        },
+        {
+          "word": "독립",
+          "count": 3
+        },
+        {
+          "word": "영상",
+          "count": 3
+        },
+        {
+          "word": "바이브",
+          "count": 3
+        },
+        {
+          "word": "프레임",
+          "count": 3
+        },
+        {
+          "word": "워크",
+          "count": 3
+        },
+        {
+          "word": "단계",
+          "count": 3
+        },
+        {
+          "word": "수준",
+          "count": 3
+        },
+        {
+          "word": "전수",
+          "count": 3
+        },
+        {
+          "word": "PoliceAI",
           "count": 2
         },
         {
@@ -222,19 +550,71 @@
           "count": 2
         },
         {
-          "word": "독립",
-          "count": 2
-        },
-        {
-          "word": "검증",
-          "count": 2
-        },
-        {
-          "word": "영상",
-          "count": 2
-        },
-        {
           "word": "절감",
+          "count": 2
+        },
+        {
+          "word": "디지털",
+          "count": 2
+        },
+        {
+          "word": "CI",
+          "count": 2
+        },
+        {
+          "word": "CD",
+          "count": 2
+        },
+        {
+          "word": "CCTV",
+          "count": 2
+        },
+        {
+          "word": "기술",
+          "count": 2
+        },
+        {
+          "word": "표준",
+          "count": 2
+        },
+        {
+          "word": "경찰",
+          "count": 2
+        },
+        {
+          "word": "정보",
+          "count": 2
+        },
+        {
+          "word": "안전",
+          "count": 2
+        },
+        {
+          "word": "공식",
+          "count": 2
+        },
+        {
+          "word": "배포",
+          "count": 2
+        },
+        {
+          "word": "현장",
+          "count": 2
+        },
+        {
+          "word": "최소",
+          "count": 2
+        },
+        {
+          "word": "권장",
+          "count": 2
+        },
+        {
+          "word": "플랫폼",
+          "count": 2
+        },
+        {
+          "word": "의무",
           "count": 2
         },
         {
@@ -246,15 +626,7 @@
           "count": 1
         },
         {
-          "word": "시스템",
-          "count": 1
-        },
-        {
           "word": "편향",
-          "count": 1
-        },
-        {
-          "word": "디지털",
           "count": 1
         },
         {
@@ -274,10 +646,6 @@
           "count": 1
         },
         {
-          "word": "도구",
-          "count": 1
-        },
-        {
           "word": "교육",
           "count": 1
         },
@@ -286,13 +654,173 @@
           "count": 1
         },
         {
-          "word": "자동",
+          "word": "절차",
+          "count": 1
+        },
+        {
+          "word": "Vibe",
+          "count": 1
+        },
+        {
+          "word": "Coding",
+          "count": 1
+        },
+        {
+          "word": "Spectrum",
+          "count": 1
+        },
+        {
+          "word": "보조",
+          "count": 1
+        },
+        {
+          "word": "체계",
+          "count": 1
+        },
+        {
+          "word": "감독",
+          "count": 1
+        },
+        {
+          "word": "차등",
+          "count": 1
+        },
+        {
+          "word": "사이버",
+          "count": 1
+        },
+        {
+          "word": "안보",
+          "count": 1
+        },
+        {
+          "word": "블로그",
+          "count": 1
+        },
+        {
+          "word": "산업",
+          "count": 1
+        },
+        {
+          "word": "가이던스",
+          "count": 1
+        },
+        {
+          "word": "형태",
+          "count": 1
+        },
+        {
+          "word": "개인",
+          "count": 1
+        },
+        {
+          "word": "실험",
+          "count": 1
+        },
+        {
+          "word": "유틸리티",
+          "count": 1
+        },
+        {
+          "word": "생성",
+          "count": 1
+        },
+        {
+          "word": "허용",
+          "count": 1
+        },
+        {
+          "word": "내부",
+          "count": 1
+        },
+        {
+          "word": "업무",
+          "count": 1
+        },
+        {
+          "word": "서비스",
+          "count": 1
+        },
+        {
+          "word": "전문가",
+          "count": 1
+        },
+        {
+          "word": "인프라",
+          "count": 1
+        },
+        {
+          "word": "의료",
+          "count": 1
+        },
+        {
+          "word": "금융",
+          "count": 1
+        },
+        {
+          "word": "수동",
+          "count": 1
+        },
+        {
+          "word": "심사",
+          "count": 1
+        },
+        {
+          "word": "감사",
+          "count": 1
+        },
+        {
+          "word": "필수",
+          "count": 1
+        },
+        {
+          "word": "GitHub",
+          "count": 1
+        },
+        {
+          "word": "Copilot",
+          "count": 1
+        },
+        {
+          "word": "Cursor",
+          "count": 1
+        },
+        {
+          "word": "Claude",
+          "count": 1
+        },
+        {
+          "word": "Code",
+          "count": 1
+        },
+        {
+          "word": "중립",
+          "count": 1
+        },
+        {
+          "word": "파이프라인",
+          "count": 1
+        },
+        {
+          "word": "결합",
           "count": 1
         }
       ]
     },
     "🌐 국제 치안": {
       "issues": [
+        {
+          "word": "CPR",
+          "count": 10
+        },
+        {
+          "word": "번호",
+          "count": 9
+        },
+        {
+          "word": "개인",
+          "count": 8
+        },
         {
           "word": "총기",
           "count": 7
@@ -302,11 +830,31 @@
           "count": 6
         },
         {
+          "word": "덴마크",
+          "count": 6
+        },
+        {
+          "word": "체포",
+          "count": 6
+        },
+        {
           "word": "밀수",
           "count": 5
         },
         {
           "word": "압수",
+          "count": 5
+        },
+        {
+          "word": "총리",
+          "count": 5
+        },
+        {
+          "word": "경찰관",
+          "count": 5
+        },
+        {
+          "word": "강제",
           "count": 5
         },
         {
@@ -326,6 +874,30 @@
           "count": 4
         },
         {
+          "word": "전직",
+          "count": 4
+        },
+        {
+          "word": "경찰",
+          "count": 4
+        },
+        {
+          "word": "진입",
+          "count": 4
+        },
+        {
+          "word": "영상",
+          "count": 4
+        },
+        {
+          "word": "프라이버시",
+          "count": 4
+        },
+        {
+          "word": "정보",
+          "count": 4
+        },
+        {
           "word": "Europol",
           "count": 3
         },
@@ -339,6 +911,42 @@
         },
         {
           "word": "마약",
+          "count": 3
+        },
+        {
+          "word": "불법",
+          "count": 3
+        },
+        {
+          "word": "온라인",
+          "count": 3
+        },
+        {
+          "word": "폭로",
+          "count": 3
+        },
+        {
+          "word": "활동가",
+          "count": 3
+        },
+        {
+          "word": "Lars",
+          "count": 3
+        },
+        {
+          "word": "Kragh",
+          "count": 3
+        },
+        {
+          "word": "Andersen",
+          "count": 3
+        },
+        {
+          "word": "마스크",
+          "count": 3
+        },
+        {
+          "word": "휴대폰",
           "count": 3
         },
         {
@@ -362,11 +970,63 @@
           "count": 2
         },
         {
-          "word": "불법",
+          "word": "범죄",
           "count": 2
         },
         {
-          "word": "범죄",
+          "word": "연락처",
+          "count": 2
+        },
+        {
+          "word": "항의",
+          "count": 2
+        },
+        {
+          "word": "메테",
+          "count": 2
+        },
+        {
+          "word": "프레데릭센",
+          "count": 2
+        },
+        {
+          "word": "정부",
+          "count": 2
+        },
+        {
+          "word": "자본주의",
+          "count": 2
+        },
+        {
+          "word": "안데르센",
+          "count": 2
+        },
+        {
+          "word": "착용",
+          "count": 2
+        },
+        {
+          "word": "자택",
+          "count": 2
+        },
+        {
+          "word": "파괴",
+          "count": 2
+        },
+        {
+          "word": "권리",
+          "count": 2
+        },
+        {
+          "word": "조회",
+          "count": 2
+        },
+        {
+          "word": "공인",
+          "count": 2
+        },
+        {
+          "word": "도장",
           "count": 2
         },
         {
@@ -447,6 +1107,106 @@
         },
         {
           "word": "칠레",
+          "count": 1
+        },
+        {
+          "word": "명목",
+          "count": 1
+        },
+        {
+          "word": "Mette",
+          "count": 1
+        },
+        {
+          "word": "Frederiksen",
+          "count": 1
+        },
+        {
+          "word": "주민",
+          "count": 1
+        },
+        {
+          "word": "등록",
+          "count": 1
+        },
+        {
+          "word": "상당",
+          "count": 1
+        },
+        {
+          "word": "출신",
+          "count": 1
+        },
+        {
+          "word": "라르스",
+          "count": 1
+        },
+        {
+          "word": "크라",
+          "count": 1
+        },
+        {
+          "word": "만인",
+          "count": 1
+        },
+        {
+          "word": "논리",
+          "count": 1
+        },
+        {
+          "word": "형법",
+          "count": 1
+        },
+        {
+          "word": "조항",
+          "count": 1
+        },
+        {
+          "word": "위반",
+          "count": 1
+        },
+        {
+          "word": "혐의",
+          "count": 1
+        },
+        {
+          "word": "새벽",
+          "count": 1
+        },
+        {
+          "word": "장면",
+          "count": 1
+        },
+        {
+          "word": "기록",
+          "count": 1
+        },
+        {
+          "word": "트위터",
+          "count": 1
+        },
+        {
+          "word": "피의자",
+          "count": 1
+        },
+        {
+          "word": "신분",
+          "count": 1
+        },
+        {
+          "word": "활동",
+          "count": 1
+        },
+        {
+          "word": "전개",
+          "count": 1
+        },
+        {
+          "word": "고유",
+          "count": 1
+        },
+        {
+          "word": "식별",
           "count": 1
         }
       ],
