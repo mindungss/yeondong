@@ -156,7 +156,7 @@ with st.sidebar:
             "padding:0.65rem 1rem; width:100%; text-align:left; font-size:1.05rem; "
             "font-weight:600; margin-bottom:4px; cursor:pointer;"
             if is_active else
-            "background:transparent; color:#F8F8F8; border:0px solid #e2e8f0; border-radius:8px; "
+            "background:transparent; color:#2155A4; border:0px solid #e2e8f0; border-radius:8px; "
             "padding:0.65rem 1rem; width:100%; text-align:left; font-size:1.05rem; "
             "font-weight:500; margin-bottom:4px; cursor:pointer;"
         )
