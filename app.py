@@ -1206,9 +1206,9 @@ elif menu == "📄 RFP 사업기획":
 
     st.markdown("## 📄 RFP 사업기획")
     st.markdown("""
-    <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px;
+    <div style="background:#F4F3EA; border:1px solid #bbf7d0; border-radius:8px;
          padding:0.9rem 1.2rem; margin-bottom:1.2rem;">
-      <p style="color:#14532d; font-size:0.87rem; margin:0;">
+      <p style="color:#D3AC2B; font-size:0.87rem; margin:0;">
         📡 누적 치안 이슈를 바탕으로 추진 배경을 설정하고, 관련 기술들을 조합하여 R&amp;D 사업기획서 초안을 생성합니다.<br>
       </p>
     </div>
