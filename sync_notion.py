@@ -680,7 +680,7 @@ def sync_daily(notion):
                 title = re.sub(r"\*\*(.+?)\*\*", r"\1", txt).strip()
                 if not title: continue
                 cur_entry = {"domain": cur_domain, "title": title,
-                             "summary": "", "detail": "", "source": "", "url": "", "tags": []}
+                             "summary": "", "detail": "", "source": "", "tags": []}
                 cur_field = None
                 log.info(f"[daily] 항목 시작: {title[:40]}")
                 continue
@@ -701,9 +701,7 @@ def sync_daily(notion):
             elif is_source:
                 cur_field = None
                 val = re.sub(r"^출처\s*[:：]?\s*", "", txt).strip()
-                um = re.search(r"\((https?://[^\)]+)\)", val)
-                if um: cur_entry["url"] = um.group(1)
-                cur_entry["source"] = re.sub(r"\[([^\]]+)\]\([^\)]+\)", r"\1", val)
+                cur_entry["source"] = val
             elif is_tags:
                 cur_field = None
                 raw_t = re.sub(r"^태그\s*[:：]?\s*", "", txt)
