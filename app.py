@@ -1206,9 +1206,9 @@ elif menu == "📄 RFP 사업기획":
 
     st.markdown("## 📄 RFP 사업기획")
     st.markdown("""
-    <div style="background:#f0fff4; border:1px solid #bbf7d0; border-radius:8px;
+    <div style="background:#EAF5D2; border:1px solid #283B51; border-radius:8px;
          padding:0.9rem 1.2rem; margin-bottom:1.2rem;">
-      <p style="color:#14532d; font-size:0.87rem; margin:0;">
+      <p style="color:#283B51; font-size:0.87rem; margin:0;">
         📡 누적 치안 이슈를 바탕으로 추진 배경을 설정하고, 관련 기술들을 조합하여 R&amp;D 사업기획서 초안을 생성합니다.<br>
       </p>
     </div>
@@ -1255,8 +1255,8 @@ elif menu == "📄 RFP 사업기획":
             tags_html = "".join(f'<span class="domain-tag">{t}</span>' for t in rfp.get("tags",[]))
 
             st.markdown(f"""
-            <div style="background:#f0fdf4; border:1px solid #bbf7d0;
-                 border-left:5px solid #16a34a; border-radius:8px;
+            <div style="background:#EAF5D2; border:1px solid #283B51;
+                 border-left:5px solid #283B51; border-radius:8px;
                  padding:1rem 1.2rem; margin-bottom:0.8rem;
                  box-shadow:0 1px 3px rgba(0,0,0,0.05);">
               <div style="display:flex; align-items:center; gap:8px; margin-bottom:0.4rem;">
