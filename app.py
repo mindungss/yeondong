@@ -956,7 +956,6 @@ elif menu == "📰 일일 DB":
     st.markdown(f"""
     <div style="margin-top:0.8rem; padding-bottom:0.5rem; border-bottom:2px solid #e2e8f0;">
       <span style="font-size:1.25rem; font-weight:700; color:#1a202c;">📡 TODAY 브리핑</span>
-      <span style="font-size:1rem; color:#4a5568; margin-left:0.5rem;">{DAILY_DISPLAY}</span>
     </div>
     """, unsafe_allow_html=True)
 
