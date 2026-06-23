@@ -395,7 +395,7 @@ if menu == "🏢 메인 대시보드":
                         st.write(fmt_circles(issue.get('detail','')))
                         st.markdown("---")
                         st.markdown(f"**🏷️ 분류 태그:** {' · '.join(issue.get('tags',[]))}")
-                        st.markdown(f"**🔗 [기사·원문 바로가기]({issue.get('url','#')})**")
+                        st.markdown(f"**📰 출처:** {issue.get('source','')}")
                         st.caption("⚠️ 외부 링크는 해당 기관 공식 페이지로 연결됩니다.")
 
             # 기술 카드
@@ -423,12 +423,12 @@ if menu == "🏢 메인 대시보드":
                         st.markdown(f"### 🔬 {tech.get('title','')}")
                         st.markdown("**📋 기술 원리 및 상세 정보**")
                         st.write(fmt_circles(tech.get('detail','')))
-                        st.markdown(f"---\n**🔗 [관련 기관/연구소 바로가기]({tech.get('url','#')})**")
+                        st.markdown(f"---\n**📰 출처:** {tech.get('source','')}")
                     with st.expander(f"📂 기술 심층 데이터 — {tech.get('title','')[:35]}…"):
                         st.metric("수집 날짜", tech.get('_date',''))
                         st.markdown("**기술 상세 설명:**")
                         st.write(fmt_circles(tech.get('detail','')))
-                        st.markdown(f"**🔗 [원문/관련 기관 링크]({tech.get('url','#')})**")
+                        st.markdown(f"**📰 출처:** {tech.get('source','')}")
 
     # ════════════════════════════════════════
     # 메인: 4분할 인텔리전스 대시보드
@@ -1017,7 +1017,7 @@ elif menu == "📰 일일 DB":
                         st.markdown("---")
                         st.markdown(f"**📎 관련 도메인:** `{issue.get('domain','')}`")
                         st.markdown(f"**🏷️ 분류 태그:** {' · '.join(issue.get('tags',[]))}")
-                        st.markdown(f"**🔗 [기사·원문 바로가기]({issue.get('url','#')})**")
+                        st.markdown(f"**📰 출처:** {issue.get('source','')}")
 
             # 기술 섹션
             if daily_techs:
