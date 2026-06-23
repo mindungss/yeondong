@@ -614,7 +614,7 @@ if menu == "🏢 메인 대시보드":
                 f'padding:1.1rem 1.2rem 1rem;box-shadow:0 1px 4px rgba(0,0,0,0.06);">'
                 f'<div style="font-size:0.78rem;font-weight:700;color:#6b7280;text-transform:uppercase;'
                 f'letter-spacing:0.05em;margin-bottom:0.8rem;padding-bottom:0.5rem;border-bottom:1px solid #f3f4f6;">'
-                f'📈 최근 7일 급상승 분야{period_txt}</div>'
+                f'📈 급상승 분야{period_txt}</div>'
                 + rows_html +
                 f'</div>',
                 unsafe_allow_html=True
