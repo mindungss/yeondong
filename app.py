@@ -1154,33 +1154,20 @@ elif menu == "💡 기술 아이디어":
             with st.expander(f"📋 상세 내용 — {tech}"):
                 d1, d2 = st.columns(2)
                 with d1:
-                    st.markdown(f"""
-**🔧 기술 특징**
-
-{idea.get('features', '—')}
-
----
-**⚠️ 제한 사항**
-
-{idea.get('constraints', '—')}
-                    """)
+                    st.markdown("**🔧 기술 특징**")
+                    st.write(idea.get('features', '—'))
                 with d2:
-                    st.markdown(f"""
-**🏛️ 적용 가능 분야**
-
-{idea.get('applications', '—')}
-
----
-**📈 기술 동향**
-
-{idea.get('trend', '—')}
-                    """)
-                st.markdown(f"""
----
-**🏢 주요 기업·제품**
-
-{idea.get('companies', '—')}
-                """)
+                    st.markdown("**🏛️ 적용 가능 분야**")
+                    st.write(fmt_circles(idea.get('applications', '—')))
+                    st.markdown("---")
+                    st.markdown("**📈 기술 동향**")
+                    st.write(idea.get('trend', '—'))
+                    st.markdown("---")
+                    st.markdown("**⚠️ 제한 사항**")
+                    st.write(fmt_bullets(idea.get('constraints', '—')))
+                st.markdown("---")
+                st.markdown("**🏢 주요 기업·제품**")
+                st.write(idea.get('companies', '—'))
 
 
 # ═══════════════════════════════════════════════════════════
