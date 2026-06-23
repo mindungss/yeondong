@@ -152,11 +152,11 @@ with st.sidebar:
         full = f"{icon} {label}"
         is_active = st.session_state.menu == full
         btn_style = (
-            "background:#EEECE9; color:#EEECE9; border:none; border-radius:8px; "
+            "background:#1a56db; color:#EEECE9; border:none; border-radius:8px; "
             "padding:0.65rem 1rem; width:100%; text-align:left; font-size:1.05rem; "
             "font-weight:600; margin-bottom:4px; cursor:pointer;"
             if is_active else
-            "background:#2155A4; color:#2155A4; border:0px solid #e2e8f0; border-radius:8px; "
+            "background:transparent; color:#2155A4; border:0px solid #e2e8f0; border-radius:8px; "
             "padding:0.65rem 1rem; width:100%; text-align:left; font-size:1.05rem; "
             "font-weight:500; margin-bottom:4px; cursor:pointer;"
         )
