@@ -3,7 +3,7 @@ base = "light"
 primaryColor = "#81A76A"
 backgroundColor = "#F8F8F8"
 secondaryBackgroundColor = "#FFFFFF"
-textColor = "#111827"
+textColor = "#283B51"
 
 [server]
 headless = true
