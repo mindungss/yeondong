@@ -486,7 +486,7 @@ if menu == "🏢 메인 대시보드":
         st.markdown("""
         <style>
         .dash-panel {
-            background: #fff;
+            background: #F5F5F4;
             border: 1px solid #e5e7eb;
             border-radius: 10px;
             padding: 1.1rem 1.2rem 1rem;
