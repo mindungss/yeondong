@@ -1042,7 +1042,7 @@ elif menu == "📰 일일 DB":
                         st.markdown("---")
                         st.markdown(f"**📎 관련 도메인:** `{tech.get('domain','')}`")
                         st.markdown(f"**🏷️ 분류 태그:** {' · '.join(tech.get('tags',[]))}")
-                        st.markdown(f"**🔗 [기사·원문 바로가기]({tech.get('url','#')})**")
+                        st.markdown(f"**📰 출처:** {tech.get('source','')}")
 
 
 # ═══════════════════════════════════════════════════════════
