@@ -1384,7 +1384,7 @@ elif menu == "📋 NTIS 치안 분야 과제":
     with nc1:
         ntis_search = st.text_input("과제명·기관·키워드 검색", placeholder="예: 딥페이크, ETRI, 드론 …", label_visibility="collapsed")
     with nc2:
-        ntis_year = st.selectbox("연도", ["전체", "2025", "2024", "2023", "2022"], label_visibility="collapsed")
+        ntis_year = st.selectbox("연도", ["전체", "2026"], label_visibility="collapsed")
     with nc3:
         ntis_domain = st.selectbox("도메인", ["전체", "🤖 AI·보안", "🔍 수사", "🚓 신종 범죄", "🧬 과학수사", "🚗 교통", "🛠️ 장비"], label_visibility="collapsed")
 
