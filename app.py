@@ -20,6 +20,18 @@ def md_safe(text):
     text = text.replace("~~", r"\~\~")
     return text
 
+def fmt_bullets(text):
+    """• 기호 앞에 줄바꿈 추가 (첫 번째 제외)"""
+    if not text:
+        return ""
+    return re.sub(r'\s*•\s*', '\n\n• ', text).strip()
+
+def fmt_circles(text):
+    """①②③ 등 원문자 앞에 줄바꿈 추가"""
+    if not text:
+        return ""
+    return re.sub(r'\s*([①②③④⑤⑥⑦⑧⑨⑩])', r'\n\n\1', text).strip()
+
 # ─────────────────────────────────────────────
 # 0. 페이지 설정 (가장 먼저 호출해야 함)
 # ─────────────────────────────────────────────
@@ -380,7 +392,7 @@ if menu == "🏢 메인 대시보드":
                     """, unsafe_allow_html=True)
                     with st.expander(f"🔎 상세 분석 + 원문 링크 — {issue.get('title','')[:35]}…"):
                         st.markdown("**🔍 심층 분석**")
-                        st.write(issue.get('detail',''))
+                        st.write(fmt_circles(issue.get('detail','')))
                         st.markdown("---")
                         st.markdown(f"**🏷️ 분류 태그:** {' · '.join(issue.get('tags',[]))}")
                         st.markdown(f"**🔗 [기사·원문 바로가기]({issue.get('url','#')})**")
@@ -410,12 +422,12 @@ if menu == "🏢 메인 대시보드":
                     with st.popover(f"🔬 기술 원리 설명 — {tech.get('title','')[:20]}…"):
                         st.markdown(f"### 🔬 {tech.get('title','')}")
                         st.markdown("**📋 기술 원리 및 상세 정보**")
-                        st.write(tech.get('detail',''))
+                        st.write(fmt_circles(tech.get('detail','')))
                         st.markdown(f"---\n**🔗 [관련 기관/연구소 바로가기]({tech.get('url','#')})**")
                     with st.expander(f"📂 기술 심층 데이터 — {tech.get('title','')[:35]}…"):
                         st.metric("수집 날짜", tech.get('_date',''))
                         st.markdown("**기술 상세 설명:**")
-                        st.write(tech.get('detail',''))
+                        st.write(fmt_circles(tech.get('detail','')))
                         st.markdown(f"**🔗 [원문/관련 기관 링크]({tech.get('url','#')})**")
 
     # ════════════════════════════════════════
@@ -1001,7 +1013,7 @@ elif menu == "📰 일일 DB":
                     """, unsafe_allow_html=True)
                     with st.expander(f"🔎 상세 분석 + 원문 링크 — {issue.get('title','')[:35]}…"):
                         st.markdown("**🔍 심층 분석**")
-                        st.write(issue.get('detail',''))
+                        st.write(fmt_circles(issue.get('detail','')))
                         st.markdown("---")
                         st.markdown(f"**📎 관련 도메인:** `{issue.get('domain','')}`")
                         st.markdown(f"**🏷️ 분류 태그:** {' · '.join(issue.get('tags',[]))}")
@@ -1026,7 +1038,7 @@ elif menu == "📰 일일 DB":
                     """, unsafe_allow_html=True)
                     with st.expander(f"📂 기술 심층 데이터 — {tech.get('title','')[:35]}…"):
                         st.markdown("**🔍 기술 상세 설명**")
-                        st.write(tech.get('detail',''))
+                        st.write(fmt_circles(tech.get('detail','')))
                         st.markdown("---")
                         st.markdown(f"**📎 관련 도메인:** `{tech.get('domain','')}`")
                         st.markdown(f"**🏷️ 분류 태그:** {' · '.join(tech.get('tags',[]))}")
@@ -1290,7 +1302,7 @@ elif menu == "📄 RFP 사업기획":
                 st.markdown("### 🗓️ 추진 내용")
                 for phase in rfp.get("phases", []):
                     with st.expander(f"{phase.get('label','')}"):
-                        st.markdown(phase.get("content",""))
+                        st.write(fmt_bullets(phase.get("content","")))
 
                 # 기대 효과 — [소제목] 기준으로 초록 블록 분리
                 st.markdown("### ✅ 기대 효과")
