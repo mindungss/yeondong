@@ -1141,7 +1141,7 @@ elif menu == "💡 기술 아이디어":
                 _issue_block = '<div style="font-size:0.82rem;color:#9ca3af;margin-bottom:0.4rem;">🎯 해결 가능 치안 이슈: —</div>'
 
             st.markdown(f"""
-            <div style="background:#EAF5D2; border:1px solid #283B51;
+            <div style="background:#FCFEF9; border:1px solid #283B51;
                  border-left:4px solid #283B51; border-radius:8px;
                  padding:0.9rem 1.1rem; margin-bottom:0.6rem;
                  box-shadow:0 1px 3px rgba(0,0,0,0.05);">
