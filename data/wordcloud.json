@@ -5,11 +5,11 @@
       "issues": [
         {
           "word": "AI",
-          "count": 31
+          "count": 39
         },
         {
           "word": "코드",
-          "count": 11
+          "count": 13
         },
         {
           "word": "위험",
@@ -28,11 +28,19 @@
           "count": 7
         },
         {
+          "word": "보안",
+          "count": 7
+        },
+        {
+          "word": "패키지",
+          "count": 7
+        },
+        {
           "word": "영국",
           "count": 6
         },
         {
-          "word": "보안",
+          "word": "npm",
           "count": 6
         },
         {
@@ -41,6 +49,10 @@
         },
         {
           "word": "시스템",
+          "count": 5
+        },
+        {
+          "word": "Mastra",
           "count": 5
         },
         {
@@ -97,6 +109,34 @@
         },
         {
           "word": "생성",
+          "count": 4
+        },
+        {
+          "word": "소프트웨어",
+          "count": 4
+        },
+        {
+          "word": "북한",
+          "count": 4
+        },
+        {
+          "word": "Sapphire",
+          "count": 4
+        },
+        {
+          "word": "Sleet",
+          "count": 4
+        },
+        {
+          "word": "공급망",
+          "count": 4
+        },
+        {
+          "word": "공격",
+          "count": 4
+        },
+        {
+          "word": "악성",
           "count": 4
         },
         {
@@ -160,11 +200,43 @@
           "count": 3
         },
         {
-          "word": "적발",
-          "count": 2
+          "word": "서버",
+          "count": 3
         },
         {
-          "word": "서버",
+          "word": "배포",
+          "count": 3
+        },
+        {
+          "word": "국가",
+          "count": 3
+        },
+        {
+          "word": "개발자",
+          "count": 3
+        },
+        {
+          "word": "오염",
+          "count": 3
+        },
+        {
+          "word": "주간",
+          "count": 3
+        },
+        {
+          "word": "다운로드",
+          "count": 3
+        },
+        {
+          "word": "Microsoft",
+          "count": 3
+        },
+        {
+          "word": "귀속",
+          "count": 3
+        },
+        {
+          "word": "적발",
           "count": 2
         },
         {
@@ -240,10 +312,6 @@
           "count": 2
         },
         {
-          "word": "소프트웨어",
-          "count": 2
-        },
-        {
           "word": "취약점",
           "count": 2
         },
@@ -260,16 +328,64 @@
           "count": 2
         },
         {
-          "word": "배포",
-          "count": 2
-        },
-        {
           "word": "정부",
           "count": 2
         },
         {
-          "word": "국가",
-          "count": 1
+          "word": "환경",
+          "count": 2
+        },
+        {
+          "word": "침해",
+          "count": 2
+        },
+        {
+          "word": "CI",
+          "count": 2
+        },
+        {
+          "word": "CD",
+          "count": 2
+        },
+        {
+          "word": "TLS",
+          "count": 2
+        },
+        {
+          "word": "C2",
+          "count": 2
+        },
+        {
+          "word": "에이전트",
+          "count": 2
+        },
+        {
+          "word": "오픈",
+          "count": 2
+        },
+        {
+          "word": "소스",
+          "count": 2
+        },
+        {
+          "word": "프레임",
+          "count": 2
+        },
+        {
+          "word": "워크",
+          "count": 2
+        },
+        {
+          "word": "탈취",
+          "count": 2
+        },
+        {
+          "word": "타이포스쿼팅",
+          "count": 2
+        },
+        {
+          "word": "가짜",
+          "count": 2
         },
         {
           "word": "안보",
@@ -285,122 +401,6 @@
         },
         {
           "word": "유형",
-          "count": 1
-        },
-        {
-          "word": "수준",
-          "count": 1
-        },
-        {
-          "word": "주의",
-          "count": 1
-        },
-        {
-          "word": "감독",
-          "count": 1
-        },
-        {
-          "word": "원칙",
-          "count": 1
-        },
-        {
-          "word": "명시",
-          "count": 1
-        },
-        {
-          "word": "사용",
-          "count": 1
-        },
-        {
-          "word": "개인",
-          "count": 1
-        },
-        {
-          "word": "실험",
-          "count": 1
-        },
-        {
-          "word": "허용",
-          "count": 1
-        },
-        {
-          "word": "의료",
-          "count": 1
-        },
-        {
-          "word": "금융",
-          "count": 1
-        },
-        {
-          "word": "독립",
-          "count": 1
-        },
-        {
-          "word": "필수",
-          "count": 1
-        },
-        {
-          "word": "규정",
-          "count": 1
-        },
-        {
-          "word": "블로그",
-          "count": 1
-        },
-        {
-          "word": "공공",
-          "count": 1
-        },
-        {
-          "word": "조직",
-          "count": 1
-        },
-        {
-          "word": "프로세스",
-          "count": 1
-        },
-        {
-          "word": "보유",
-          "count": 1
-        },
-        {
-          "word": "지적",
-          "count": 1
-        },
-        {
-          "word": "대상",
-          "count": 1
-        },
-        {
-          "word": "개발자",
-          "count": 1
-        },
-        {
-          "word": "전반",
-          "count": 1
-        },
-        {
-          "word": "GitHub",
-          "count": 1
-        },
-        {
-          "word": "Copilot",
-          "count": 1
-        },
-        {
-          "word": "Cursor",
-          "count": 1
-        },
-        {
-          "word": "Claude",
-          "count": 1
-        },
-        {
-          "word": "Code",
-          "count": 1
-        },
-        {
-          "word": "사용자",
           "count": 1
         }
       ],
@@ -826,6 +826,10 @@
           "count": 7
         },
         {
+          "word": "TfL",
+          "count": 7
+        },
+        {
           "word": "EU",
           "count": 6
         },
@@ -835,6 +839,14 @@
         },
         {
           "word": "체포",
+          "count": 6
+        },
+        {
+          "word": "NCA",
+          "count": 6
+        },
+        {
+          "word": "미국",
           "count": 6
         },
         {
@@ -855,6 +867,10 @@
         },
         {
           "word": "강제",
+          "count": 5
+        },
+        {
+          "word": "영국",
           "count": 5
         },
         {
@@ -898,6 +914,30 @@
           "count": 4
         },
         {
+          "word": "불법",
+          "count": 4
+        },
+        {
+          "word": "해킹",
+          "count": 4
+        },
+        {
+          "word": "유죄",
+          "count": 4
+        },
+        {
+          "word": "인정",
+          "count": 4
+        },
+        {
+          "word": "SSM",
+          "count": 4
+        },
+        {
+          "word": "사이버",
+          "count": 4
+        },
+        {
           "word": "Europol",
           "count": 3
         },
@@ -911,10 +951,6 @@
         },
         {
           "word": "마약",
-          "count": 3
-        },
-        {
-          "word": "불법",
           "count": 3
         },
         {
@@ -950,6 +986,34 @@
           "count": 3
         },
         {
+          "word": "범죄",
+          "count": 3
+        },
+        {
+          "word": "혐의",
+          "count": 3
+        },
+        {
+          "word": "Scattered",
+          "count": 3
+        },
+        {
+          "word": "Spider",
+          "count": 3
+        },
+        {
+          "word": "멤버",
+          "count": 3
+        },
+        {
+          "word": "주베어",
+          "count": 3
+        },
+        {
+          "word": "Health",
+          "count": 3
+        },
+        {
           "word": "프랑스",
           "count": 2
         },
@@ -967,10 +1031,6 @@
         },
         {
           "word": "현금",
-          "count": 2
-        },
-        {
-          "word": "범죄",
           "count": 2
         },
         {
@@ -1030,6 +1090,70 @@
           "count": 2
         },
         {
+          "word": "네트워크",
+          "count": 2
+        },
+        {
+          "word": "피해액",
+          "count": 2
+        },
+        {
+          "word": "합계",
+          "count": 2
+        },
+        {
+          "word": "울위치",
+          "count": 2
+        },
+        {
+          "word": "형사",
+          "count": 2
+        },
+        {
+          "word": "법원",
+          "count": 2
+        },
+        {
+          "word": "MGM",
+          "count": 2
+        },
+        {
+          "word": "런던",
+          "count": 2
+        },
+        {
+          "word": "플라워",
+          "count": 2
+        },
+        {
+          "word": "침해",
+          "count": 2
+        },
+        {
+          "word": "선고",
+          "count": 2
+        },
+        {
+          "word": "중단",
+          "count": 2
+        },
+        {
+          "word": "침입",
+          "count": 2
+        },
+        {
+          "word": "의료",
+          "count": 2
+        },
+        {
+          "word": "Sutter",
+          "count": 2
+        },
+        {
+          "word": "텔레그램",
+          "count": 2
+        },
+        {
           "word": "해체",
           "count": 1
         },
@@ -1043,10 +1167,6 @@
         },
         {
           "word": "슬로바키아",
-          "count": 1
-        },
-        {
-          "word": "네트워크",
           "count": 1
         },
         {
@@ -1088,126 +1208,6 @@
         {
           "word": "아메리카",
           "count": 1
-        },
-        {
-          "word": "코카인",
-          "count": 1
-        },
-        {
-          "word": "마리화나",
-          "count": 1
-        },
-        {
-          "word": "메스암페타민",
-          "count": 1
-        },
-        {
-          "word": "케타민",
-          "count": 1
-        },
-        {
-          "word": "칠레",
-          "count": 1
-        },
-        {
-          "word": "명목",
-          "count": 1
-        },
-        {
-          "word": "Mette",
-          "count": 1
-        },
-        {
-          "word": "Frederiksen",
-          "count": 1
-        },
-        {
-          "word": "주민",
-          "count": 1
-        },
-        {
-          "word": "등록",
-          "count": 1
-        },
-        {
-          "word": "상당",
-          "count": 1
-        },
-        {
-          "word": "출신",
-          "count": 1
-        },
-        {
-          "word": "라르스",
-          "count": 1
-        },
-        {
-          "word": "크라",
-          "count": 1
-        },
-        {
-          "word": "만인",
-          "count": 1
-        },
-        {
-          "word": "논리",
-          "count": 1
-        },
-        {
-          "word": "형법",
-          "count": 1
-        },
-        {
-          "word": "조항",
-          "count": 1
-        },
-        {
-          "word": "위반",
-          "count": 1
-        },
-        {
-          "word": "혐의",
-          "count": 1
-        },
-        {
-          "word": "새벽",
-          "count": 1
-        },
-        {
-          "word": "장면",
-          "count": 1
-        },
-        {
-          "word": "기록",
-          "count": 1
-        },
-        {
-          "word": "트위터",
-          "count": 1
-        },
-        {
-          "word": "피의자",
-          "count": 1
-        },
-        {
-          "word": "신분",
-          "count": 1
-        },
-        {
-          "word": "활동",
-          "count": 1
-        },
-        {
-          "word": "전개",
-          "count": 1
-        },
-        {
-          "word": "고유",
-          "count": 1
-        },
-        {
-          "word": "식별",
-          "count": 1
         }
       ],
       "techs": []
@@ -1215,8 +1215,44 @@
     "💊 마약": {
       "issues": [
         {
+          "word": "태국",
+          "count": 8
+        },
+        {
+          "word": "마약",
+          "count": 7
+        },
+        {
+          "word": "차량",
+          "count": 7
+        },
+        {
           "word": "DEA",
           "count": 6
+        },
+        {
+          "word": "필로폰",
+          "count": 6
+        },
+        {
+          "word": "치앙라이",
+          "count": 6
+        },
+        {
+          "word": "ONCB",
+          "count": 6
+        },
+        {
+          "word": "압수",
+          "count": 5
+        },
+        {
+          "word": "체포",
+          "count": 5
+        },
+        {
+          "word": "치앙마이",
+          "count": 5
         },
         {
           "word": "Nemesis",
@@ -1227,7 +1263,15 @@
           "count": 4
         },
         {
-          "word": "마약",
+          "word": "단속",
+          "count": 4
+        },
+        {
+          "word": "북부",
+          "count": 4
+        },
+        {
+          "word": "피의자",
           "count": 4
         },
         {
@@ -1235,15 +1279,19 @@
           "count": 3
         },
         {
-          "word": "필로폰",
+          "word": "람푼",
           "count": 3
         },
         {
-          "word": "태국",
+          "word": "지구",
           "count": 3
         },
         {
-          "word": "치앙라이",
+          "word": "경찰청",
+          "count": 3
+        },
+        {
+          "word": "밀수",
           "count": 3
         },
         {
@@ -1271,10 +1319,6 @@
           "count": 2
         },
         {
-          "word": "압수",
-          "count": 2
-        },
-        {
           "word": "메스암페타민",
           "count": 2
         },
@@ -1295,7 +1339,47 @@
           "count": 2
         },
         {
-          "word": "차량",
+          "word": "미얀마",
+          "count": 2
+        },
+        {
+          "word": "동시",
+          "count": 2
+        },
+        {
+          "word": "골든",
+          "count": 2
+        },
+        {
+          "word": "트라이앵글",
+          "count": 2
+        },
+        {
+          "word": "루트",
+          "count": 2
+        },
+        {
+          "word": "운반",
+          "count": 2
+        },
+        {
+          "word": "몰수",
+          "count": 2
+        },
+        {
+          "word": "지역",
+          "count": 2
+        },
+        {
+          "word": "도주",
+          "count": 2
+        },
+        {
+          "word": "산악",
+          "count": 2
+        },
+        {
+          "word": "지형",
           "count": 2
         },
         {
@@ -1315,18 +1399,6 @@
           "count": 1
         },
         {
-          "word": "단속",
-          "count": 1
-        },
-        {
-          "word": "체포",
-          "count": 1
-        },
-        {
-          "word": "미얀마",
-          "count": 1
-        },
-        {
           "word": "라오스",
           "count": 1
         },
@@ -1336,6 +1408,50 @@
         },
         {
           "word": "네트워크",
+          "count": 1
+        },
+        {
+          "word": "총리",
+          "count": 1
+        },
+        {
+          "word": "경찰",
+          "count": 1
+        },
+        {
+          "word": "정부",
+          "count": 1
+        },
+        {
+          "word": "야바",
+          "count": 1
+        },
+        {
+          "word": "현장",
+          "count": 1
+        },
+        {
+          "word": "파상군",
+          "count": 1
+        },
+        {
+          "word": "므앙군",
+          "count": 1
+        },
+        {
+          "word": "팡군",
+          "count": 1
+        },
+        {
+          "word": "국경",
+          "count": 1
+        },
+        {
+          "word": "조직",
+          "count": 1
+        },
+        {
+          "word": "접경",
           "count": 1
         }
       ],
@@ -1481,27 +1597,91 @@
     "🔐 사이버 보안": {
       "issues": [
         {
+          "word": "유출",
+          "count": 11
+        },
+        {
           "word": "AI",
           "count": 10
+        },
+        {
+          "word": "증명",
+          "count": 10
+        },
+        {
+          "word": "SGX",
+          "count": 8
+        },
+        {
+          "word": "브리지",
+          "count": 8
+        },
+        {
+          "word": "탈취",
+          "count": 8
+        },
+        {
+          "word": "Klue",
+          "count": 8
+        },
+        {
+          "word": "정보",
+          "count": 7
+        },
+        {
+          "word": "토큰",
+          "count": 7
+        },
+        {
+          "word": "CRM",
+          "count": 7
+        },
+        {
+          "word": "Salesforce",
+          "count": 7
+        },
+        {
+          "word": "개인",
+          "count": 6
+        },
+        {
+          "word": "피해",
+          "count": 6
+        },
+        {
+          "word": "L2",
+          "count": 6
+        },
+        {
+          "word": "사이버",
+          "count": 6
         },
         {
           "word": "회원",
           "count": 5
         },
         {
-          "word": "정보",
+          "word": "침해",
           "count": 5
         },
         {
-          "word": "유출",
+          "word": "Taiko",
+          "count": 5
+        },
+        {
+          "word": "OAuth",
+          "count": 5
+        },
+        {
+          "word": "보안",
+          "count": 5
+        },
+        {
+          "word": "데이터",
           "count": 5
         },
         {
           "word": "DB",
-          "count": 4
-        },
-        {
-          "word": "개인",
           "count": 4
         },
         {
@@ -1510,6 +1690,34 @@
         },
         {
           "word": "악성",
+          "count": 4
+        },
+        {
+          "word": "서명",
+          "count": 4
+        },
+        {
+          "word": "GitHub",
+          "count": 4
+        },
+        {
+          "word": "위조",
+          "count": 4
+        },
+        {
+          "word": "중단",
+          "count": 4
+        },
+        {
+          "word": "TAIKO",
+          "count": 4
+        },
+        {
+          "word": "Icarus",
+          "count": 4
+        },
+        {
+          "word": "자격",
           "count": 4
         },
         {
@@ -1522,6 +1730,30 @@
         },
         {
           "word": "서버",
+          "count": 3
+        },
+        {
+          "word": "출금",
+          "count": 3
+        },
+        {
+          "word": "네트워크",
+          "count": 3
+        },
+        {
+          "word": "갈취",
+          "count": 3
+        },
+        {
+          "word": "그룹",
+          "count": 3
+        },
+        {
+          "word": "레거시",
+          "count": 3
+        },
+        {
+          "word": "연동",
           "count": 3
         },
         {
@@ -1545,15 +1777,7 @@
           "count": 2
         },
         {
-          "word": "침해",
-          "count": 2
-        },
-        {
           "word": "식별",
-          "count": 2
-        },
-        {
-          "word": "피해",
           "count": 2
         },
         {
@@ -1566,6 +1790,90 @@
         },
         {
           "word": "단축",
+          "count": 2
+        },
+        {
+          "word": "이더리움",
+          "count": 2
+        },
+        {
+          "word": "ERC",
+          "count": 2
+        },
+        {
+          "word": "RSA",
+          "count": 2
+        },
+        {
+          "word": "생성",
+          "count": 2
+        },
+        {
+          "word": "공격자",
+          "count": 2
+        },
+        {
+          "word": "저장소",
+          "count": 2
+        },
+        {
+          "word": "취득",
+          "count": 2
+        },
+        {
+          "word": "상태",
+          "count": 2
+        },
+        {
+          "word": "컨트랙트",
+          "count": 2
+        },
+        {
+          "word": "탐지",
+          "count": 2
+        },
+        {
+          "word": "공격",
+          "count": 2
+        },
+        {
+          "word": "주도",
+          "count": 2
+        },
+        {
+          "word": "인프라",
+          "count": 2
+        },
+        {
+          "word": "Battlecards",
+          "count": 2
+        },
+        {
+          "word": "통보",
+          "count": 2
+        },
+        {
+          "word": "Huntress",
+          "count": 2
+        },
+        {
+          "word": "Recorded",
+          "count": 2
+        },
+        {
+          "word": "Future",
+          "count": 2
+        },
+        {
+          "word": "Jamf",
+          "count": 2
+        },
+        {
+          "word": "Tanium",
+          "count": 2
+        },
+        {
+          "word": "고객",
           "count": 2
         },
         {
@@ -1594,6 +1902,38 @@
         },
         {
           "word": "금전",
+          "count": 1
+        },
+        {
+          "word": "Intel",
+          "count": 1
+        },
+        {
+          "word": "Blockaid",
+          "count": 1
+        },
+        {
+          "word": "모니터링",
+          "count": 1
+        },
+        {
+          "word": "시스템",
+          "count": 1
+        },
+        {
+          "word": "실시간",
+          "count": 1
+        },
+        {
+          "word": "Security",
+          "count": 1
+        },
+        {
+          "word": "Council",
+          "count": 1
+        },
+        {
+          "word": "동결",
           "count": 1
         }
       ],
@@ -1854,11 +2194,43 @@
       "issues": [],
       "techs": [
         {
+          "word": "드론",
+          "count": 13
+        },
+        {
           "word": "DFR",
+          "count": 10
+        },
+        {
+          "word": "DJI",
           "count": 8
         },
         {
+          "word": "용의자",
+          "count": 8
+        },
+        {
+          "word": "FPV",
+          "count": 8
+        },
+        {
+          "word": "흉기",
+          "count": 7
+        },
+        {
+          "word": "자석",
+          "count": 6
+        },
+        {
+          "word": "실내",
+          "count": 6
+        },
+        {
           "word": "Flock",
+          "count": 5
+        },
+        {
+          "word": "최초",
           "count": 5
         },
         {
@@ -1878,15 +2250,31 @@
           "count": 4
         },
         {
+          "word": "미국",
+          "count": 4
+        },
+        {
+          "word": "새크라멘토",
+          "count": 4
+        },
+        {
+          "word": "Avata",
+          "count": 4
+        },
+        {
+          "word": "SWAT",
+          "count": 4
+        },
+        {
+          "word": "카운티",
+          "count": 4
+        },
+        {
           "word": "X10",
           "count": 3
         },
         {
           "word": "캐나다",
-          "count": 3
-        },
-        {
-          "word": "드론",
           "count": 3
         },
         {
@@ -1898,11 +2286,31 @@
           "count": 3
         },
         {
-          "word": "밴쿠버",
-          "count": 2
+          "word": "보안관",
+          "count": 3
         },
         {
-          "word": "최초",
+          "word": "장착",
+          "count": 3
+        },
+        {
+          "word": "접촉",
+          "count": 3
+        },
+        {
+          "word": "제거",
+          "count": 3
+        },
+        {
+          "word": "소비자",
+          "count": 3
+        },
+        {
+          "word": "출력",
+          "count": 3
+        },
+        {
+          "word": "밴쿠버",
           "count": 2
         },
         {
@@ -1958,6 +2366,38 @@
           "count": 2
         },
         {
+          "word": "SED",
+          "count": 2
+        },
+        {
+          "word": "소매",
+          "count": 2
+        },
+        {
+          "word": "탑재",
+          "count": 2
+        },
+        {
+          "word": "특수",
+          "count": 2
+        },
+        {
+          "word": "무혈",
+          "count": 2
+        },
+        {
+          "word": "제압",
+          "count": 2
+        },
+        {
+          "word": "기동",
+          "count": 2
+        },
+        {
+          "word": "체포",
+          "count": 2
+        },
+        {
           "word": "카메라",
           "count": 1
         },
@@ -1995,6 +2435,74 @@
         },
         {
           "word": "주권",
+          "count": 1
+        },
+        {
+          "word": "캘리포니아",
+          "count": 1
+        },
+        {
+          "word": "영상",
+          "count": 1
+        },
+        {
+          "word": "강력",
+          "count": 1
+        },
+        {
+          "word": "조종사",
+          "count": 1
+        },
+        {
+          "word": "고글",
+          "count": 1
+        },
+        {
+          "word": "마운트",
+          "count": 1
+        },
+        {
+          "word": "개조",
+          "count": 1
+        },
+        {
+          "word": "시스템",
+          "count": 1
+        },
+        {
+          "word": "투입",
+          "count": 1
+        },
+        {
+          "word": "전과자",
+          "count": 1
+        },
+        {
+          "word": "샌버나디노",
+          "count": 1
+        },
+        {
+          "word": "프로그램",
+          "count": 1
+        },
+        {
+          "word": "출동",
+          "count": 1
+        },
+        {
+          "word": "대원",
+          "count": 1
+        },
+        {
+          "word": "현장",
+          "count": 1
+        },
+        {
+          "word": "순찰대",
+          "count": 1
+        },
+        {
+          "word": "장비",
           "count": 1
         }
       ]
