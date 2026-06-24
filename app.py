@@ -91,7 +91,6 @@ def _file_mtime(path):
     try: return os.path.getmtime(path)
     except: return 0
 
-@st.cache_data(ttl=60)
 def load_ideas():
     path = "data/idea_cards.json"
     if os.path.exists(path):
