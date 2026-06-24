@@ -91,8 +91,8 @@ def _file_mtime(path):
     try: return os.path.getmtime(path)
     except: return 0
 
-@st.cache_data
-def load_ideas(_mtime=0):
+@st.cache_data(ttl=60)
+def load_ideas():
     path = "data/idea_cards.json"
     if os.path.exists(path):
         with open(path, "r", encoding="utf-8") as f:
@@ -1068,7 +1068,7 @@ elif menu == "📰 일일 DB":
 elif menu == "💡 기술 아이디어":
 
     IDEA_PATH = "data/idea_cards.json"
-    ideas = load_ideas(_mtime=_file_mtime(IDEA_PATH))
+    ideas = load_ideas()
     ideas = sorted(ideas, key=lambda x: x.get("date", ""), reverse=True)
 
     st.markdown("## 💡 치안 접목 가능 과학기술 아이디어")
