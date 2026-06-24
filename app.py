@@ -1067,7 +1067,7 @@ elif menu == "💡 기술 아이디어":
     <div style="background:#EAF5D2; border:1px solid #283B51; border-radius:8px;
          padding:0.9rem 1.2rem; margin-bottom:1.2rem;">
       <p style="color:#283B51; font-size:0.87rem; margin:0;">
-        📡 일반 과학기술 뉴스·동향을 분석하여 치안 현장에 접목 가능한 기술 아이디어를 정리합니다.<br>
+        📡 일반 과학기술 뉴스·동향을 분석하여 치안 현장에 접목 가능한 기술 아이디어를 정리합니다.매주 월요일 업데이트<br>
       </p>
     </div>
     """, unsafe_allow_html=True)
@@ -1191,7 +1191,7 @@ elif menu == "📄 RFP 사업기획":
     <div style="background:#EAF5D2; border:1px solid #283B51; border-radius:8px;
          padding:0.9rem 1.2rem; margin-bottom:1.2rem;">
       <p style="color:#283B51; font-size:0.87rem; margin:0;">
-        📡 누적 치안 이슈를 바탕으로 추진 배경을 설정하고, 관련 기술들을 조합하여 R&amp;D 사업기획서 초안을 생성합니다.<br>
+        📡 누적 치안 이슈를 바탕으로 추진 배경을 설정하고, 관련 기술들을 조합하여 R&amp;D 사업기획서 초안을 생성합니다. 매주 금요일 업데이트<br>
       </p>
     </div>
     """, unsafe_allow_html=True)
