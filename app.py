@@ -1011,7 +1011,7 @@ elif menu == "📰 일일 DB":
                       <div style="margin-top:0.5rem;">{tags_html}</div>
                     </div>
                     """, unsafe_allow_html=True)
-                    with st.expander(f"🔎 상세 분석 + 원문 링크 — {issue.get('title','')[:35]}…"):
+                    with st.expander(f"🔎 상세 분석 — {issue.get('title','')[:35]}…"):
                         st.markdown("**🔍 심층 분석**")
                         st.write(fmt_circles(issue.get('detail','')))
                         st.markdown("---")
