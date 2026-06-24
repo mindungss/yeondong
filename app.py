@@ -87,6 +87,18 @@ def load_trend_data() -> dict:
             return json.load(f)
     return {}
 
+def _file_mtime(path):
+    try: return os.path.getmtime(path)
+    except: return 0
+
+@st.cache_data
+def load_ideas(_mtime=0):
+    path = "data/idea_cards.json"
+    if os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return []
+
 def get_available_dates(data: dict) -> list:
     dates = sorted(data.keys(), reverse=True)
     return dates
@@ -729,8 +741,11 @@ if menu == "🏢 메인 대시보드":
                 seed = int(hashlib.md5(sel_dom.encode()).hexdigest()[:8], 16) % 9999
 
                 components.html(f"""
-<canvas id="wc" width="600" height="240"
-  style="width:100%;height:240px;display:block;"></canvas>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
+</style>
+<canvas id="wc" width="680" height="260"
+  style="width:100%;height:260px;display:block;background:transparent;"></canvas>
 <script>
 (function(){{
   var canvas = document.getElementById('wc');
@@ -744,38 +759,40 @@ if menu == "🏢 메인 대시보드":
   ctx.clearRect(0,0,W,H);
   var placed = [];
   function overlap(x,y,w,h){{
+    var pad = 2;
     for(var i=0;i<placed.length;i++){{
       var p=placed[i];
-      if(!(x+w+2<p.x||x>p.x+p.w+2||y+h+2<p.y||y>p.y+p.h+2)) return true;
+      if(!(x+w+pad<p.x||x>p.x+p.w+pad||y+h+pad<p.y||y>p.y+p.h+pad)) return true;
     }}
     return false;
   }}
+  var font = "'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif";
   for(var i=0;i<words.length;i++){{
     var ratio = words[i].count / maxCnt;
-    var fs = Math.round(10 + ratio * 30);
-    var weight = ratio>0.6?'800':(ratio>0.3?'600':'400');
-    var angle = (ratio<0.35 && rand()>0.55) ? (rand()>0.5?Math.PI/2:-Math.PI/2) : 0;
+    var fs = Math.round(9 + ratio * 34);
+    var weight = ratio>0.65?'900':(ratio>0.35?'700':'400');
+    var angle = (ratio<0.3 && rand()>0.5) ? (rand()>0.5?Math.PI/2:-Math.PI/2) : 0;
     var col = palette[i % palette.length];
     var word = words[i].word;
-    ctx.font = weight+' '+fs+'px Arial,sans-serif';
-    var tw = ctx.measureText(word).width + 4;
-    var th = fs * 1.3;
+    ctx.font = weight+' '+fs+'px '+font;
+    var tw = ctx.measureText(word).width + 3;
+    var th = fs * 1.25;
     var rw = angle===0?tw:th, rh = angle===0?th:tw;
     var cx0=W/2, cy0=H/2;
-    for(var t=0;t<800;t++){{
-      var a = t*0.3, r = t*0.55;
+    for(var t=0;t<1200;t++){{
+      var a = t*0.28, r = t*0.45;
       var cx = Math.round(cx0 + r*Math.cos(a));
       var cy = Math.round(cy0 + r*Math.sin(a));
       var bx=cx-rw/2, by=cy-rh/2;
-      if(bx<2||by<2||bx+rw>W-2||by+rh>H-2) continue;
+      if(bx<1||by<1||bx+rw>W-1||by+rh>H-1) continue;
       if(!overlap(bx,by,rw,rh)){{
         placed.push({{x:bx,y:by,w:rw,h:rh}});
         ctx.save();
         ctx.translate(cx,cy);
         ctx.rotate(angle);
-        ctx.globalAlpha = 0.55+ratio*0.45;
+        ctx.globalAlpha = 0.6+ratio*0.4;
         ctx.fillStyle = col;
-        ctx.font = weight+' '+fs+'px Arial,sans-serif';
+        ctx.font = weight+' '+fs+'px '+font;
         ctx.textAlign='center'; ctx.textBaseline='middle';
         ctx.fillText(word,0,0);
         ctx.restore();
@@ -785,7 +802,7 @@ if menu == "🏢 메인 대시보드":
   }}
 }})();
 </script>
-""", height=250, scrolling=False)
+""", height=270, scrolling=False)
             else:
                 st.markdown(
                     '<div style="background:#fff;border-left:1px solid #e5e7eb;'
@@ -1051,15 +1068,7 @@ elif menu == "📰 일일 DB":
 elif menu == "💡 기술 아이디어":
 
     IDEA_PATH = "data/idea_cards.json"
-
-    @st.cache_data(ttl=300)
-    def load_ideas():
-        if os.path.exists(IDEA_PATH):
-            with open(IDEA_PATH, "r", encoding="utf-8") as f:
-                return json.load(f)
-        return []
-
-    ideas = load_ideas()
+    ideas = load_ideas(_mtime=_file_mtime(IDEA_PATH))
     ideas = sorted(ideas, key=lambda x: x.get("date", ""), reverse=True)
 
     st.markdown("## 💡 치안 접목 가능 과학기술 아이디어")
