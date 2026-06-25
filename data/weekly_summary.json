@@ -1,17 +1,17 @@
 {
-  "updated": "2026-06-24",
+  "updated": "2026-06-25",
   "period": "최근 7일",
   "domains": [
+    {
+      "domain": "🔐 사이버 보안",
+      "count": 7
+    },
     {
       "domain": "🤖 AI",
       "count": 6
     },
     {
       "domain": "🌐 국제 치안",
-      "count": 4
-    },
-    {
-      "domain": "🔐 사이버 보안",
       "count": 4
     },
     {
