@@ -1393,19 +1393,7 @@ elif menu == "📋 NTIS 치안 분야 과제":
     if not filtered_ntis:
         st.info("조건에 맞는 과제가 없습니다.")
     else:
-        '''
-        # 데이터프레임 표 표시
-        df_ntis = pd.DataFrame([{
-            "신규": "🆕" if n.get("is_new") else "",
-            "과제명": n.get("title",""),
-            "주관기관": n.get("org",""),
-            "연도": n.get("year",""),
-            "예산": n.get("budget",""),
-            "도메인": n.get("domain",""),
-            "등록일": n.get("registered",""),
-        } for n in filtered_ntis])
-        st.dataframe(df_ntis, use_container_width=True, hide_index=True)
-       '''
+
         st.markdown("### 📋 과제별 상세")
         for ntis in filtered_ntis:
             is_new = ntis.get("is_new", False)
