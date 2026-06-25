@@ -769,7 +769,7 @@ if menu == "🏢 메인 대시보드":
   for(var i=0;i<words.length;i++){{
     var ratio = words[i].count / maxCnt;
     var fs = Math.round(9 + ratio * 34);
-    var weight = ratio>0.65?'900':(ratio>0.35?'700':'400');
+    var weight = ratio>0.65?'800':(ratio>0.35?'600':'400');
     var angle = (ratio<0.3 && rand()>0.5) ? (rand()>0.5?Math.PI/2:-Math.PI/2) : 0;
     var col = palette[i % palette.length];
     var word = words[i].word;
