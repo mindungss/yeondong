@@ -741,7 +741,7 @@ if menu == "🏢 메인 대시보드":
 
                 components.html(f"""
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon:wght@400;700;900&display=swap');
 </style>
 <canvas id="wc" width="680" height="260"
   style="width:100%;height:260px;display:block;background:transparent;"></canvas>
@@ -765,7 +765,7 @@ if menu == "🏢 메인 대시보드":
     }}
     return false;
   }}
-  var font = "'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif";
+  var font = "'Do Hyeon','Oswald', 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif";
   for(var i=0;i<words.length;i++){{
     var ratio = words[i].count / maxCnt;
     var fs = Math.round(9 + ratio * 34);
