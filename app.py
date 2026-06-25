@@ -1447,6 +1447,6 @@ st.markdown(f"""
 <div style="text-align:center; font-size:0.72rem; color:#4a5568; padding:0.5rem 0;">
   🚔 치안 과학기술 동향 플랫폼 v1.0 &nbsp;|&nbsp; Powered by KIPoT (kipot.or.kr)
   &nbsp;|&nbsp; 데이터 기준: {datetime.now().strftime('%Y.%m.%d')} &nbsp;|&nbsp;
-  수집 범위: 수정 외
+
 </div>
 """, unsafe_allow_html=True)
