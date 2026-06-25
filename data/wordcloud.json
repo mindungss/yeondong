@@ -1597,16 +1597,64 @@
     "🔐 사이버 보안": {
       "issues": [
         {
-          "word": "유출",
-          "count": 11
+          "word": "탈취",
+          "count": 20
         },
         {
-          "word": "AI",
-          "count": 10
+          "word": "유출",
+          "count": 19
+        },
+        {
+          "word": "Klue",
+          "count": 15
         },
         {
           "word": "증명",
+          "count": 13
+        },
+        {
+          "word": "침해",
+          "count": 13
+        },
+        {
+          "word": "AI",
+          "count": 12
+        },
+        {
+          "word": "사이버",
+          "count": 12
+        },
+        {
+          "word": "토큰",
+          "count": 11
+        },
+        {
+          "word": "데이터",
+          "count": 11
+        },
+        {
+          "word": "피해",
           "count": 10
+        },
+        {
+          "word": "정보",
+          "count": 9
+        },
+        {
+          "word": "Salesforce",
+          "count": 9
+        },
+        {
+          "word": "OAuth",
+          "count": 9
+        },
+        {
+          "word": "보안",
+          "count": 9
+        },
+        {
+          "word": "계정",
+          "count": 9
         },
         {
           "word": "SGX",
@@ -1617,27 +1665,39 @@
           "count": 8
         },
         {
-          "word": "탈취",
+          "word": "갈취",
           "count": 8
         },
         {
-          "word": "Klue",
+          "word": "그룹",
           "count": 8
         },
         {
-          "word": "정보",
-          "count": 7
-        },
-        {
-          "word": "토큰",
-          "count": 7
+          "word": "Apple",
+          "count": 8
         },
         {
           "word": "CRM",
           "count": 7
         },
         {
-          "word": "Salesforce",
+          "word": "자격",
+          "count": 7
+        },
+        {
+          "word": "고객",
+          "count": 7
+        },
+        {
+          "word": "Tata",
+          "count": 7
+        },
+        {
+          "word": "LastPass",
+          "count": 7
+        },
+        {
+          "word": "Austad",
           "count": 7
         },
         {
@@ -1645,15 +1705,15 @@
           "count": 6
         },
         {
-          "word": "피해",
-          "count": 6
-        },
-        {
           "word": "L2",
           "count": 6
         },
         {
-          "word": "사이버",
+          "word": "Icarus",
+          "count": 6
+        },
+        {
+          "word": "Electronics",
           "count": 6
         },
         {
@@ -1661,23 +1721,31 @@
           "count": 5
         },
         {
-          "word": "침해",
-          "count": 5
-        },
-        {
           "word": "Taiko",
           "count": 5
         },
         {
-          "word": "OAuth",
+          "word": "레거시",
           "count": 5
         },
         {
-          "word": "보안",
+          "word": "인프라",
           "count": 5
         },
         {
-          "word": "데이터",
+          "word": "파일",
+          "count": 5
+        },
+        {
+          "word": "접근",
+          "count": 5
+        },
+        {
+          "word": "DraftKings",
+          "count": 5
+        },
+        {
+          "word": "징역",
           "count": 5
         },
         {
@@ -1713,11 +1781,47 @@
           "count": 4
         },
         {
-          "word": "Icarus",
+          "word": "통보",
           "count": 4
         },
         {
-          "word": "자격",
+          "word": "Recorded",
+          "count": 4
+        },
+        {
+          "word": "Future",
+          "count": 4
+        },
+        {
+          "word": "World",
+          "count": 4
+        },
+        {
+          "word": "Leaks",
+          "count": 4
+        },
+        {
+          "word": "포함",
+          "count": 4
+        },
+        {
+          "word": "연쇄",
+          "count": 4
+        },
+        {
+          "word": "Snoopy",
+          "count": 4
+        },
+        {
+          "word": "크레덴셜",
+          "count": 4
+        },
+        {
+          "word": "스터핑",
+          "count": 4
+        },
+        {
+          "word": "선고",
           "count": 4
         },
         {
@@ -1741,19 +1845,71 @@
           "count": 3
         },
         {
-          "word": "갈취",
-          "count": 3
-        },
-        {
-          "word": "그룹",
-          "count": 3
-        },
-        {
-          "word": "레거시",
-          "count": 3
-        },
-        {
           "word": "연동",
+          "count": 3
+        },
+        {
+          "word": "이메일",
+          "count": 3
+        },
+        {
+          "word": "GB",
+          "count": 3
+        },
+        {
+          "word": "Tesla",
+          "count": 3
+        },
+        {
+          "word": "기밀",
+          "count": 3
+        },
+        {
+          "word": "제조",
+          "count": 3
+        },
+        {
+          "word": "도면",
+          "count": 3
+        },
+        {
+          "word": "iPhone",
+          "count": 3
+        },
+        {
+          "word": "사실",
+          "count": 3
+        },
+        {
+          "word": "사이트",
+          "count": 3
+        },
+        {
+          "word": "노출",
+          "count": 3
+        },
+        {
+          "word": "공급망",
+          "count": 3
+        },
+        {
+          "word": "요약",
+          "count": 3
+        },
+        {
+          "word": "PII",
+          "count": 3
+        },
+        {
+          "word": "플랫폼",
+          "count": 3
+        },
+        {
+          "word": "Gong",
+          "count": 3
+        },
+        {
+          "word": "공범",
           "count": 3
         },
         {
@@ -1839,102 +1995,6 @@
         {
           "word": "주도",
           "count": 2
-        },
-        {
-          "word": "인프라",
-          "count": 2
-        },
-        {
-          "word": "Battlecards",
-          "count": 2
-        },
-        {
-          "word": "통보",
-          "count": 2
-        },
-        {
-          "word": "Huntress",
-          "count": 2
-        },
-        {
-          "word": "Recorded",
-          "count": 2
-        },
-        {
-          "word": "Future",
-          "count": 2
-        },
-        {
-          "word": "Jamf",
-          "count": 2
-        },
-        {
-          "word": "Tanium",
-          "count": 2
-        },
-        {
-          "word": "고객",
-          "count": 2
-        },
-        {
-          "word": "전화번호",
-          "count": 1
-        },
-        {
-          "word": "해킹",
-          "count": 1
-        },
-        {
-          "word": "휴대폰",
-          "count": 1
-        },
-        {
-          "word": "이메일",
-          "count": 1
-        },
-        {
-          "word": "비밀번호",
-          "count": 1
-        },
-        {
-          "word": "범죄",
-          "count": 1
-        },
-        {
-          "word": "금전",
-          "count": 1
-        },
-        {
-          "word": "Intel",
-          "count": 1
-        },
-        {
-          "word": "Blockaid",
-          "count": 1
-        },
-        {
-          "word": "모니터링",
-          "count": 1
-        },
-        {
-          "word": "시스템",
-          "count": 1
-        },
-        {
-          "word": "실시간",
-          "count": 1
-        },
-        {
-          "word": "Security",
-          "count": 1
-        },
-        {
-          "word": "Council",
-          "count": 1
-        },
-        {
-          "word": "동결",
-          "count": 1
         }
       ],
       "techs": [
@@ -2195,22 +2255,46 @@
       "techs": [
         {
           "word": "드론",
-          "count": 13
-        },
-        {
-          "word": "DFR",
-          "count": 10
-        },
-        {
-          "word": "DJI",
-          "count": 8
+          "count": 29
         },
         {
           "word": "용의자",
-          "count": 8
+          "count": 19
+        },
+        {
+          "word": "DFR",
+          "count": 18
+        },
+        {
+          "word": "DJI",
+          "count": 14
+        },
+        {
+          "word": "자석",
+          "count": 11
+        },
+        {
+          "word": "미국",
+          "count": 10
+        },
+        {
+          "word": "실내",
+          "count": 9
+        },
+        {
+          "word": "최초",
+          "count": 9
+        },
+        {
+          "word": "경찰",
+          "count": 9
         },
         {
           "word": "FPV",
+          "count": 8
+        },
+        {
+          "word": "새크라멘토",
           "count": 8
         },
         {
@@ -2218,11 +2302,47 @@
           "count": 7
         },
         {
-          "word": "자석",
+          "word": "Avata",
+          "count": 7
+        },
+        {
+          "word": "카운티",
+          "count": 7
+        },
+        {
+          "word": "Skydio",
+          "count": 7
+        },
+        {
+          "word": "자동",
+          "count": 7
+        },
+        {
+          "word": "무장",
+          "count": 7
+        },
+        {
+          "word": "도킹",
           "count": 6
         },
         {
-          "word": "실내",
+          "word": "보안관",
+          "count": 6
+        },
+        {
+          "word": "소비자",
+          "count": 6
+        },
+        {
+          "word": "출범",
+          "count": 6
+        },
+        {
+          "word": "실시간",
+          "count": 6
+        },
+        {
+          "word": "범죄",
           "count": 6
         },
         {
@@ -2230,16 +2350,16 @@
           "count": 5
         },
         {
-          "word": "최초",
+          "word": "체포",
           "count": 5
         },
         {
-          "word": "경찰",
-          "count": 4
+          "word": "현장",
+          "count": 5
         },
         {
-          "word": "도킹",
-          "count": 4
+          "word": "올랜도",
+          "count": 5
         },
         {
           "word": "비행",
@@ -2250,23 +2370,43 @@
           "count": 4
         },
         {
-          "word": "미국",
-          "count": 4
-        },
-        {
-          "word": "새크라멘토",
-          "count": 4
-        },
-        {
-          "word": "Avata",
-          "count": 4
-        },
-        {
           "word": "SWAT",
           "count": 4
         },
         {
-          "word": "카운티",
+          "word": "센터",
+          "count": 4
+        },
+        {
+          "word": "프로그램",
+          "count": 4
+        },
+        {
+          "word": "출동",
+          "count": 4
+        },
+        {
+          "word": "해제",
+          "count": 4
+        },
+        {
+          "word": "은거",
+          "count": 4
+        },
+        {
+          "word": "추적",
+          "count": 4
+        },
+        {
+          "word": "시험",
+          "count": 4
+        },
+        {
+          "word": "OPD",
+          "count": 4
+        },
+        {
+          "word": "정보",
           "count": 4
         },
         {
@@ -2275,18 +2415,6 @@
         },
         {
           "word": "캐나다",
-          "count": 3
-        },
-        {
-          "word": "Skydio",
-          "count": 3
-        },
-        {
-          "word": "자동",
-          "count": 3
-        },
-        {
-          "word": "보안관",
           "count": 3
         },
         {
@@ -2302,19 +2430,51 @@
           "count": 3
         },
         {
-          "word": "소비자",
-          "count": 3
-        },
-        {
           "word": "출력",
           "count": 3
         },
         {
-          "word": "밴쿠버",
-          "count": 2
+          "word": "스테이션",
+          "count": 3
         },
         {
-          "word": "출범",
+          "word": "영상",
+          "count": 3
+        },
+        {
+          "word": "강력",
+          "count": 3
+        },
+        {
+          "word": "투입",
+          "count": 3
+        },
+        {
+          "word": "제품",
+          "count": 3
+        },
+        {
+          "word": "탈취",
+          "count": 3
+        },
+        {
+          "word": "성공",
+          "count": 3
+        },
+        {
+          "word": "공식",
+          "count": 3
+        },
+        {
+          "word": "유용",
+          "count": 3
+        },
+        {
+          "word": "도착",
+          "count": 3
+        },
+        {
+          "word": "밴쿠버",
           "count": 2
         },
         {
@@ -2343,18 +2503,6 @@
         },
         {
           "word": "반경",
-          "count": 2
-        },
-        {
-          "word": "실시간",
-          "count": 2
-        },
-        {
-          "word": "범죄",
-          "count": 2
-        },
-        {
-          "word": "센터",
           "count": 2
         },
         {
@@ -2394,7 +2542,71 @@
           "count": 2
         },
         {
-          "word": "체포",
+          "word": "SCSO",
+          "count": 2
+        },
+        {
+          "word": "SCOUT",
+          "count": 2
+        },
+        {
+          "word": "법집행",
+          "count": 2
+        },
+        {
+          "word": "부착",
+          "count": 2
+        },
+        {
+          "word": "법집행기관",
+          "count": 2
+        },
+        {
+          "word": "조종",
+          "count": 2
+        },
+        {
+          "word": "차고",
+          "count": 2
+        },
+        {
+          "word": "CAD",
+          "count": 2
+        },
+        {
+          "word": "GPS",
+          "count": 2
+        },
+        {
+          "word": "RTCC",
+          "count": 2
+        },
+        {
+          "word": "AI",
+          "count": 2
+        },
+        {
+          "word": "선착",
+          "count": 2
+        },
+        {
+          "word": "성과",
+          "count": 2
+        },
+        {
+          "word": "경찰청",
+          "count": 2
+        },
+        {
+          "word": "인식",
+          "count": 2
+        },
+        {
+          "word": "경찰관",
+          "count": 2
+        },
+        {
+          "word": "폭력",
           "count": 2
         },
         {
@@ -2418,10 +2630,6 @@
           "count": 1
         },
         {
-          "word": "스테이션",
-          "count": 1
-        },
-        {
           "word": "방수",
           "count": 1
         },
@@ -2442,67 +2650,7 @@
           "count": 1
         },
         {
-          "word": "영상",
-          "count": 1
-        },
-        {
-          "word": "강력",
-          "count": 1
-        },
-        {
           "word": "조종사",
-          "count": 1
-        },
-        {
-          "word": "고글",
-          "count": 1
-        },
-        {
-          "word": "마운트",
-          "count": 1
-        },
-        {
-          "word": "개조",
-          "count": 1
-        },
-        {
-          "word": "시스템",
-          "count": 1
-        },
-        {
-          "word": "투입",
-          "count": 1
-        },
-        {
-          "word": "전과자",
-          "count": 1
-        },
-        {
-          "word": "샌버나디노",
-          "count": 1
-        },
-        {
-          "word": "프로그램",
-          "count": 1
-        },
-        {
-          "word": "출동",
-          "count": 1
-        },
-        {
-          "word": "대원",
-          "count": 1
-        },
-        {
-          "word": "현장",
-          "count": 1
-        },
-        {
-          "word": "순찰대",
-          "count": 1
-        },
-        {
-          "word": "장비",
           "count": 1
         }
       ]
