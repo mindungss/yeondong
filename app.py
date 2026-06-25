@@ -669,7 +669,7 @@ if menu == "🏢 메인 대시보드":
             date_range = f"{month_dates[0]} ~ {month_dates[-1]}" if month_dates else "—"
             st.markdown(f"""
             <div class="dash-panel">
-              <div class="dash-panel-title">📊 30일 분야별 이슈 추이 &nbsp;<span style="font-weight:400;text-transform:none;letter-spacing:0;color:#9ca3af;font-size:1rem;">{date_range}</span></div>
+              <div class="dash-panel-title">📊 30일 분야별 이슈 추이 &nbsp;<span style="font-weight:400;text-transform:none;letter-spacing:0;color:#9ca3af;font-size:0.78rem;">{date_range}</span></div>
               <div class="sparkline-wrap">{spark_rows_html}</div>
             </div>
             """, unsafe_allow_html=True)
