@@ -765,11 +765,11 @@ if menu == "🏢 메인 대시보드":
     }}
     return false;
   }}
-  var font = "'Do Hyeon','Oswald', 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif";
+  var font = "'Oswald','Do Hyeon', 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif";
   for(var i=0;i<words.length;i++){{
     var ratio = words[i].count / maxCnt;
     var fs = Math.round(9 + ratio * 34);
-    var weight = ratio>0.65?'800':(ratio>0.35?'600':'400');
+    var weight = ratio>0.65?'750':(ratio>0.35?'600':'400');
     var angle = (ratio<0.3 && rand()>0.5) ? (rand()>0.5?Math.PI/2:-Math.PI/2) : 0;
     var col = palette[i % palette.length];
     var word = words[i].word;
