@@ -624,7 +624,7 @@ if menu == "🏢 메인 대시보드":
             st.markdown(
                 f'<div style="background:#fff;border:1px solid #e5e7eb;border-radius:10px;'
                 f'padding:1.1rem 1.2rem 1rem;box-shadow:0 1px 4px rgba(0,0,0,0.06);">'
-                f'<div style="font-size:0.78rem;font-weight:700;color:#6b7280;text-transform:uppercase;'
+                f'<div style="font-size:0.9rem;font-weight:700;color:#6b7280;text-transform:uppercase;'
                 f'letter-spacing:0.05em;margin-bottom:0.8rem;padding-bottom:0.5rem;border-bottom:1px solid #f3f4f6;">'
                 f'📈 급상승 분야{period_txt}</div>'
                 + rows_html +
@@ -669,7 +669,7 @@ if menu == "🏢 메인 대시보드":
             date_range = f"{month_dates[0]} ~ {month_dates[-1]}" if month_dates else "—"
             st.markdown(f"""
             <div class="dash-panel">
-              <div class="dash-panel-title">📊 30일 분야별 이슈 추이 &nbsp;<span style="font-weight:400;text-transform:none;letter-spacing:0;color:#9ca3af;font-size:0.7rem;">{date_range}</span></div>
+              <div class="dash-panel-title">📊 30일 분야별 이슈 추이 &nbsp;<span style="font-weight:400;text-transform:none;letter-spacing:0;color:#9ca3af;font-size:0.9rem;">{date_range}</span></div>
               <div class="sparkline-wrap">{spark_rows_html}</div>
             </div>
             """, unsafe_allow_html=True)
@@ -699,7 +699,7 @@ if menu == "🏢 메인 대시보드":
             st.markdown(
                 f'<div style="background:#F8F8F8;border:0px solid #e5e7eb;border-radius:0px 0px 0 0;'
                 f'padding:0.8rem 1.2rem 0.6rem;border-bottom:1px solid #e5e7eb;">'
-                f'<span style="font-size:0.78rem;font-weight:700;color:#6b7280;'
+                f'<span style="font-size:0.9rem;font-weight:700;color:#6b7280;'
                 f'text-transform:uppercase;letter-spacing:0.05em;">{title}</span></div>',
                 unsafe_allow_html=True
             )
