@@ -765,7 +765,7 @@ if menu == "🏢 메인 대시보드":
     }}
     return false;
   }}
-  var font = "'Oswald','Do Hyeon', 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif";
+  var font = "'Bebas Neue','Do Hyeon', 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif";
   for(var i=0;i<words.length;i++){{
     var ratio = words[i].count / maxCnt;
     var fs = Math.round(9 + ratio * 34);
