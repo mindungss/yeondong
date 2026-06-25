@@ -1408,14 +1408,25 @@ elif menu == "📋 NTIS 치안 분야 과제":
         st.markdown("### 📋 과제별 상세")
         for ntis in filtered_ntis:
             is_new = ntis.get("is_new", False)
-            new_mark = '<span style="background:#e74c3c;color:white;font-size:0.62rem;padding:1px 7px;border-radius:99px;margin-left:6px;">NEW</span>' if is_new else ""
             with st.expander(f"{'🆕 ' if is_new else ''}[{ntis.get('year','')}] {ntis.get('title','')} — {ntis.get('org','')}"):
-                # 상단: 기본 정보 가로 4칸
-                m1, m2, m3, m4 = st.columns(4)
-                m1.metric("주관 기관", ntis.get('org',''))
-                m2.metric("총 연구비", ntis.get('budget',''))
-                m3.metric("등록일", ntis.get('registered',''))
-                m4.metric("도메인", ntis.get('domain',''))
+                # 과제명
+                st.markdown(f"#### {ntis.get('title','')}")
+                st.divider()
+                # 기본 정보 (등록일 제외, 글자 작게)
+                m1, m2, m3 = st.columns(3)
+                with m1:
+                    st.markdown(f'<div style="font-size:0.72rem;color:#6b7280;margin-bottom:2px;">주관 기관</div>'
+                                f'<div style="font-size:0.95rem;font-weight:600;">{ntis.get("org","")}</div>',
+                                unsafe_allow_html=True)
+                with m2:
+                    st.markdown(f'<div style="font-size:0.72rem;color:#6b7280;margin-bottom:2px;">총 연구비</div>'
+                                f'<div style="font-size:0.95rem;font-weight:600;">{ntis.get("budget","")}</div>',
+                                unsafe_allow_html=True)
+                with m3:
+                    st.markdown(f'<div style="font-size:0.72rem;color:#6b7280;margin-bottom:2px;">도메인</div>'
+                                f'<div style="font-size:0.95rem;font-weight:600;">{ntis.get("domain","")}</div>',
+                                unsafe_allow_html=True)
+                st.markdown("<div style='margin-top:0.6rem;'></div>", unsafe_allow_html=True)
                 st.caption("총 연구 기간")
                 st.write(ntis.get('total_orgs', ntis.get('org','')))
                 st.caption("키워드")
