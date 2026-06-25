@@ -1384,7 +1384,7 @@ elif menu == "📋 NTIS 치안 분야 과제":
     # 요약 메트릭
     m1, m2, m3, m4 = st.columns(4)
     m1.metric("전체 과제", len(ntis_list))
-    m2.metric("신규 (이번주)", sum(1 for n in ntis_list if n.get("is_new", False)))
+    m2.metric("신규 ", sum(1 for n in ntis_list if n.get("is_new", False)))
     m3.metric("표시 중", len(filtered_ntis))
     m4.metric("최근 업데이트", ntis_list[0].get("registered","—") if ntis_list else "—")
 
