@@ -3,43 +3,31 @@
   "period": "최근 7일",
   "domains": [
     {
-      "domain": "🔐 사이버 보안",
-      "count": 8
-    },
-    {
-      "domain": "🌐 국제 치안",
-      "count": 4
-    },
-    {
-      "domain": "💊 마약",
-      "count": 4
+      "domain": "경찰청, 스토킹 범죄 '전건 접수·당일 조사 원칙' 2026.06.15 전국 시행 — 2025년 신고 4만4,687건(전년비 40.4%↑)",
+      "count": 687
     },
     {
       "domain": "🤖 AI",
-      "count": 2
+      "count": 0
     },
     {
       "domain": "📜 법·제도",
       "count": 0
     },
     {
-      "domain": "🧬 과학 수사",
+      "domain": "📜 법·제도",
       "count": 0
     },
     {
-      "domain": "🚗 교통",
+      "domain": "태국 북부 3개 도 합동 단속, 필로폰 527만 정 일시 압수 — 람푼·치앙라이·치앙마이, 피의자 1명 체포 (태국 제5지구경찰청·ONCB, 2026.06.22~23)",
       "count": 0
     },
     {
-      "domain": "🏘️ 생활 안전",
+      "domain": "Operation Endgame 2.0",
       "count": 0
     },
     {
-      "domain": "🚓 신종 범죄",
-      "count": 0
-    },
-    {
-      "domain": "🛠️ 장비",
+      "domain": "📜 법·제도",
       "count": 0
     }
   ]
