@@ -49,24 +49,6 @@
         "severity": "medium"
       }
     ],
-    "technologies": [
-      {
-        "domain": "🔐 사이버 보안",
-        "title": "미국 DOJ, ATM 재킷팅 공모 베네수엘라인 2명 각 78개월 선고 — Ploutus 악성코드로 153만7,696달러 강취, Tren de Aragua 연계 공범 96명 추가 기소",
-        "summary": "미국 DOJ, Ploutus ATM 악성코드로 153만7,696달러 강취한 베네수엘라인 2명 각 78개월 선고 — TdA 연계 공범 96명 추가 기소.",
-        "detail": "2026년 6월 26일 미국 법무부(DOJ)는 국제 ATM 재킷팅(jackpotting) 공모 범죄로 불법체류 베네수엘라 국적자 2명에게 각각 78개월 연방교도소 형을 선고했다고 발표했다. ① 핵심 사건 요약: 피고인들은 미 국무부 지정 외국 테러조직 Tren de Aragua(TdA)와 연계되어 미국 내 다수 금융기관 ATM을 대상으로 악성코드를 이용한 현금 강취 작전을 수행했다. Carlos Javier Padron(36세)과 Oddry Arnoldo Cabrera Torrealba(37세)는 2024년 10월 네브래스카주 링컨 소재 ATM 현장에서 현행 체포됐다. ② 핵심 수치: 피해액 153만7,696달러(약 21억 원) 배상 명령; 두 피고 모두 78개월(6년 6개월) 연방교도소 형 확정; 공범 96명 추가 기소. ③ 피해자/대상 특성: 미국 내 복수 금융기관(은행) — ATM 하드웨어가 직접 공격 대상; 2024년 10월 네브래스카주 링컨 현장에서 범행 도중 현행 체포. ④ 범행 수단·경로: 'Ploutus' ATM 악성코드 변종 사용 — ATM 하드웨어에 직접 접근해 악성코드를 심은 뒤 내부 제한 없이 대량 현금을 자동 토출하게 하는 블랙박스 재킷팅 방식; TdA 조직 네트워크를 통한 다국적 범행 인원 동원. ⑤ 수사·대응 결과: Padron 2026년 6월 25일 선고(78개월+배상 명령), Cabrera Torrealba 6월 11일 선고(78개월); DOJ·USSS·FBI 공조 수사; TdA 연계 공범 96명 연방 기소장 제출.",
-        "source": "https://www.justice.gov/opa/pr/two-illegal-aliens-sentenced-international-atm-jackpotting-conspiracy-ties-tren-de-aragua | 2026.06.26",
-        "tags": [
-          "사이버보안",
-          "ATM재킷팅",
-          "Ploutus",
-          "TrendeAragua",
-          "DOJ"
-        ],
-        "id": "T2606290001",
-        "trl": 1
-      }
-    ]
   },
   "2026-06-26": {
     "issues": [
