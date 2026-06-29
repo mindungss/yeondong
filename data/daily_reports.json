@@ -48,7 +48,9 @@
         "id": "I2606290003",
         "severity": "medium"
       }
-    ],
+    ],    
+    "technologies": [
+    ]
   },
   "2026-06-26": {
     "issues": [
