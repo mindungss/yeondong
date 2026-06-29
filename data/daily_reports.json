@@ -63,7 +63,7 @@
           "테러조직자금"
         ],
         "id": "T2606290001",
-        "trl": 1
+        "severity": "medium"
       }
     ],
     "technologies": [
