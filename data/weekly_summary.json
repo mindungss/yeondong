@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-28",
+  "updated": "2026-06-29",
   "period": "최근 7일",
   "domains": [
     {
@@ -7,7 +7,7 @@
       "count": 8
     },
     {
-      "domain": "🤖 AI",
+      "domain": "🌐 국제 치안",
       "count": 4
     },
     {
@@ -15,12 +15,12 @@
       "count": 4
     },
     {
-      "domain": "🌐 국제 치안",
+      "domain": "🤖 AI",
       "count": 2
     },
     {
       "domain": "📜 법·제도",
-      "count": 1
+      "count": 0
     },
     {
       "domain": "🧬 과학 수사",
