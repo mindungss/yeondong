@@ -48,10 +48,8 @@
         ],
         "id": "I2606290003",
         "severity": "medium"
-      }
-    ],
-    "technologies": [
-      {
+      },
+       {
         "domain": "🔐 사이버 보안",
         "title": "美 법무부, Tren de Aragua 연계 ATM 잭팟팅 공모자 2명 각 78개월 선고…Ploutus 악성코드로 다수 금융기관 수백만 달러 탈취",
         "summary": "DOJ, Tren de Aragua 연계 ATM 잭팟팅 공모자 2명 78개월 선고 — Ploutus 악성코드 기반 국제 금융 사이버범죄 조직의 테러 자금 조달 구조 전모 공개.",
@@ -67,6 +65,9 @@
         "id": "T2606290001",
         "trl": 1
       }
+    ],
+    "technologies": [
+     
     ]
   },
   "2026-06-26": {
