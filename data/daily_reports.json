@@ -1,4 +1,47 @@
 {
+  "2026-06-30": {
+    "issues": [
+      {
+        "domain": "🔐 사이버 보안",
+        "title": "일본 6개 ISP 로그인 자격증명 1,400만 건 유출 — KDDI 제3자 소프트웨어 취약점 악용",
+        "summary": "일본 KDDI 연계 6개 ISP에서 1,400만 건 이상 로그인 자격증명 유출 — 제3자 소프트웨어 취약점 악용, 6월 17일 탐지·차단.",
+        "detail": "일본 통신 대기업 KDDI가 운영하거나 연계된 6개 인터넷 서비스 제공사(ISP)에서 총 1,400만 건 이상의 로그인 자격증명이 대규모 유출된 것으로 2026년 6월 29일 확인됐다. ① 핵심 사건: KDDI 관계 6개 ISP 고객의 아이디·비밀번호가 포함된 자격증명 1,400만 건 이상이 외부로 유출되는 보안 사고 발생. ② 핵심 수치: 피해 자격증명 1,400만 건 이상(over 14 million), 피해 ISP 6개사. ③ 피해자 특성: 6개 ISP 인터넷 서비스 가입자 전반, 해당 자격증명을 재사용 중인 타 서비스 이용자도 2차 피해 위험. ④ 침해 수단: 공격자는 6개 ISP 공통 인프라에 접근 가능한 제3자 소프트웨어(third-party software)의 취약점을 악용해 대규모 자격증명 탈취에 성공. ⑤ 대응 및 수사 현황: 2026년 6월 17일 침해 탐지 즉시 해당 액세스 차단 조치를 완료했으나, 유출된 자격증명이 크리덴셜 스터핑 등 2차 공격에 이미 활용되고 있는지 추가 조사 진행 중.",
+        "source": "https://www.cybersecurity-review.com/japan-over-14-million-login-credentials-leaked-from-six-isps-in-major-data-breach/ | 2026.06.29",
+        "tags": [
+          "사이버보안",
+          "일본",
+          "KDDI",
+          "ISP",
+          "자격증명유출",
+          "제3자소프트웨어",
+          "크리덴셜스터핑"
+        ],
+        "id": "I2606300001",
+        "severity": "high"
+      }
+    ],
+    "technologies": [
+      {
+        "domain": "🔐 사이버 보안",
+        "title": "ShinyHunters, Oracle PeopleSoft 제로데이(CVE-2026-35273, CVSS 9.8) 악용 — 닛산 아메리카 급여기록·SSN 노출",
+        "summary": "ShinyHunters, Oracle PeopleSoft 제로데이(CVE-2026-35273, CVSS 9.8) 악용 — 닛산 아메리카 인사시스템 14일 침해, 4개국 직원 급여·SSN 노출 가능.",
+        "detail": "해킹 그룹 ShinyHunters가 Oracle PeopleSoft PeopleTools 8.61/8.62 버전의 미인증 원격코드실행(unauthenticated RCE) 제로데이 취약점 CVE-2026-35273(CVSS 9.8)을 악용해 닛산 아메리카(Nissan Americas)의 인사·급여 관리 시스템에 침투한 것으로 2026년 6월 29일 캘리포니아주 법무장관(AG) 신고를 통해 확인됐다. ① 핵심 사건: ShinyHunters가 닛산을 '특정 표적(specifically targeted)'으로 지목해 공격을 수행, 2026년 5월 27일부터 6월 9일까지 14일간 인사·급여 시스템에 무단 접근. ② 핵심 수치: CVE-2026-35273 CVSS 점수 9.8(Critical), 침해 기간 14일(5.27~6.9), 피해 범위 미국·캐나다·멕시코·브라질 4개국. ③ 피해자: 닛산 아메리카 현직·전직 직원, 급여 기록·은행 계좌 정보·사회보장번호(SSN) 노출 가능성 확인. ④ 공격 수단: PeopleSoft 인증 우회를 통한 원격코드실행으로 초기 침투 후 인사 데이터베이스 접근, 대기업 ERP·HCM 시스템의 제로데이 취약점을 체계적으로 활용. ⑤ 수사 현황: 피해 규모 추가 파악 및 대상자 통보 진행 중, CVSS 9.8 제로데이가 글로벌 제조업체 인사 시스템 공격에 실제 활용된 사례로 ERP 보안 점검 강화 요구 증대.",
+        "source": "https://www.cybersecurity-review.com/nissan-says-oracle-peoplesoft-break-in-may-have-spilled-payroll-records-ssns/ | 2026.06.29",
+        "tags": [
+          "사이버보안",
+          "ShinyHunters",
+          "Oracle",
+          "PeopleSoft",
+          "CVE-2026-35273",
+          "닛산아메리카",
+          "ERP보안",
+          "SSN유출"
+        ],
+        "id": "T2606300001",
+        "trl": 1
+      }
+    ]
+  },
   "2026-06-29": {
     "issues": [
       {
@@ -49,7 +92,7 @@
         "id": "I2606290003",
         "severity": "medium"
       },
-       {
+      {
         "domain": "🔐 사이버 보안",
         "title": "美 법무부, Tren de Aragua 연계 ATM 잭팟팅 공모자 2명 각 78개월 선고…Ploutus 악성코드로 다수 금융기관 수백만 달러 탈취",
         "summary": "DOJ, Tren de Aragua 연계 ATM 잭팟팅 공모자 2명 78개월 선고 — Ploutus 악성코드 기반 국제 금융 사이버범죄 조직의 테러 자금 조달 구조 전모 공개.",
@@ -66,9 +109,7 @@
         "severity": "medium"
       }
     ],
-    "technologies": [
-     
-    ]
+    "technologies": []
   },
   "2026-06-26": {
     "issues": [

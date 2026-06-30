@@ -1,10 +1,10 @@
 {
-  "updated": "2026-06-29",
+  "updated": "2026-06-30",
   "period": "최근 7일",
   "domains": [
     {
       "domain": "🔐 사이버 보안",
-      "count": 9
+      "count": 11
     },
     {
       "domain": "🌐 국제 치안",
@@ -16,7 +16,7 @@
     },
     {
       "domain": "🤖 AI",
-      "count": 3
+      "count": 2
     },
     {
       "domain": "📜 법·제도",

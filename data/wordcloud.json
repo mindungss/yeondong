@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-29",
+  "updated": "2026-06-30",
   "domains": {
     "🤖 AI": {
       "issues": [
@@ -1603,15 +1603,31 @@
       "issues": [
         {
           "word": "유출",
-          "count": 21
+          "count": 26
         },
         {
           "word": "탈취",
-          "count": 17
+          "count": 18
         },
         {
           "word": "피해",
+          "count": 15
+        },
+        {
+          "word": "ISP",
+          "count": 13
+        },
+        {
+          "word": "증명",
+          "count": 11
+        },
+        {
+          "word": "CVSS",
           "count": 10
+        },
+        {
+          "word": "침해",
+          "count": 9
         },
         {
           "word": "데이터",
@@ -1623,6 +1639,22 @@
         },
         {
           "word": "개월",
+          "count": 8
+        },
+        {
+          "word": "취약점",
+          "count": 8
+        },
+        {
+          "word": "악용",
+          "count": 8
+        },
+        {
+          "word": "자격",
+          "count": 8
+        },
+        {
+          "word": "CVE",
           "count": 8
         },
         {
@@ -1638,11 +1670,15 @@
           "count": 7
         },
         {
-          "word": "티빙",
-          "count": 6
+          "word": "고객",
+          "count": 7
         },
         {
-          "word": "고객",
+          "word": "KDDI",
+          "count": 7
+        },
+        {
+          "word": "티빙",
           "count": 6
         },
         {
@@ -1651,6 +1687,22 @@
         },
         {
           "word": "ATM",
+          "count": 6
+        },
+        {
+          "word": "그룹",
+          "count": 6
+        },
+        {
+          "word": "접근",
+          "count": 6
+        },
+        {
+          "word": "공격",
+          "count": 6
+        },
+        {
+          "word": "SSN",
           "count": 6
         },
         {
@@ -1666,19 +1718,11 @@
           "count": 5
         },
         {
-          "word": "침해",
-          "count": 5
-        },
-        {
           "word": "포함",
           "count": 5
         },
         {
           "word": "갈취",
-          "count": 5
-        },
-        {
-          "word": "그룹",
           "count": 5
         },
         {
@@ -1702,15 +1746,43 @@
           "count": 5
         },
         {
+          "word": "해킹",
+          "count": 5
+        },
+        {
+          "word": "스터핑",
+          "count": 5
+        },
+        {
+          "word": "차단",
+          "count": 5
+        },
+        {
+          "word": "서비스",
+          "count": 5
+        },
+        {
+          "word": "닛산",
+          "count": 5
+        },
+        {
+          "word": "급여",
+          "count": 5
+        },
+        {
+          "word": "인사",
+          "count": 5
+        },
+        {
+          "word": "시스템",
+          "count": 5
+        },
+        {
           "word": "개인정보",
           "count": 4
         },
         {
           "word": "이메일",
-          "count": 4
-        },
-        {
-          "word": "해킹",
           "count": 4
         },
         {
@@ -1738,10 +1810,6 @@
           "count": 4
         },
         {
-          "word": "스터핑",
-          "count": 4
-        },
-        {
           "word": "공범",
           "count": 4
         },
@@ -1754,23 +1822,39 @@
           "count": 4
         },
         {
+          "word": "비밀번호",
+          "count": 4
+        },
+        {
+          "word": "보안",
+          "count": 4
+        },
+        {
+          "word": "탐지",
+          "count": 4
+        },
+        {
+          "word": "ERP",
+          "count": 4
+        },
+        {
+          "word": "ShinyHunters",
+          "count": 4
+        },
+        {
+          "word": "PeopleSoft",
+          "count": 4
+        },
+        {
+          "word": "아메리카",
+          "count": 4
+        },
+        {
           "word": "DB",
           "count": 3
         },
         {
           "word": "착수",
-          "count": 3
-        },
-        {
-          "word": "접근",
-          "count": 3
-        },
-        {
-          "word": "취약점",
-          "count": 3
-        },
-        {
-          "word": "비밀번호",
           "count": 3
         },
         {
@@ -1791,10 +1875,6 @@
         },
         {
           "word": "중단",
-          "count": 3
-        },
-        {
-          "word": "증명",
           "count": 3
         },
         {
@@ -1819,10 +1899,6 @@
         },
         {
           "word": "인프라",
-          "count": 3
-        },
-        {
-          "word": "차단",
           "count": 3
         },
         {
@@ -1855,6 +1931,26 @@
         },
         {
           "word": "OAuth",
+          "count": 3
+        },
+        {
+          "word": "일본",
+          "count": 3
+        },
+        {
+          "word": "로그인",
+          "count": 3
+        },
+        {
+          "word": "소프트웨어",
+          "count": 3
+        },
+        {
+          "word": "Oracle",
+          "count": 3
+        },
+        {
+          "word": "노출",
           "count": 3
         },
         {
@@ -1902,47 +1998,7 @@
           "count": 2
         },
         {
-          "word": "서비스",
-          "count": 2
-        },
-        {
           "word": "침해사고",
-          "count": 2
-        },
-        {
-          "word": "악용",
-          "count": 2
-        },
-        {
-          "word": "보안",
-          "count": 2
-        },
-        {
-          "word": "사이버",
-          "count": 2
-        },
-        {
-          "word": "이더리움",
-          "count": 2
-        },
-        {
-          "word": "네트워크",
-          "count": 2
-        },
-        {
-          "word": "개인",
-          "count": 2
-        },
-        {
-          "word": "탐지",
-          "count": 2
-        },
-        {
-          "word": "주도",
-          "count": 2
-        },
-        {
-          "word": "공격",
           "count": 2
         }
       ],
