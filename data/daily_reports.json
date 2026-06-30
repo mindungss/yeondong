@@ -18,10 +18,8 @@
         ],
         "id": "I2606300001",
         "severity": "high"
-      }
-    ],
-    "technologies": [
-      {
+      },
+       {
         "domain": "🔐 사이버 보안",
         "title": "ShinyHunters, Oracle PeopleSoft 제로데이(CVE-2026-35273, CVSS 9.8) 악용 — 닛산 아메리카 급여기록·SSN 노출",
         "summary": "ShinyHunters, Oracle PeopleSoft 제로데이(CVE-2026-35273, CVSS 9.8) 악용 — 닛산 아메리카 인사시스템 14일 침해, 4개국 직원 급여·SSN 노출 가능.",
@@ -40,6 +38,9 @@
         "id": "T2606300001",
         "trl": 1
       }
+    ],
+    "technologies": [
+     
     ]
   },
   "2026-06-29": {
