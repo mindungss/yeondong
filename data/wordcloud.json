@@ -1417,11 +1417,51 @@
     "📜 법/제도": {
       "issues": [
         {
+          "word": "영장",
+          "count": 8
+        },
+        {
           "word": "스토킹",
           "count": 7
         },
         {
+          "word": "헌법",
+          "count": 6
+        },
+        {
+          "word": "판결",
+          "count": 6
+        },
+        {
+          "word": "범죄",
+          "count": 5
+        },
+        {
+          "word": "위치",
+          "count": 5
+        },
+        {
           "word": "접수",
+          "count": 4
+        },
+        {
+          "word": "피해자",
+          "count": 4
+        },
+        {
+          "word": "법원",
+          "count": 4
+        },
+        {
+          "word": "펜스",
+          "count": 4
+        },
+        {
+          "word": "기법",
+          "count": 4
+        },
+        {
+          "word": "정보",
           "count": 4
         },
         {
@@ -1441,12 +1481,40 @@
           "count": 3
         },
         {
-          "word": "피해자",
+          "word": "사건",
           "count": 3
         },
         {
-          "word": "범죄",
-          "count": 2
+          "word": "연방",
+          "count": 3
+        },
+        {
+          "word": "수정",
+          "count": 3
+        },
+        {
+          "word": "주의",
+          "count": 3
+        },
+        {
+          "word": "최초",
+          "count": 3
+        },
+        {
+          "word": "기준",
+          "count": 3
+        },
+        {
+          "word": "확립",
+          "count": 3
+        },
+        {
+          "word": "이용자",
+          "count": 3
+        },
+        {
+          "word": "수집",
+          "count": 3
         },
         {
           "word": "원칙",
@@ -1454,6 +1522,78 @@
         },
         {
           "word": "체계",
+          "count": 2
+        },
+        {
+          "word": "현장",
+          "count": 2
+        },
+        {
+          "word": "지오펜스",
+          "count": 2
+        },
+        {
+          "word": "구글",
+          "count": 2
+        },
+        {
+          "word": "휴대",
+          "count": 2
+        },
+        {
+          "word": "전화",
+          "count": 2
+        },
+        {
+          "word": "Kagan",
+          "count": 2
+        },
+        {
+          "word": "법관",
+          "count": 2
+        },
+        {
+          "word": "의견",
+          "count": 2
+        },
+        {
+          "word": "작성",
+          "count": 2
+        },
+        {
+          "word": "합리",
+          "count": 2
+        },
+        {
+          "word": "광범위",
+          "count": 2
+        },
+        {
+          "word": "지역",
+          "count": 2
+        },
+        {
+          "word": "스마트폰",
+          "count": 2
+        },
+        {
+          "word": "대상",
+          "count": 2
+        },
+        {
+          "word": "구역",
+          "count": 2
+        },
+        {
+          "word": "데이터",
+          "count": 2
+        },
+        {
+          "word": "판례",
+          "count": 2
+        },
+        {
+          "word": "디지털",
           "count": 2
         },
         {
@@ -1466,10 +1606,6 @@
         },
         {
           "word": "정식",
-          "count": 1
-        },
-        {
-          "word": "사건",
           "count": 1
         },
         {
@@ -1545,10 +1681,6 @@
           "count": 1
         },
         {
-          "word": "현장",
-          "count": 1
-        },
-        {
           "word": "공백",
           "count": 1
         },
@@ -1595,6 +1727,94 @@
         {
           "word": "증거",
           "count": 1
+        },
+        {
+          "word": "미국",
+          "count": 1
+        },
+        {
+          "word": "geofence",
+          "count": 1
+        },
+        {
+          "word": "warrant",
+          "count": 1
+        },
+        {
+          "word": "사용",
+          "count": 1
+        },
+        {
+          "word": "요약",
+          "count": 1
+        },
+        {
+          "word": "버지니아",
+          "count": 1
+        },
+        {
+          "word": "은행",
+          "count": 1
+        },
+        {
+          "word": "강도",
+          "count": 1
+        },
+        {
+          "word": "근거",
+          "count": 1
+        },
+        {
+          "word": "유죄",
+          "count": 1
+        },
+        {
+          "word": "Elena",
+          "count": 1
+        },
+        {
+          "word": "개인",
+          "count": 1
+        },
+        {
+          "word": "기록",
+          "count": 1
+        },
+        {
+          "word": "사생활",
+          "count": 1
+        },
+        {
+          "word": "기대",
+          "count": 1
+        },
+        {
+          "word": "인정",
+          "count": 1
+        },
+        {
+          "word": "수치",
+          "count": 1
+        },
+        {
+          "word": "표결",
+          "count": 1
+        },
+        {
+          "word": "지오",
+          "count": 1
+        },
+        {
+          "word": "동시",
+          "count": 1
+        },
+        {
+          "word": "구조",
+          "count": 1
+        },
+        {
+          "word": "특성",
+          "count": 1
         }
       ],
       "techs": []
@@ -1611,11 +1831,15 @@
         },
         {
           "word": "피해",
-          "count": 15
+          "count": 16
         },
         {
           "word": "ISP",
           "count": 13
+        },
+        {
+          "word": "검거",
+          "count": 12
         },
         {
           "word": "증명",
@@ -1627,6 +1851,18 @@
         },
         {
           "word": "침해",
+          "count": 9
+        },
+        {
+          "word": "보이스피싱",
+          "count": 9
+        },
+        {
+          "word": "조직원",
+          "count": 9
+        },
+        {
+          "word": "조직",
           "count": 9
         },
         {
@@ -1678,6 +1914,14 @@
           "count": 7
         },
         {
+          "word": "피해자",
+          "count": 7
+        },
+        {
+          "word": "세탁",
+          "count": 7
+        },
+        {
           "word": "티빙",
           "count": 6
         },
@@ -1703,6 +1947,10 @@
         },
         {
           "word": "SSN",
+          "count": 6
+        },
+        {
+          "word": "구속",
           "count": 6
         },
         {
@@ -1778,6 +2026,18 @@
           "count": 5
         },
         {
+          "word": "충북",
+          "count": 5
+        },
+        {
+          "word": "중국",
+          "count": 5
+        },
+        {
+          "word": "허위",
+          "count": 5
+        },
+        {
           "word": "개인정보",
           "count": 4
         },
@@ -1850,6 +2110,50 @@
           "count": 4
         },
         {
+          "word": "현금",
+          "count": 4
+        },
+        {
+          "word": "광저우",
+          "count": 4
+        },
+        {
+          "word": "전원",
+          "count": 4
+        },
+        {
+          "word": "도피",
+          "count": 4
+        },
+        {
+          "word": "총책",
+          "count": 4
+        },
+        {
+          "word": "범죄",
+          "count": 4
+        },
+        {
+          "word": "사기",
+          "count": 4
+        },
+        {
+          "word": "대출",
+          "count": 4
+        },
+        {
+          "word": "인터폴",
+          "count": 4
+        },
+        {
+          "word": "경찰",
+          "count": 4
+        },
+        {
+          "word": "투자",
+          "count": 4
+        },
+        {
           "word": "DB",
           "count": 3
         },
@@ -1902,10 +2206,6 @@
           "count": 3
         },
         {
-          "word": "현금",
-          "count": 3
-        },
-        {
           "word": "인출",
           "count": 3
         },
@@ -1920,86 +2220,6 @@
         {
           "word": "도메인",
           "count": 3
-        },
-        {
-          "word": "Klue",
-          "count": 3
-        },
-        {
-          "word": "Salesforce",
-          "count": 3
-        },
-        {
-          "word": "OAuth",
-          "count": 3
-        },
-        {
-          "word": "일본",
-          "count": 3
-        },
-        {
-          "word": "로그인",
-          "count": 3
-        },
-        {
-          "word": "소프트웨어",
-          "count": 3
-        },
-        {
-          "word": "Oracle",
-          "count": 3
-        },
-        {
-          "word": "노출",
-          "count": 3
-        },
-        {
-          "word": "Tata",
-          "count": 2
-        },
-        {
-          "word": "LastPass",
-          "count": 2
-        },
-        {
-          "word": "DraftKings",
-          "count": 2
-        },
-        {
-          "word": "Europol",
-          "count": 2
-        },
-        {
-          "word": "StealC",
-          "count": 2
-        },
-        {
-          "word": "Amadey",
-          "count": 2
-        },
-        {
-          "word": "Ploutus",
-          "count": 2
-        },
-        {
-          "word": "TVING",
-          "count": 2
-        },
-        {
-          "word": "KISA",
-          "count": 2
-        },
-        {
-          "word": "침입",
-          "count": 2
-        },
-        {
-          "word": "공지",
-          "count": 2
-        },
-        {
-          "word": "침해사고",
-          "count": 2
         }
       ],
       "techs": []
