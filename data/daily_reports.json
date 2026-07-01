@@ -45,7 +45,7 @@
           "서울경찰청"
         ],
         "id": "T2607010001",
-        "trl": 1
+        "severity": "medium"
       }
     ],
     "technologies": [
