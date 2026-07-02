@@ -3,27 +3,43 @@
   "period": "최근 7일",
   "domains": [
     {
-      "domain": "🤖 AI",
-      "count": 0
+      "domain": "🔐 사이버 보안",
+      "count": 10
     },
     {
-      "domain": "중국 연계 APT 그룹 CL-STA-1062, 동남아시아 국가기간시설에 신형 백도어 'TinyRCT' 최초 투입…국영 에너지·정부기관 10곳 이상 침해",
-      "count": 0
+      "domain": "🌐 국제 치안",
+      "count": 3
     },
     {
       "domain": "💊 마약",
-      "count": 0
+      "count": 3
     },
     {
       "domain": "📜 법·제도",
+      "count": 3
+    },
+    {
+      "domain": "🤖 AI",
+      "count": 2
+    },
+    {
+      "domain": "🛠️ 장비",
+      "count": 2
+    },
+    {
+      "domain": "🧬 과학 수사",
       "count": 0
     },
     {
-      "domain": "Operation Endgame 2.0",
+      "domain": "🚗 교통",
       "count": 0
     },
     {
-      "domain": "올랜도 경찰, $6.8M DFR 프로그램 공식 출범 — 드론 11대·선착률 43%·정보 유용성 92% 운용 성과 공개",
+      "domain": "🏘️ 생활 안전",
+      "count": 0
+    },
+    {
+      "domain": "🚓 신종 범죄",
       "count": 0
     }
   ]
