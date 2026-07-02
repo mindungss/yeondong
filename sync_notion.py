@@ -636,14 +636,17 @@ def sync_daily(notion):
 
         if btype in ("heading_1","heading_2","heading_3","heading_4"):
             clean = txt.replace(" ","")
-            if "치안이슈" in clean or "이슈동향" in clean:
+            txt_norm = txt.replace("법/제도", "법·제도")
+            if ("치안이슈" in clean or "이슈동향" in clean or
+                    ("이슈" in clean and "동향" in clean)):
                 cur_section = "issue"; cur_domain = None
                 log.info(f"[daily] → 이슈 섹션")
-            elif "치안기술" in clean or "기술동향" in clean:
+            elif ("치안기술" in clean or "기술동향" in clean or
+                    ("기술" in clean and "동향" in clean)):
                 cur_section = "tech"; cur_domain = None
                 log.info(f"[daily] → 기술 섹션")
             elif cur_section in ("issue","tech") and txt:
-                cur_domain = txt
+                cur_domain = txt_norm
                 log.info(f"[daily] 도메인: {cur_domain}")
             continue
 
