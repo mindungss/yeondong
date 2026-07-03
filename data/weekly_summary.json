@@ -4,27 +4,27 @@
   "domains": [
     {
       "domain": "🔐 사이버 보안",
-      "count": 10
-    },
-    {
-      "domain": "🌐 국제 치안",
-      "count": 3
+      "count": 8
     },
     {
       "domain": "💊 마약",
-      "count": 3
+      "count": 4
     },
     {
       "domain": "📜 법·제도",
       "count": 3
     },
     {
-      "domain": "🤖 AI",
+      "domain": "🌐 국제 치안",
       "count": 2
     },
     {
-      "domain": "🛠️ 장비",
-      "count": 2
+      "domain": "🤖 AI",
+      "count": 1
+    },
+    {
+      "domain": "🏘️ 생활 안전",
+      "count": 1
     },
     {
       "domain": "🧬 과학 수사",
@@ -35,11 +35,11 @@
       "count": 0
     },
     {
-      "domain": "🏘️ 생활 안전",
+      "domain": "🚓 신종 범죄",
       "count": 0
     },
     {
-      "domain": "🚓 신종 범죄",
+      "domain": "🛠️ 장비",
       "count": 0
     }
   ]
