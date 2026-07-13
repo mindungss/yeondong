@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-12",
+  "updated": "2026-07-13",
   "domains": {
     "🤖 AI": {
       "issues": [
@@ -10,6 +10,10 @@
         {
           "word": "딥페이크",
           "count": 10
+        },
+        {
+          "word": "대포",
+          "count": 7
         },
         {
           "word": "압수",
@@ -25,7 +29,7 @@
         },
         {
           "word": "해외",
-          "count": 5
+          "count": 6
         },
         {
           "word": "미국",
@@ -36,11 +40,27 @@
           "count": 5
         },
         {
-          "word": "개월",
-          "count": 4
+          "word": "검거",
+          "count": 5
         },
         {
-          "word": "검거",
+          "word": "범죄",
+          "count": 5
+        },
+        {
+          "word": "중국",
+          "count": 5
+        },
+        {
+          "word": "보이스피싱",
+          "count": 5
+        },
+        {
+          "word": "조직",
+          "count": 5
+        },
+        {
+          "word": "개월",
           "count": 4
         },
         {
@@ -92,6 +112,18 @@
           "count": 4
         },
         {
+          "word": "광주",
+          "count": 4
+        },
+        {
+          "word": "경찰청",
+          "count": 4
+        },
+        {
+          "word": "피해자",
+          "count": 4
+        },
+        {
           "word": "위장수사",
           "count": 3
         },
@@ -105,10 +137,6 @@
         },
         {
           "word": "유포",
-          "count": 3
-        },
-        {
-          "word": "범죄",
           "count": 3
         },
         {
@@ -157,6 +185,42 @@
         },
         {
           "word": "징역",
+          "count": 3
+        },
+        {
+          "word": "송치",
+          "count": 3
+        },
+        {
+          "word": "통장",
+          "count": 3
+        },
+        {
+          "word": "범행",
+          "count": 3
+        },
+        {
+          "word": "동원",
+          "count": 3
+        },
+        {
+          "word": "인력",
+          "count": 3
+        },
+        {
+          "word": "사기",
+          "count": 3
+        },
+        {
+          "word": "검찰",
+          "count": 3
+        },
+        {
+          "word": "조직원",
+          "count": 3
+        },
+        {
+          "word": "유인",
           "count": 3
         },
         {
@@ -301,6 +365,42 @@
         },
         {
           "word": "편의점",
+          "count": 2
+        },
+        {
+          "word": "편취",
+          "count": 2
+        },
+        {
+          "word": "공급",
+          "count": 2
+        },
+        {
+          "word": "혐의",
+          "count": 2
+        },
+        {
+          "word": "개통",
+          "count": 2
+        },
+        {
+          "word": "노쇼",
+          "count": 2
+        },
+        {
+          "word": "고액",
+          "count": 2
+        },
+        {
+          "word": "접근",
+          "count": 2
+        },
+        {
+          "word": "가담",
+          "count": 2
+        },
+        {
+          "word": "수법",
           "count": 2
         }
       ],
@@ -583,6 +683,18 @@
         },
         {
           "word": "규모",
+          "count": 8
+        },
+        {
+          "word": "검거",
+          "count": 8
+        },
+        {
+          "word": "범죄",
+          "count": 7
+        },
+        {
+          "word": "사기",
           "count": 7
         },
         {
@@ -595,6 +707,10 @@
         },
         {
           "word": "동남아시아",
+          "count": 6
+        },
+        {
+          "word": "불법",
           "count": 6
         },
         {
@@ -614,15 +730,15 @@
           "count": 5
         },
         {
-          "word": "불법",
-          "count": 5
-        },
-        {
-          "word": "범죄",
-          "count": 5
-        },
-        {
           "word": "사이트",
+          "count": 5
+        },
+        {
+          "word": "조직",
+          "count": 5
+        },
+        {
+          "word": "인터폴",
           "count": 5
         },
         {
@@ -646,15 +762,27 @@
           "count": 4
         },
         {
-          "word": "검거",
-          "count": 4
-        },
-        {
           "word": "송환",
           "count": 4
         },
         {
           "word": "TF",
+          "count": 4
+        },
+        {
+          "word": "사건",
+          "count": 4
+        },
+        {
+          "word": "자금",
+          "count": 4
+        },
+        {
+          "word": "동결",
+          "count": 4
+        },
+        {
+          "word": "피해자",
           "count": 4
         },
         {
@@ -698,10 +826,6 @@
           "count": 3
         },
         {
-          "word": "조직",
-          "count": 3
-        },
-        {
           "word": "총책",
           "count": 3
         },
@@ -723,6 +847,30 @@
         },
         {
           "word": "현지",
+          "count": 3
+        },
+        {
+          "word": "추적",
+          "count": 3
+        },
+        {
+          "word": "대상",
+          "count": 3
+        },
+        {
+          "word": "퍼스트",
+          "count": 3
+        },
+        {
+          "word": "라이트",
+          "count": 3
+        },
+        {
+          "word": "압수",
+          "count": 3
+        },
+        {
+          "word": "작전",
           "count": 3
         },
         {
@@ -854,23 +1002,11 @@
           "count": 2
         },
         {
-          "word": "사건",
-          "count": 2
-        },
-        {
-          "word": "추적",
-          "count": 2
-        },
-        {
           "word": "말레이시아",
           "count": 2
         },
         {
           "word": "해외",
-          "count": 2
-        },
-        {
-          "word": "대상",
           "count": 2
         },
         {
@@ -883,95 +1019,59 @@
         },
         {
           "word": "Europol",
-          "count": 1
-        },
-        {
-          "word": "유죄",
-          "count": 1
-        },
-        {
-          "word": "국가범죄청",
-          "count": 1
-        },
-        {
-          "word": "영어권",
-          "count": 1
-        },
-        {
-          "word": "런던교통공사",
-          "count": 1
-        },
-        {
-          "word": "탈하",
-          "count": 1
-        },
-        {
-          "word": "플라워스",
-          "count": 1
+          "count": 2
         },
         {
           "word": "시스템",
-          "count": 1
+          "count": 2
         },
         {
-          "word": "복구",
-          "count": 1
+          "word": "ASEANAPOL",
+          "count": 2
         },
         {
-          "word": "비용",
-          "count": 1
+          "word": "GCCPOL",
+          "count": 2
         },
         {
-          "word": "서비스",
-          "count": 1
+          "word": "BEC",
+          "count": 2
         },
         {
-          "word": "중단",
-          "count": 1
+          "word": "GRIP",
+          "count": 2
         },
         {
-          "word": "손실",
-          "count": 1
+          "word": "오퍼레이션",
+          "count": 2
         },
         {
-          "word": "직원",
-          "count": 1
+          "word": "사회",
+          "count": 2
         },
         {
-          "word": "전원",
-          "count": 1
+          "word": "겨냥",
+          "count": 2
         },
         {
-          "word": "현장",
-          "count": 1
+          "word": "경찰",
+          "count": 2
         },
         {
-          "word": "패스워드",
-          "count": 1
+          "word": "기구",
+          "count": 2
         },
         {
-          "word": "재설정",
-          "count": 1
+          "word": "비즈니스",
+          "count": 2
         },
         {
-          "word": "런던",
-          "count": 1
+          "word": "이메일",
+          "count": 2
         },
         {
-          "word": "대중교통",
-          "count": 1
-        },
-        {
-          "word": "의료기관",
-          "count": 1
-        },
-        {
-          "word": "다국적",
-          "count": 1
-        },
-        {
-          "word": "피해",
-          "count": 1
+          "word": "로맨스스캠",
+          "count": 2
         }
       ],
       "techs": [
@@ -2416,6 +2516,22 @@
       "issues": [],
       "techs": [
         {
+          "word": "DNA",
+          "count": 22
+        },
+        {
+          "word": "사건",
+          "count": 9
+        },
+        {
+          "word": "CODIS",
+          "count": 9
+        },
+        {
+          "word": "기술",
+          "count": 6
+        },
+        {
           "word": "SNP",
           "count": 5
         },
@@ -2424,11 +2540,35 @@
           "count": 5
         },
         {
-          "word": "DNA",
-          "count": 4
+          "word": "용의자",
+          "count": 5
+        },
+        {
+          "word": "증거",
+          "count": 5
         },
         {
           "word": "콜드케이스",
+          "count": 4
+        },
+        {
+          "word": "감정",
+          "count": 4
+        },
+        {
+          "word": "올랜도",
+          "count": 4
+        },
+        {
+          "word": "미제",
+          "count": 4
+        },
+        {
+          "word": "검거",
+          "count": 4
+        },
+        {
+          "word": "매튜스",
           "count": 4
         },
         {
@@ -2445,6 +2585,54 @@
         },
         {
           "word": "계보",
+          "count": 3
+        },
+        {
+          "word": "대조",
+          "count": 3
+        },
+        {
+          "word": "신원",
+          "count": 3
+        },
+        {
+          "word": "FDLE",
+          "count": 3
+        },
+        {
+          "word": "경찰",
+          "count": 3
+        },
+        {
+          "word": "미국",
+          "count": 3
+        },
+        {
+          "word": "다이앤",
+          "count": 3
+        },
+        {
+          "word": "살해",
+          "count": 3
+        },
+        {
+          "word": "데이터",
+          "count": 3
+        },
+        {
+          "word": "체포",
+          "count": 3
+        },
+        {
+          "word": "등록",
+          "count": 3
+        },
+        {
+          "word": "현장",
+          "count": 3
+        },
+        {
+          "word": "교차",
           "count": 3
         },
         {
@@ -2480,6 +2668,54 @@
           "count": 2
         },
         {
+          "word": "데이터베이스",
+          "count": 2
+        },
+        {
+          "word": "장기",
+          "count": 2
+        },
+        {
+          "word": "FBI",
+          "count": 2
+        },
+        {
+          "word": "살인",
+          "count": 2
+        },
+        {
+          "word": "베이스",
+          "count": 2
+        },
+        {
+          "word": "노스캐롤라이나",
+          "count": 2
+        },
+        {
+          "word": "당시",
+          "count": 2
+        },
+        {
+          "word": "확보",
+          "count": 2
+        },
+        {
+          "word": "카펜터",
+          "count": 2
+        },
+        {
+          "word": "혐의",
+          "count": 2
+        },
+        {
+          "word": "정밀",
+          "count": 2
+        },
+        {
+          "word": "정도",
+          "count": 2
+        },
+        {
           "word": "유골",
           "count": 1
         },
@@ -2489,10 +2725,6 @@
         },
         {
           "word": "마이크로어레이",
-          "count": 1
-        },
-        {
-          "word": "대조",
           "count": 1
         },
         {
@@ -2524,15 +2756,7 @@
           "count": 1
         },
         {
-          "word": "데이터베이스",
-          "count": 1
-        },
-        {
           "word": "플랫폼",
-          "count": 1
-        },
-        {
-          "word": "신원",
           "count": 1
         },
         {
@@ -2552,23 +2776,11 @@
           "count": 1
         },
         {
-          "word": "장기",
-          "count": 1
-        },
-        {
           "word": "미해결",
           "count": 1
         },
         {
           "word": "시신",
-          "count": 1
-        },
-        {
-          "word": "사건",
-          "count": 1
-        },
-        {
-          "word": "감정",
           "count": 1
         },
         {
@@ -2581,6 +2793,126 @@
         },
         {
           "word": "FamilyTreeDNA",
+          "count": 1
+        },
+        {
+          "word": "플로리다주",
+          "count": 1
+        },
+        {
+          "word": "바탕",
+          "count": 1
+        },
+        {
+          "word": "연방수사국",
+          "count": 1
+        },
+        {
+          "word": "시스템",
+          "count": 1
+        },
+        {
+          "word": "플로리다",
+          "count": 1
+        },
+        {
+          "word": "연방",
+          "count": 1
+        },
+        {
+          "word": "보안관",
+          "count": 1
+        },
+        {
+          "word": "U.S.",
+          "count": 1
+        },
+        {
+          "word": "Marshals",
+          "count": 1
+        },
+        {
+          "word": "Service",
+          "count": 1
+        },
+        {
+          "word": "지역",
+          "count": 1
+        },
+        {
+          "word": "태스크포스",
+          "count": 1
+        },
+        {
+          "word": "메커니즘",
+          "count": 1
+        },
+        {
+          "word": "범행",
+          "count": 1
+        },
+        {
+          "word": "지문",
+          "count": 1
+        },
+        {
+          "word": "일상",
+          "count": 1
+        },
+        {
+          "word": "윌리",
+          "count": 1
+        },
+        {
+          "word": "J.",
+          "count": 1
+        },
+        {
+          "word": "미성년자",
+          "count": 1
+        },
+        {
+          "word": "성범죄",
+          "count": 1
+        },
+        {
+          "word": "프로파일",
+          "count": 1
+        },
+        {
+          "word": "잠재",
+          "count": 1
+        },
+        {
+          "word": "일치",
+          "count": 1
+        },
+        {
+          "word": "사실",
+          "count": 1
+        },
+        {
+          "word": "진술",
+          "count": 1
+        },
+        {
+          "word": "거부",
+          "count": 1
+        },
+        {
+          "word": "자발",
+          "count": 1
+        },
+        {
+          "word": "시료",
+          "count": 1
+        },
+        {
+          "word": "마무리",
+          "count": 1
+        },
+        {
+          "word": "범죄",
           "count": 1
         }
       ]
