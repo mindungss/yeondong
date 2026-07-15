@@ -1,13 +1,17 @@
 {
-  "updated": "2026-07-14",
+  "updated": "2026-07-15",
   "period": "최근 7일",
   "domains": [
     {
-      "domain": "🤖 AI",
-      "count": 1
+      "domain": "🌐 국제 치안",
+      "count": 2
     },
     {
-      "domain": "🌐 국제 치안",
+      "domain": "🏘️ 생활 안전",
+      "count": 2
+    },
+    {
+      "domain": "🤖 AI",
       "count": 1
     },
     {
@@ -15,7 +19,11 @@
       "count": 1
     },
     {
-      "domain": "🏘️ 생활 안전",
+      "domain": "📜 법·제도",
+      "count": 1
+    },
+    {
+      "domain": "🚓 신종 범죄",
       "count": 1
     },
     {
@@ -27,15 +35,7 @@
       "count": 0
     },
     {
-      "domain": "📜 법·제도",
-      "count": 0
-    },
-    {
       "domain": "🔐 사이버 보안",
-      "count": 0
-    },
-    {
-      "domain": "🚓 신종 범죄",
       "count": 0
     },
     {
