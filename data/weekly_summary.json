@@ -1,9 +1,13 @@
 {
-  "updated": "2026-07-15",
+  "updated": "2026-07-16",
   "period": "최근 7일",
   "domains": [
     {
       "domain": "🌐 국제 치안",
+      "count": 2
+    },
+    {
+      "domain": "💊 마약",
       "count": 2
     },
     {
@@ -15,11 +19,11 @@
       "count": 1
     },
     {
-      "domain": "💊 마약",
+      "domain": "📜 법·제도",
       "count": 1
     },
     {
-      "domain": "📜 법·제도",
+      "domain": "🔐 사이버 보안",
       "count": 1
     },
     {
@@ -32,10 +36,6 @@
     },
     {
       "domain": "🚗 교통",
-      "count": 0
-    },
-    {
-      "domain": "🔐 사이버 보안",
       "count": 0
     },
     {
