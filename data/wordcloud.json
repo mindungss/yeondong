@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-19",
+  "updated": "2026-07-20",
   "domains": {
     "🤖 AI": {
       "issues": [
@@ -1301,15 +1301,19 @@
       "issues": [
         {
           "word": "마약",
-          "count": 29
+          "count": 33
+        },
+        {
+          "word": "압수",
+          "count": 18
         },
         {
           "word": "필로폰",
           "count": 17
         },
         {
-          "word": "압수",
-          "count": 14
+          "word": "검거",
+          "count": 15
         },
         {
           "word": "태국",
@@ -1320,8 +1324,12 @@
           "count": 12
         },
         {
-          "word": "검거",
-          "count": 11
+          "word": "조직",
+          "count": 10
+        },
+        {
+          "word": "운반",
+          "count": 10
         },
         {
           "word": "사범",
@@ -1332,15 +1340,31 @@
           "count": 9
         },
         {
-          "word": "조직",
-          "count": 9
-        },
-        {
           "word": "대마",
           "count": 9
         },
         {
-          "word": "운반",
+          "word": "미얀마",
+          "count": 9
+        },
+        {
+          "word": "국경",
+          "count": 9
+        },
+        {
+          "word": "밀수",
+          "count": 8
+        },
+        {
+          "word": "차량",
+          "count": 8
+        },
+        {
+          "word": "메스암페타민",
+          "count": 8
+        },
+        {
+          "word": "BSF",
           "count": 8
         },
         {
@@ -1348,11 +1372,11 @@
           "count": 7
         },
         {
-          "word": "밀수",
+          "word": "은닉",
           "count": 7
         },
         {
-          "word": "미얀마",
+          "word": "반입",
           "count": 7
         },
         {
@@ -1372,11 +1396,11 @@
           "count": 6
         },
         {
-          "word": "차량",
+          "word": "SNS",
           "count": 6
         },
         {
-          "word": "SNS",
+          "word": "kg",
           "count": 6
         },
         {
@@ -1384,23 +1408,31 @@
           "count": 5
         },
         {
-          "word": "메스암페타민",
-          "count": 5
-        },
-        {
-          "word": "국경",
-          "count": 5
-        },
-        {
           "word": "다크웹",
           "count": 5
         },
         {
-          "word": "은닉",
+          "word": "구속",
           "count": 5
         },
         {
-          "word": "구속",
+          "word": "적발",
+          "count": 5
+        },
+        {
+          "word": "인도",
+          "count": 5
+        },
+        {
+          "word": "경찰",
+          "count": 5
+        },
+        {
+          "word": "밀매",
+          "count": 5
+        },
+        {
+          "word": "지구",
           "count": 5
         },
         {
@@ -1436,10 +1468,6 @@
           "count": 4
         },
         {
-          "word": "kg",
-          "count": 4
-        },
-        {
           "word": "판매",
           "count": 4
         },
@@ -1460,11 +1488,19 @@
           "count": 4
         },
         {
-          "word": "반입",
+          "word": "경작",
           "count": 4
         },
         {
-          "word": "경작",
+          "word": "상당",
+          "count": 4
+        },
+        {
+          "word": "사건",
+          "count": 4
+        },
+        {
+          "word": "임팔",
           "count": 4
         },
         {
@@ -1524,15 +1560,35 @@
           "count": 3
         },
         {
-          "word": "상당",
-          "count": 3
-        },
-        {
           "word": "매수",
           "count": 3
         },
         {
           "word": "투약",
+          "count": 3
+        },
+        {
+          "word": "요약",
+          "count": 3
+        },
+        {
+          "word": "국제",
+          "count": 3
+        },
+        {
+          "word": "마니푸르",
+          "count": 3
+        },
+        {
+          "word": "작전",
+          "count": 3
+        },
+        {
+          "word": "결정",
+          "count": 3
+        },
+        {
+          "word": "서부",
           "count": 3
         },
         {
@@ -1640,63 +1696,7 @@
           "count": 2
         },
         {
-          "word": "적발",
-          "count": 2
-        },
-        {
-          "word": "사건",
-          "count": 2
-        },
-        {
-          "word": "요약",
-          "count": 2
-        },
-        {
           "word": "LED",
-          "count": 2
-        },
-        {
-          "word": "국제",
-          "count": 2
-        },
-        {
-          "word": "우편",
-          "count": 2
-        },
-        {
-          "word": "신체",
-          "count": 2
-        },
-        {
-          "word": "거래",
-          "count": 2
-        },
-        {
-          "word": "채널",
-          "count": 2
-        },
-        {
-          "word": "개설",
-          "count": 2
-        },
-        {
-          "word": "종자",
-          "count": 2
-        },
-        {
-          "word": "수입",
-          "count": 2
-        },
-        {
-          "word": "아파트",
-          "count": 2
-        },
-        {
-          "word": "전국",
-          "count": 2
-        },
-        {
-          "word": "공항",
           "count": 2
         }
       ],
