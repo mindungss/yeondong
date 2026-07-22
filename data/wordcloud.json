@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-21",
+  "updated": "2026-07-22",
   "domains": {
     "🤖 AI": {
       "issues": [
@@ -1301,34 +1301,46 @@
       "issues": [
         {
           "word": "마약",
-          "count": 33
-        },
-        {
-          "word": "압수",
-          "count": 18
+          "count": 39
         },
         {
           "word": "필로폰",
-          "count": 17
+          "count": 23
         },
         {
           "word": "검거",
-          "count": 15
+          "count": 20
+        },
+        {
+          "word": "압수",
+          "count": 19
+        },
+        {
+          "word": "유통",
+          "count": 18
         },
         {
           "word": "태국",
           "count": 12
         },
         {
-          "word": "유통",
-          "count": 12
+          "word": "조직",
+          "count": 11
         },
         {
-          "word": "조직",
-          "count": 10
+          "word": "반입",
+          "count": 11
         },
         {
           "word": "운반",
+          "count": 10
+        },
+        {
+          "word": "대마",
+          "count": 10
+        },
+        {
+          "word": "kg",
           "count": 10
         },
         {
@@ -1340,10 +1352,6 @@
           "count": 9
         },
         {
-          "word": "대마",
-          "count": 9
-        },
-        {
           "word": "미얀마",
           "count": 9
         },
@@ -1352,11 +1360,15 @@
           "count": 9
         },
         {
-          "word": "밀수",
-          "count": 8
+          "word": "차량",
+          "count": 9
         },
         {
-          "word": "차량",
+          "word": "체포",
+          "count": 9
+        },
+        {
+          "word": "밀수",
           "count": 8
         },
         {
@@ -1368,15 +1380,23 @@
           "count": 8
         },
         {
-          "word": "체포",
-          "count": 7
+          "word": "경찰",
+          "count": 8
+        },
+        {
+          "word": "투약",
+          "count": 8
         },
         {
           "word": "은닉",
           "count": 7
         },
         {
-          "word": "반입",
+          "word": "구속",
+          "count": 7
+        },
+        {
+          "word": "사건",
           "count": 7
         },
         {
@@ -1400,7 +1420,11 @@
           "count": 6
         },
         {
-          "word": "kg",
+          "word": "적발",
+          "count": 6
+        },
+        {
+          "word": "상당",
           "count": 6
         },
         {
@@ -1412,19 +1436,7 @@
           "count": 5
         },
         {
-          "word": "구속",
-          "count": 5
-        },
-        {
-          "word": "적발",
-          "count": 5
-        },
-        {
           "word": "인도",
-          "count": 5
-        },
-        {
-          "word": "경찰",
           "count": 5
         },
         {
@@ -1433,6 +1445,18 @@
         },
         {
           "word": "지구",
+          "count": 5
+        },
+        {
+          "word": "단속",
+          "count": 5
+        },
+        {
+          "word": "시가",
+          "count": 5
+        },
+        {
+          "word": "국내",
           "count": 5
         },
         {
@@ -1460,14 +1484,6 @@
           "count": 4
         },
         {
-          "word": "단속",
-          "count": 4
-        },
-        {
-          "word": "시가",
-          "count": 4
-        },
-        {
           "word": "판매",
           "count": 4
         },
@@ -1492,15 +1508,15 @@
           "count": 4
         },
         {
-          "word": "상당",
-          "count": 4
-        },
-        {
-          "word": "사건",
-          "count": 4
-        },
-        {
           "word": "임팔",
+          "count": 4
+        },
+        {
+          "word": "요약",
+          "count": 4
+        },
+        {
+          "word": "캄보디아",
           "count": 4
         },
         {
@@ -1564,14 +1580,6 @@
           "count": 3
         },
         {
-          "word": "투약",
-          "count": 3
-        },
-        {
-          "word": "요약",
-          "count": 3
-        },
-        {
           "word": "국제",
           "count": 3
         },
@@ -1589,6 +1597,14 @@
         },
         {
           "word": "서부",
+          "count": 3
+        },
+        {
+          "word": "서울",
+          "count": 3
+        },
+        {
+          "word": "총책",
           "count": 3
         },
         {
@@ -1664,10 +1680,6 @@
           "count": 2
         },
         {
-          "word": "국내",
-          "count": 2
-        },
-        {
           "word": "합계",
           "count": 2
         },
@@ -1685,18 +1697,6 @@
         },
         {
           "word": "포렌식",
-          "count": 2
-        },
-        {
-          "word": "삼륜차",
-          "count": 2
-        },
-        {
-          "word": "고용주",
-          "count": 2
-        },
-        {
-          "word": "LED",
           "count": 2
         }
       ],
@@ -2111,38 +2111,58 @@
       "issues": [
         {
           "word": "유출",
-          "count": 32
-        },
-        {
-          "word": "피해",
-          "count": 20
+          "count": 40
         },
         {
           "word": "정보",
-          "count": 20
+          "count": 27
+        },
+        {
+          "word": "피해",
+          "count": 25
         },
         {
           "word": "탈취",
           "count": 18
         },
         {
+          "word": "조직",
+          "count": 17
+        },
+        {
+          "word": "조직원",
+          "count": 16
+        },
+        {
+          "word": "개인",
+          "count": 16
+        },
+        {
+          "word": "시스템",
+          "count": 15
+        },
+        {
+          "word": "피해자",
+          "count": 15
+        },
+        {
+          "word": "보이스피싱",
+          "count": 15
+        },
+        {
           "word": "ISP",
           "count": 13
         },
         {
+          "word": "공격",
+          "count": 13
+        },
+        {
+          "word": "해킹",
+          "count": 13
+        },
+        {
           "word": "검거",
-          "count": 12
-        },
-        {
-          "word": "조직원",
-          "count": 12
-        },
-        {
-          "word": "시스템",
-          "count": 12
-        },
-        {
-          "word": "개인",
           "count": 12
         },
         {
@@ -2154,31 +2174,11 @@
           "count": 11
         },
         {
-          "word": "공격",
-          "count": 11
-        },
-        {
           "word": "CVSS",
           "count": 10
         },
         {
-          "word": "조직",
-          "count": 10
-        },
-        {
-          "word": "피해자",
-          "count": 10
-        },
-        {
-          "word": "해킹",
-          "count": 10
-        },
-        {
           "word": "침해",
-          "count": 9
-        },
-        {
-          "word": "보이스피싱",
           "count": 9
         },
         {
@@ -2194,15 +2194,19 @@
           "count": 9
         },
         {
-          "word": "개월",
-          "count": 8
-        },
-        {
           "word": "취약점",
-          "count": 8
+          "count": 9
         },
         {
           "word": "악용",
+          "count": 9
+        },
+        {
+          "word": "접속",
+          "count": 9
+        },
+        {
+          "word": "개월",
           "count": 8
         },
         {
@@ -2219,6 +2223,18 @@
         },
         {
           "word": "관리",
+          "count": 8
+        },
+        {
+          "word": "구속",
+          "count": 8
+        },
+        {
+          "word": "범죄",
+          "count": 8
+        },
+        {
+          "word": "보안",
           "count": 8
         },
         {
@@ -2250,6 +2266,14 @@
           "count": 7
         },
         {
+          "word": "차단",
+          "count": 7
+        },
+        {
+          "word": "총책",
+          "count": 7
+        },
+        {
           "word": "티빙",
           "count": 6
         },
@@ -2274,23 +2298,7 @@
           "count": 6
         },
         {
-          "word": "구속",
-          "count": 6
-        },
-        {
           "word": "암호화폐",
-          "count": 6
-        },
-        {
-          "word": "범죄",
-          "count": 6
-        },
-        {
-          "word": "차단",
-          "count": 6
-        },
-        {
-          "word": "보안",
           "count": 6
         },
         {
@@ -2298,7 +2306,23 @@
           "count": 6
         },
         {
-          "word": "접속",
+          "word": "서버",
+          "count": 6
+        },
+        {
+          "word": "외교부",
+          "count": 6
+        },
+        {
+          "word": "대포",
+          "count": 6
+        },
+        {
+          "word": "통장",
+          "count": 6
+        },
+        {
+          "word": "송치",
           "count": 6
         },
         {
@@ -2382,11 +2406,15 @@
           "count": 5
         },
         {
-          "word": "개인정보",
-          "count": 4
+          "word": "이메일",
+          "count": 5
         },
         {
-          "word": "이메일",
+          "word": "탐지",
+          "count": 5
+        },
+        {
+          "word": "개인정보",
           "count": 4
         },
         {
@@ -2426,10 +2454,6 @@
           "count": 4
         },
         {
-          "word": "탐지",
-          "count": 4
-        },
-        {
           "word": "ERP",
           "count": 4
         },
@@ -2462,10 +2486,6 @@
           "count": 4
         },
         {
-          "word": "총책",
-          "count": 4
-        },
-        {
           "word": "대출",
           "count": 4
         },
@@ -2482,32 +2502,12 @@
           "count": 4
         },
         {
-          "word": "서버",
-          "count": 4
-        },
-        {
           "word": "스캐터드",
           "count": 4
         },
         {
           "word": "스파이더",
           "count": 4
-        },
-        {
-          "word": "기소",
-          "count": 4
-        },
-        {
-          "word": "핀란드",
-          "count": 4
-        },
-        {
-          "word": "착수",
-          "count": 3
-        },
-        {
-          "word": "직접",
-          "count": 3
         }
       ],
       "techs": []
@@ -2924,6 +2924,14 @@
     "🏠 생활 안전": {
       "issues": [
         {
+          "word": "사건",
+          "count": 11
+        },
+        {
+          "word": "경찰",
+          "count": 8
+        },
+        {
           "word": "소년",
           "count": 7
         },
@@ -2936,6 +2944,18 @@
           "count": 6
         },
         {
+          "word": "범죄",
+          "count": 6
+        },
+        {
+          "word": "대상",
+          "count": 6
+        },
+        {
+          "word": "압수",
+          "count": 6
+        },
+        {
           "word": "폭력",
           "count": 5
         },
@@ -2944,7 +2964,19 @@
           "count": 5
         },
         {
-          "word": "범죄",
+          "word": "장윤기",
+          "count": 5
+        },
+        {
+          "word": "수색",
+          "count": 5
+        },
+        {
+          "word": "국가",
+          "count": 5
+        },
+        {
+          "word": "수사본부",
           "count": 5
         },
         {
@@ -2964,15 +2996,23 @@
           "count": 4
         },
         {
-          "word": "경찰",
-          "count": 4
-        },
-        {
           "word": "유형",
           "count": 4
         },
         {
           "word": "처분",
+          "count": 4
+        },
+        {
+          "word": "자료",
+          "count": 4
+        },
+        {
+          "word": "검찰",
+          "count": 4
+        },
+        {
+          "word": "당시",
           "count": 4
         },
         {
@@ -2989,10 +3029,6 @@
         },
         {
           "word": "인원",
-          "count": 3
-        },
-        {
-          "word": "사건",
           "count": 3
         },
         {
@@ -3016,15 +3052,51 @@
           "count": 3
         },
         {
-          "word": "대상",
+          "word": "강간",
+          "count": 3
+        },
+        {
+          "word": "피해자",
+          "count": 3
+        },
+        {
+          "word": "별도",
+          "count": 3
+        },
+        {
+          "word": "살인",
+          "count": 3
+        },
+        {
+          "word": "부실",
+          "count": 3
+        },
+        {
+          "word": "의혹",
+          "count": 3
+        },
+        {
+          "word": "동시",
+          "count": 3
+        },
+        {
+          "word": "광주",
+          "count": 3
+        },
+        {
+          "word": "규명",
+          "count": 3
+        },
+        {
+          "word": "경찰청",
+          "count": 3
+        },
+        {
+          "word": "영장",
           "count": 3
         },
         {
           "word": "급증",
-          "count": 2
-        },
-        {
-          "word": "자료",
           "count": 2
         },
         {
@@ -3044,10 +3116,6 @@
           "count": 2
         },
         {
-          "word": "강간",
-          "count": 2
-        },
-        {
           "word": "법원",
           "count": 2
         },
@@ -3061,6 +3129,90 @@
         },
         {
           "word": "처벌법",
+          "count": 2
+        },
+        {
+          "word": "요약",
+          "count": 2
+        },
+        {
+          "word": "수치",
+          "count": 2
+        },
+        {
+          "word": "강력범죄",
+          "count": 2
+        },
+        {
+          "word": "강제",
+          "count": 2
+        },
+        {
+          "word": "청소년",
+          "count": 2
+        },
+        {
+          "word": "특성",
+          "count": 2
+        },
+        {
+          "word": "범행",
+          "count": 2
+        },
+        {
+          "word": "수단",
+          "count": 2
+        },
+        {
+          "word": "경로",
+          "count": 2
+        },
+        {
+          "word": "난점",
+          "count": 2
+        },
+        {
+          "word": "여부",
+          "count": 2
+        },
+        {
+          "word": "살해",
+          "count": 2
+        },
+        {
+          "word": "증거",
+          "count": 2
+        },
+        {
+          "word": "수사과",
+          "count": 2
+        },
+        {
+          "word": "여성",
+          "count": 2
+        },
+        {
+          "word": "오전",
+          "count": 2
+        },
+        {
+          "word": "발부",
+          "count": 2
+        },
+        {
+          "word": "확보",
+          "count": 2
+        },
+        {
+          "word": "관계자",
+          "count": 2
+        },
+        {
+          "word": "입건",
+          "count": 2
+        },
+        {
+          "word": "상태",
           "count": 2
         },
         {
@@ -3092,19 +3244,7 @@
           "count": 1
         },
         {
-          "word": "요약",
-          "count": 1
-        },
-        {
-          "word": "수치",
-          "count": 1
-        },
-        {
           "word": "기타",
-          "count": 1
-        },
-        {
-          "word": "강력범죄",
           "count": 1
         },
         {
@@ -3136,27 +3276,11 @@
           "count": 1
         },
         {
-          "word": "강제",
-          "count": 1
-        },
-        {
           "word": "아동",
           "count": 1
         },
         {
-          "word": "청소년",
-          "count": 1
-        },
-        {
           "word": "보호법",
-          "count": 1
-        },
-        {
-          "word": "피해자",
-          "count": 1
-        },
-        {
-          "word": "특성",
           "count": 1
         },
         {
@@ -3172,27 +3296,7 @@
           "count": 1
         },
         {
-          "word": "범행",
-          "count": 1
-        },
-        {
-          "word": "수단",
-          "count": 1
-        },
-        {
-          "word": "경로",
-          "count": 1
-        },
-        {
-          "word": "별도",
-          "count": 1
-        },
-        {
           "word": "명시",
-          "count": 1
-        },
-        {
-          "word": "난점",
           "count": 1
         },
         {
@@ -3216,91 +3320,7 @@
           "count": 1
         },
         {
-          "word": "여부",
-          "count": 1
-        },
-        {
           "word": "결정",
-          "count": 1
-        },
-        {
-          "word": "구조",
-          "count": 1
-        },
-        {
-          "word": "한계",
-          "count": 1
-        },
-        {
-          "word": "토대",
-          "count": 1
-        },
-        {
-          "word": "사법",
-          "count": 1
-        },
-        {
-          "word": "체계",
-          "count": 1
-        },
-        {
-          "word": "전반",
-          "count": 1
-        },
-        {
-          "word": "대책",
-          "count": 1
-        },
-        {
-          "word": "방침",
-          "count": 1
-        },
-        {
-          "word": "해외",
-          "count": 1
-        },
-        {
-          "word": "일본",
-          "count": 1
-        },
-        {
-          "word": "독일",
-          "count": 1
-        },
-        {
-          "word": "프랑스",
-          "count": 1
-        },
-        {
-          "word": "영국",
-          "count": 1
-        },
-        {
-          "word": "중국",
-          "count": 1
-        },
-        {
-          "word": "원칙",
-          "count": 1
-        },
-        {
-          "word": "고의",
-          "count": 1
-        },
-        {
-          "word": "살인",
-          "count": 1
-        },
-        {
-          "word": "예외",
-          "count": 1
-        },
-        {
-          "word": "책임",
-          "count": 1
-        },
-        {
-          "word": "최소",
           "count": 1
         }
       ],

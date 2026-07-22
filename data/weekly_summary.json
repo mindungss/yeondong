@@ -1,9 +1,13 @@
 {
-  "updated": "2026-07-21",
+  "updated": "2026-07-22",
   "period": "최근 7일",
   "domains": [
     {
       "domain": "💊 마약",
+      "count": 3
+    },
+    {
+      "domain": "🔐 사이버 보안",
       "count": 3
     },
     {
@@ -16,10 +20,6 @@
     },
     {
       "domain": "📜 법·제도",
-      "count": 1
-    },
-    {
-      "domain": "🔐 사이버 보안",
       "count": 1
     },
     {
