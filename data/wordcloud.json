@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-26",
+  "updated": "2026-07-27",
   "domains": {
     "🤖 AI": {
       "issues": [
@@ -1437,27 +1437,27 @@
       "issues": [
         {
           "word": "마약",
-          "count": 61
+          "count": 68
         },
         {
           "word": "필로폰",
+          "count": 35
+        },
+        {
+          "word": "검거",
           "count": 30
+        },
+        {
+          "word": "압수",
+          "count": 29
         },
         {
           "word": "유통",
           "count": 27
         },
         {
-          "word": "검거",
-          "count": 26
-        },
-        {
-          "word": "압수",
-          "count": 26
-        },
-        {
           "word": "kg",
-          "count": 21
+          "count": 22
         },
         {
           "word": "반입",
@@ -1465,6 +1465,10 @@
         },
         {
           "word": "밀수",
+          "count": 16
+        },
+        {
+          "word": "코카인",
           "count": 16
         },
         {
@@ -1476,20 +1480,16 @@
           "count": 14
         },
         {
-          "word": "태국",
-          "count": 13
+          "word": "대마",
+          "count": 14
         },
         {
-          "word": "코카인",
+          "word": "태국",
           "count": 13
         },
         {
           "word": "적발",
           "count": 13
-        },
-        {
-          "word": "대마",
-          "count": 12
         },
         {
           "word": "국경",
@@ -1592,6 +1592,14 @@
           "count": 6
         },
         {
+          "word": "밀매",
+          "count": 6
+        },
+        {
+          "word": "판매",
+          "count": 6
+        },
+        {
           "word": "치앙마이",
           "count": 5
         },
@@ -1601,10 +1609,6 @@
         },
         {
           "word": "인도",
-          "count": 5
-        },
-        {
-          "word": "밀매",
           "count": 5
         },
         {
@@ -1640,6 +1644,14 @@
           "count": 5
         },
         {
+          "word": "펜타닐",
+          "count": 5
+        },
+        {
+          "word": "기소",
+          "count": 5
+        },
+        {
           "word": "ONCB",
           "count": 4
         },
@@ -1657,10 +1669,6 @@
         },
         {
           "word": "매싸이",
-          "count": 4
-        },
-        {
-          "word": "판매",
           "count": 4
         },
         {
@@ -1704,8 +1712,8 @@
           "count": 4
         },
         {
-          "word": "펜타닐",
-          "count": 3
+          "word": "ECSO",
+          "count": 4
         },
         {
           "word": "포함",
@@ -1737,10 +1745,6 @@
         },
         {
           "word": "유인",
-          "count": 3
-        },
-        {
-          "word": "기소",
           "count": 3
         },
         {
@@ -1816,23 +1820,19 @@
           "count": 3
         },
         {
+          "word": "에스캄비아",
+          "count": 3
+        },
+        {
+          "word": "용의자",
+          "count": 3
+        },
+        {
+          "word": "소지",
+          "count": 3
+        },
+        {
           "word": "DEA",
-          "count": 2
-        },
-        {
-          "word": "판매상",
-          "count": 2
-        },
-        {
-          "word": "징역",
-          "count": 2
-        },
-        {
-          "word": "고스트건",
-          "count": 2
-        },
-        {
-          "word": "피의자",
           "count": 2
         }
       ],
@@ -3060,20 +3060,28 @@
     "🏠 생활 안전": {
       "issues": [
         {
+          "word": "검거",
+          "count": 16
+        },
+        {
           "word": "사건",
           "count": 14
         },
         {
-          "word": "검거",
-          "count": 13
-        },
-        {
           "word": "경찰",
-          "count": 10
+          "count": 11
         },
         {
           "word": "범죄",
           "count": 9
+        },
+        {
+          "word": "피해자",
+          "count": 8
+        },
+        {
+          "word": "영장",
+          "count": 8
         },
         {
           "word": "소년",
@@ -3084,7 +3092,7 @@
           "count": 7
         },
         {
-          "word": "피해자",
+          "word": "검찰",
           "count": 7
         },
         {
@@ -3116,6 +3124,10 @@
           "count": 6
         },
         {
+          "word": "구속",
+          "count": 6
+        },
+        {
           "word": "폭력",
           "count": 5
         },
@@ -3125,6 +3137,14 @@
         },
         {
           "word": "수색",
+          "count": 5
+        },
+        {
+          "word": "발부",
+          "count": 5
+        },
+        {
+          "word": "수사관",
           "count": 5
         },
         {
@@ -3153,10 +3173,6 @@
         },
         {
           "word": "자료",
-          "count": 4
-        },
-        {
-          "word": "검찰",
           "count": 4
         },
         {
@@ -3193,6 +3209,14 @@
         },
         {
           "word": "단속",
+          "count": 4
+        },
+        {
+          "word": "전세",
+          "count": 4
+        },
+        {
+          "word": "임차인",
           "count": 4
         },
         {
@@ -3248,10 +3272,6 @@
           "count": 3
         },
         {
-          "word": "영장",
-          "count": 3
-        },
-        {
           "word": "비중",
           "count": 3
         },
@@ -3292,6 +3312,38 @@
           "count": 3
         },
         {
+          "word": "강제",
+          "count": 3
+        },
+        {
+          "word": "피의자",
+          "count": 3
+        },
+        {
+          "word": "전담",
+          "count": 3
+        },
+        {
+          "word": "현직",
+          "count": 3
+        },
+        {
+          "word": "도피",
+          "count": 3
+        },
+        {
+          "word": "오피스텔",
+          "count": 3
+        },
+        {
+          "word": "보유",
+          "count": 3
+        },
+        {
+          "word": "피해",
+          "count": 3
+        },
+        {
           "word": "강력",
           "count": 2
         },
@@ -3324,10 +3376,6 @@
           "count": 2
         },
         {
-          "word": "강제",
-          "count": 2
-        },
-        {
           "word": "청소년",
           "count": 2
         },
@@ -3353,10 +3401,6 @@
         },
         {
           "word": "오전",
-          "count": 2
-        },
-        {
-          "word": "발부",
           "count": 2
         },
         {
@@ -3392,18 +3436,6 @@
           "count": 2
         },
         {
-          "word": "피의자",
-          "count": 2
-        },
-        {
-          "word": "전담",
-          "count": 2
-        },
-        {
-          "word": "수사관",
-          "count": 2
-        },
-        {
           "word": "관서",
           "count": 2
         },
@@ -3426,38 +3458,6 @@
         {
           "word": "대포",
           "count": 2
-        },
-        {
-          "word": "계좌",
-          "count": 2
-        },
-        {
-          "word": "대부업",
-          "count": 2
-        },
-        {
-          "word": "최다",
-          "count": 1
-        },
-        {
-          "word": "성평등",
-          "count": 1
-        },
-        {
-          "word": "가족부",
-          "count": 1
-        },
-        {
-          "word": "현행",
-          "count": 1
-        },
-        {
-          "word": "하향",
-          "count": 1
-        },
-        {
-          "word": "기타",
-          "count": 1
         }
       ],
       "techs": []
@@ -3836,7 +3836,7 @@
       "techs": [
         {
           "word": "드론",
-          "count": 25
+          "count": 30
         },
         {
           "word": "용의자",
@@ -3844,10 +3844,14 @@
         },
         {
           "word": "현장",
-          "count": 10
+          "count": 11
         },
         {
           "word": "출동",
+          "count": 10
+        },
+        {
+          "word": "DFR",
           "count": 10
         },
         {
@@ -3859,6 +3863,14 @@
           "count": 7
         },
         {
+          "word": "최초",
+          "count": 7
+        },
+        {
+          "word": "미국",
+          "count": 7
+        },
+        {
           "word": "소비자용",
           "count": 6
         },
@@ -3867,7 +3879,27 @@
           "count": 6
         },
         {
-          "word": "최초",
+          "word": "실시간",
+          "count": 6
+        },
+        {
+          "word": "도착",
+          "count": 6
+        },
+        {
+          "word": "자동",
+          "count": 6
+        },
+        {
+          "word": "신고",
+          "count": 6
+        },
+        {
+          "word": "FAA",
+          "count": 6
+        },
+        {
+          "word": "승인",
           "count": 6
         },
         {
@@ -3883,19 +3915,11 @@
           "count": 5
         },
         {
-          "word": "미국",
-          "count": 5
-        },
-        {
-          "word": "실시간",
-          "count": 5
-        },
-        {
-          "word": "도착",
-          "count": 5
-        },
-        {
           "word": "시범",
+          "count": 5
+        },
+        {
+          "word": "정보",
           "count": 5
         },
         {
@@ -3911,15 +3935,27 @@
           "count": 4
         },
         {
-          "word": "DFR",
-          "count": 4
-        },
-        {
           "word": "올랜도",
           "count": 4
         },
         {
-          "word": "정보",
+          "word": "프로그램",
+          "count": 4
+        },
+        {
+          "word": "GPS",
+          "count": 4
+        },
+        {
+          "word": "인식",
+          "count": 4
+        },
+        {
+          "word": "경찰",
+          "count": 4
+        },
+        {
+          "word": "자율",
           "count": 4
         },
         {
@@ -3959,10 +3995,6 @@
           "count": 3
         },
         {
-          "word": "자동",
-          "count": 3
-        },
-        {
           "word": "도킹",
           "count": 3
         },
@@ -3987,15 +4019,55 @@
           "count": 3
         },
         {
-          "word": "프로그램",
-          "count": 3
-        },
-        {
-          "word": "신고",
-          "count": 3
-        },
-        {
           "word": "경찰관",
+          "count": 3
+        },
+        {
+          "word": "열화상",
+          "count": 3
+        },
+        {
+          "word": "번호판",
+          "count": 3
+        },
+        {
+          "word": "영상",
+          "count": 3
+        },
+        {
+          "word": "순찰차",
+          "count": 3
+        },
+        {
+          "word": "비행",
+          "count": 3
+        },
+        {
+          "word": "확보",
+          "count": 3
+        },
+        {
+          "word": "EFF",
+          "count": 3
+        },
+        {
+          "word": "주행",
+          "count": 3
+        },
+        {
+          "word": "연방",
+          "count": 3
+        },
+        {
+          "word": "영장",
+          "count": 3
+        },
+        {
+          "word": "요건",
+          "count": 3
+        },
+        {
+          "word": "Flock",
           "count": 3
         },
         {
@@ -4047,27 +4119,11 @@
           "count": 2
         },
         {
-          "word": "GPS",
-          "count": 2
-        },
-        {
           "word": "출범",
           "count": 2
         },
         {
           "word": "경찰청",
-          "count": 2
-        },
-        {
-          "word": "열화상",
-          "count": 2
-        },
-        {
-          "word": "번호판",
-          "count": 2
-        },
-        {
-          "word": "인식",
           "count": 2
         },
         {
@@ -4091,15 +4147,7 @@
           "count": 2
         },
         {
-          "word": "영상",
-          "count": 2
-        },
-        {
           "word": "JSO",
-          "count": 2
-        },
-        {
-          "word": "경찰",
           "count": 2
         },
         {
@@ -4108,10 +4156,6 @@
         },
         {
           "word": "접수",
-          "count": 2
-        },
-        {
-          "word": "순찰차",
           "count": 2
         },
         {
@@ -4127,112 +4171,68 @@
           "count": 2
         },
         {
-          "word": "비행",
-          "count": 1
-        },
-        {
-          "word": "장착",
-          "count": 1
-        },
-        {
-          "word": "기동",
-          "count": 1
-        },
-        {
-          "word": "시점",
-          "count": 1
-        },
-        {
-          "word": "지명수배",
-          "count": 1
-        },
-        {
-          "word": "가석방",
-          "count": 1
-        },
-        {
-          "word": "재범",
-          "count": 1
-        },
-        {
-          "word": "전과자",
-          "count": 1
-        },
-        {
-          "word": "인질",
-          "count": 1
-        },
-        {
-          "word": "매뉴얼",
-          "count": 1
-        },
-        {
-          "word": "RTCC",
-          "count": 1
-        },
-        {
-          "word": "CAD",
-          "count": 1
-        },
-        {
-          "word": "감소",
-          "count": 1
-        },
-        {
-          "word": "살인",
-          "count": 1
-        },
-        {
-          "word": "플로리다주",
-          "count": 1
-        },
-        {
-          "word": "자체",
-          "count": 1
-        },
-        {
           "word": "Drone",
-          "count": 1
+          "count": 2
         },
         {
           "word": "as",
-          "count": 1
+          "count": 2
         },
         {
           "word": "First",
-          "count": 1
+          "count": 2
         },
         {
           "word": "Responder",
-          "count": 1
+          "count": 2
         },
         {
-          "word": "확보",
-          "count": 1
+          "word": "FOIA",
+          "count": 2
         },
         {
-          "word": "이글아이",
-          "count": 1
+          "word": "BVLOS",
+          "count": 2
         },
         {
-          "word": "보유",
-          "count": 1
+          "word": "ALPR",
+          "count": 2
         },
         {
-          "word": "규모",
-          "count": 1
+          "word": "BRINC",
+          "count": 2
         },
         {
-          "word": "작동",
-          "count": 1
+          "word": "CAPE",
+          "count": 2
         },
         {
-          "word": "메커니즘",
-          "count": 1
+          "word": "IMSI",
+          "count": 2
         },
         {
-          "word": "본부",
-          "count": 1
+          "word": "돌파",
+          "count": 2
+        },
+        {
+          "word": "공공",
+          "count": 2
+        },
+        {
+          "word": "안전",
+          "count": 2
+        },
+        {
+          "word": "발급",
+          "count": 2
+        },
+        {
+          "word": "차량",
+          "count": 2
+        },
+        {
+          "word": "Safety",
+          "count": 2
         }
       ]
     }
