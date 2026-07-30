@@ -1,18 +1,42 @@
 {
-  "updated": "2026-07-29",
+  "updated": "2026-07-30",
   "domains": {
     "🤖 AI": {
       "issues": [
+        {
+          "word": "딥페이크",
+          "count": 14
+        },
         {
           "word": "AI",
           "count": 13
         },
         {
-          "word": "딥페이크",
-          "count": 10
+          "word": "검거",
+          "count": 8
+        },
+        {
+          "word": "송치",
+          "count": 8
         },
         {
           "word": "대포",
+          "count": 7
+        },
+        {
+          "word": "합성",
+          "count": 7
+        },
+        {
+          "word": "경찰청",
+          "count": 7
+        },
+        {
+          "word": "유포",
+          "count": 7
+        },
+        {
+          "word": "제작",
           "count": 7
         },
         {
@@ -32,19 +56,15 @@
           "count": 6
         },
         {
+          "word": "범죄",
+          "count": 6
+        },
+        {
           "word": "미국",
           "count": 5
         },
         {
           "word": "프랑스",
-          "count": 5
-        },
-        {
-          "word": "검거",
-          "count": 5
-        },
-        {
-          "word": "범죄",
           "count": 5
         },
         {
@@ -60,6 +80,22 @@
           "count": 5
         },
         {
+          "word": "영상물",
+          "count": 5
+        },
+        {
+          "word": "피해자",
+          "count": 5
+        },
+        {
+          "word": "범행",
+          "count": 5
+        },
+        {
+          "word": "검찰",
+          "count": 5
+        },
+        {
           "word": "개월",
           "count": 4
         },
@@ -72,19 +108,11 @@
           "count": 4
         },
         {
-          "word": "영상물",
-          "count": 4
-        },
-        {
           "word": "도메인",
           "count": 4
         },
         {
           "word": "성적",
-          "count": 4
-        },
-        {
-          "word": "합성",
           "count": 4
         },
         {
@@ -116,11 +144,19 @@
           "count": 4
         },
         {
-          "word": "경찰청",
+          "word": "SNS",
           "count": 4
         },
         {
-          "word": "피해자",
+          "word": "혐의",
+          "count": 4
+        },
+        {
+          "word": "음란물",
+          "count": 4
+        },
+        {
+          "word": "학생",
           "count": 4
         },
         {
@@ -133,10 +169,6 @@
         },
         {
           "word": "사이트",
-          "count": 3
-        },
-        {
-          "word": "유포",
           "count": 3
         },
         {
@@ -188,15 +220,7 @@
           "count": 3
         },
         {
-          "word": "송치",
-          "count": 3
-        },
-        {
           "word": "통장",
-          "count": 3
-        },
-        {
-          "word": "범행",
           "count": 3
         },
         {
@@ -212,10 +236,6 @@
           "count": 3
         },
         {
-          "word": "검찰",
-          "count": 3
-        },
-        {
           "word": "조직원",
           "count": 3
         },
@@ -224,8 +244,48 @@
           "count": 3
         },
         {
-          "word": "SNS",
-          "count": 2
+          "word": "가담",
+          "count": 3
+        },
+        {
+          "word": "중학",
+          "count": 3
+        },
+        {
+          "word": "경기",
+          "count": 3
+        },
+        {
+          "word": "남부",
+          "count": 3
+        },
+        {
+          "word": "중학교",
+          "count": 3
+        },
+        {
+          "word": "처벌",
+          "count": 3
+        },
+        {
+          "word": "가정",
+          "count": 3
+        },
+        {
+          "word": "법원",
+          "count": 3
+        },
+        {
+          "word": "형사",
+          "count": 3
+        },
+        {
+          "word": "촉법소년",
+          "count": 3
+        },
+        {
+          "word": "가해",
+          "count": 3
         },
         {
           "word": "사이버성폭력",
@@ -233,10 +293,6 @@
         },
         {
           "word": "플랫폼",
-          "count": 2
-        },
-        {
-          "word": "제작",
           "count": 2
         },
         {
@@ -345,62 +401,6 @@
         },
         {
           "word": "가짜",
-          "count": 2
-        },
-        {
-          "word": "조니",
-          "count": 2
-        },
-        {
-          "word": "소말리",
-          "count": 2
-        },
-        {
-          "word": "성범죄",
-          "count": 2
-        },
-        {
-          "word": "비동의",
-          "count": 2
-        },
-        {
-          "word": "편의점",
-          "count": 2
-        },
-        {
-          "word": "편취",
-          "count": 2
-        },
-        {
-          "word": "공급",
-          "count": 2
-        },
-        {
-          "word": "혐의",
-          "count": 2
-        },
-        {
-          "word": "개통",
-          "count": 2
-        },
-        {
-          "word": "노쇼",
-          "count": 2
-        },
-        {
-          "word": "고액",
-          "count": 2
-        },
-        {
-          "word": "접근",
-          "count": 2
-        },
-        {
-          "word": "가담",
-          "count": 2
-        },
-        {
-          "word": "수법",
           "count": 2
         }
       ],
@@ -810,6 +810,10 @@
     "🌐 국제 치안": {
       "issues": [
         {
+          "word": "검거",
+          "count": 15
+        },
+        {
           "word": "조직",
           "count": 12
         },
@@ -826,7 +830,11 @@
           "count": 10
         },
         {
-          "word": "검거",
+          "word": "연방",
+          "count": 10
+        },
+        {
+          "word": "사건",
           "count": 9
         },
         {
@@ -858,6 +866,14 @@
           "count": 7
         },
         {
+          "word": "FBI",
+          "count": 7
+        },
+        {
+          "word": "아동",
+          "count": 7
+        },
+        {
           "word": "영국",
           "count": 6
         },
@@ -874,10 +890,6 @@
           "count": 6
         },
         {
-          "word": "사건",
-          "count": 6
-        },
-        {
           "word": "체포",
           "count": 6
         },
@@ -887,6 +899,18 @@
         },
         {
           "word": "kg",
+          "count": 6
+        },
+        {
+          "word": "피해자",
+          "count": 6
+        },
+        {
+          "word": "대상",
+          "count": 6
+        },
+        {
+          "word": "기소",
           "count": 6
         },
         {
@@ -918,11 +942,23 @@
           "count": 5
         },
         {
-          "word": "피해자",
+          "word": "밀매",
           "count": 5
         },
         {
-          "word": "밀매",
+          "word": "미국",
+          "count": 5
+        },
+        {
+          "word": "포함",
+          "count": 5
+        },
+        {
+          "word": "혐의",
+          "count": 5
+        },
+        {
+          "word": "착취",
           "count": 5
         },
         {
@@ -931,14 +967,6 @@
         },
         {
           "word": "해킹",
-          "count": 4
-        },
-        {
-          "word": "미국",
-          "count": 4
-        },
-        {
-          "word": "포함",
           "count": 4
         },
         {
@@ -958,10 +986,6 @@
           "count": 4
         },
         {
-          "word": "대상",
-          "count": 4
-        },
-        {
           "word": "작전",
           "count": 4
         },
@@ -971,6 +995,10 @@
         },
         {
           "word": "유로폴",
+          "count": 4
+        },
+        {
+          "word": "켄터키",
           "count": 4
         },
         {
@@ -1011,10 +1039,6 @@
         },
         {
           "word": "총책",
-          "count": 3
-        },
-        {
-          "word": "혐의",
           "count": 3
         },
         {
@@ -1078,6 +1102,22 @@
           "count": 3
         },
         {
+          "word": "보안관",
+          "count": 3
+        },
+        {
+          "word": "학대",
+          "count": 3
+        },
+        {
+          "word": "U.S.C.",
+          "count": 3
+        },
+        {
+          "word": "미성년자",
+          "count": 3
+        },
+        {
           "word": "멤버",
           "count": 2
         },
@@ -1119,10 +1159,6 @@
         },
         {
           "word": "배우",
-          "count": 2
-        },
-        {
-          "word": "기소",
           "count": 2
         },
         {
@@ -1171,42 +1207,6 @@
         },
         {
           "word": "동남아",
-          "count": 2
-        },
-        {
-          "word": "거점",
-          "count": 2
-        },
-        {
-          "word": "도피",
-          "count": 2
-        },
-        {
-          "word": "성매매",
-          "count": 2
-        },
-        {
-          "word": "특별",
-          "count": 2
-        },
-        {
-          "word": "말레이시아",
-          "count": 2
-        },
-        {
-          "word": "해외",
-          "count": 2
-        },
-        {
-          "word": "항공사",
-          "count": 2
-        },
-        {
-          "word": "시스템",
-          "count": 2
-        },
-        {
-          "word": "ASEANAPOL",
           "count": 2
         }
       ],
