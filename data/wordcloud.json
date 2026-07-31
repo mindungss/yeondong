@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-30",
+  "updated": "2026-07-31",
   "domains": {
     "🤖 AI": {
       "issues": [
@@ -2247,34 +2247,38 @@
       "issues": [
         {
           "word": "유출",
-          "count": 53
+          "count": 59
         },
         {
           "word": "정보",
-          "count": 37
+          "count": 46
         },
         {
           "word": "피해",
-          "count": 32
+          "count": 36
+        },
+        {
+          "word": "개인",
+          "count": 31
         },
         {
           "word": "해킹",
-          "count": 23
+          "count": 26
         },
         {
           "word": "조직",
           "count": 23
         },
         {
-          "word": "개인",
-          "count": 22
+          "word": "피해자",
+          "count": 21
+        },
+        {
+          "word": "탈취",
+          "count": 21
         },
         {
           "word": "시스템",
-          "count": 20
-        },
-        {
-          "word": "피해자",
           "count": 20
         },
         {
@@ -2282,15 +2286,15 @@
           "count": 20
         },
         {
-          "word": "탈취",
-          "count": 19
-        },
-        {
           "word": "외교부",
           "count": 17
         },
         {
           "word": "검거",
+          "count": 17
+        },
+        {
+          "word": "KT",
           "count": 17
         },
         {
@@ -2302,15 +2306,19 @@
           "count": 16
         },
         {
+          "word": "접속",
+          "count": 15
+        },
+        {
           "word": "ISP",
           "count": 13
         },
         {
-          "word": "접속",
-          "count": 13
+          "word": "구속",
+          "count": 12
         },
         {
-          "word": "구속",
+          "word": "취약점",
           "count": 12
         },
         {
@@ -2319,10 +2327,6 @@
         },
         {
           "word": "미국",
-          "count": 11
-        },
-        {
-          "word": "취약점",
           "count": 11
         },
         {
@@ -2342,15 +2346,15 @@
           "count": 11
         },
         {
+          "word": "서버",
+          "count": 11
+        },
+        {
           "word": "CVSS",
           "count": 10
         },
         {
           "word": "계정",
-          "count": 10
-        },
-        {
-          "word": "서버",
           "count": 10
         },
         {
@@ -2367,6 +2371,10 @@
         },
         {
           "word": "이메일",
+          "count": 9
+        },
+        {
+          "word": "포함",
           "count": 9
         },
         {
@@ -2390,15 +2398,15 @@
           "count": 8
         },
         {
-          "word": "포함",
-          "count": 8
-        },
-        {
           "word": "중국",
           "count": 8
         },
         {
           "word": "경찰",
+          "count": 8
+        },
+        {
+          "word": "펨토셀",
           "count": 8
         },
         {
@@ -2439,6 +2447,10 @@
         },
         {
           "word": "예방",
+          "count": 7
+        },
+        {
+          "word": "무단",
           "count": 7
         },
         {
@@ -2579,7 +2591,15 @@
         },
         {
           "word": "개인정보",
-          "count": 4
+          "count": 5
+        },
+        {
+          "word": "소액",
+          "count": 5
+        },
+        {
+          "word": "결제",
+          "count": 5
         },
         {
           "word": "SGX",
@@ -2599,10 +2619,6 @@
         },
         {
           "word": "레거시",
-          "count": 4
-        },
-        {
-          "word": "무단",
           "count": 4
         },
         {
@@ -2627,22 +2643,6 @@
         },
         {
           "word": "PeopleSoft",
-          "count": 4
-        },
-        {
-          "word": "아메리카",
-          "count": 4
-        },
-        {
-          "word": "현금",
-          "count": 4
-        },
-        {
-          "word": "광저우",
-          "count": 4
-        },
-        {
-          "word": "도피",
           "count": 4
         }
       ],
@@ -3469,6 +3469,38 @@
           "count": 8
         },
         {
+          "word": "검거",
+          "count": 8
+        },
+        {
+          "word": "조직",
+          "count": 8
+        },
+        {
+          "word": "구속",
+          "count": 8
+        },
+        {
+          "word": "SNS",
+          "count": 8
+        },
+        {
+          "word": "범행",
+          "count": 7
+        },
+        {
+          "word": "모집",
+          "count": 6
+        },
+        {
+          "word": "범죄",
+          "count": 6
+        },
+        {
+          "word": "송치",
+          "count": 6
+        },
+        {
           "word": "도박",
           "count": 5
         },
@@ -3477,15 +3509,11 @@
           "count": 5
         },
         {
-          "word": "검거",
-          "count": 5
-        },
-        {
           "word": "송환",
           "count": 5
         },
         {
-          "word": "모집",
+          "word": "실행",
           "count": 5
         },
         {
@@ -3497,15 +3525,27 @@
           "count": 4
         },
         {
-          "word": "범죄",
-          "count": 4
-        },
-        {
-          "word": "조직",
-          "count": 4
-        },
-        {
           "word": "해외",
+          "count": 4
+        },
+        {
+          "word": "경찰",
+          "count": 4
+        },
+        {
+          "word": "경찰청",
+          "count": 4
+        },
+        {
+          "word": "지시",
+          "count": 4
+        },
+        {
+          "word": "전원",
+          "count": 4
+        },
+        {
+          "word": "폭행",
           "count": 4
         },
         {
@@ -3517,19 +3557,23 @@
           "count": 3
         },
         {
-          "word": "구속",
-          "count": 3
-        },
-        {
-          "word": "경찰",
-          "count": 3
-        },
-        {
           "word": "회원",
           "count": 3
         },
         {
-          "word": "범행",
+          "word": "사건",
+          "count": 3
+        },
+        {
+          "word": "피해자",
+          "count": 3
+        },
+        {
+          "word": "경기북부",
+          "count": 3
+        },
+        {
+          "word": "메신저",
           "count": 3
         },
         {
@@ -3542,10 +3586,6 @@
         },
         {
           "word": "동원",
-          "count": 2
-        },
-        {
-          "word": "송치",
           "count": 2
         },
         {
@@ -3569,15 +3609,87 @@
           "count": 2
         },
         {
+          "word": "혐의",
+          "count": 2
+        },
+        {
+          "word": "역할",
+          "count": 2
+        },
+        {
+          "word": "분담",
+          "count": 2
+        },
+        {
+          "word": "수익",
+          "count": 2
+        },
+        {
+          "word": "추징",
+          "count": 2
+        },
+        {
+          "word": "보전",
+          "count": 2
+        },
+        {
+          "word": "공범",
+          "count": 2
+        },
+        {
+          "word": "상해",
+          "count": 2
+        },
+        {
+          "word": "의뢰",
+          "count": 2
+        },
+        {
+          "word": "의뢰자",
+          "count": 2
+        },
+        {
+          "word": "연결책",
+          "count": 2
+        },
+        {
+          "word": "회사",
+          "count": 2
+        },
+        {
+          "word": "근무",
+          "count": 2
+        },
+        {
+          "word": "고모",
+          "count": 2
+        },
+        {
+          "word": "지인",
+          "count": 2
+        },
+        {
+          "word": "가해자",
+          "count": 2
+        },
+        {
+          "word": "정도",
+          "count": 2
+        },
+        {
+          "word": "증거",
+          "count": 2
+        },
+        {
+          "word": "인멸",
+          "count": 2
+        },
+        {
           "word": "경기",
           "count": 1
         },
         {
           "word": "북부",
-          "count": 1
-        },
-        {
-          "word": "경찰청",
           "count": 1
         },
         {
@@ -3593,15 +3705,7 @@
           "count": 1
         },
         {
-          "word": "혐의",
-          "count": 1
-        },
-        {
           "word": "아랍에미리트",
-          "count": 1
-        },
-        {
-          "word": "사건",
           "count": 1
         },
         {
@@ -3650,10 +3754,6 @@
         },
         {
           "word": "압송",
-          "count": 1
-        },
-        {
-          "word": "피해자",
           "count": 1
         },
         {
@@ -3749,14 +3849,6 @@
           "count": 1
         },
         {
-          "word": "역할",
-          "count": 1
-        },
-        {
-          "word": "분담",
-          "count": 1
-        },
-        {
           "word": "구조",
           "count": 1
         },
@@ -3770,62 +3862,6 @@
         },
         {
           "word": "인터폴",
-          "count": 1
-        },
-        {
-          "word": "적색",
-          "count": 1
-        },
-        {
-          "word": "수배",
-          "count": 1
-        },
-        {
-          "word": "정부",
-          "count": 1
-        },
-        {
-          "word": "국가",
-          "count": 1
-        },
-        {
-          "word": "특별",
-          "count": 1
-        },
-        {
-          "word": "TF",
-          "count": 1
-        },
-        {
-          "word": "성공",
-          "count": 1
-        },
-        {
-          "word": "수익",
-          "count": 1
-        },
-        {
-          "word": "기소",
-          "count": 1
-        },
-        {
-          "word": "몰수",
-          "count": 1
-        },
-        {
-          "word": "추징",
-          "count": 1
-        },
-        {
-          "word": "보전",
-          "count": 1
-        },
-        {
-          "word": "조치",
-          "count": 1
-        },
-        {
-          "word": "공범",
           "count": 1
         }
       ],
