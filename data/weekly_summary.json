@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-07",
+  "updated": "2026-08-08",
   "period": "최근 7일",
   "domains": [
     {
@@ -7,28 +7,24 @@
       "count": 2
     },
     {
-      "domain": "🔐 사이버 보안",
-      "count": 2
-    },
-    {
-      "domain": "🏘️ 생활 안전",
-      "count": 2
-    },
-    {
       "domain": "🚓 신종 범죄",
       "count": 2
     },
     {
-      "domain": "🤖 AI",
+      "domain": "🚗 교통",
       "count": 1
+    },
+    {
+      "domain": "🔐 사이버 보안",
+      "count": 1
+    },
+    {
+      "domain": "🤖 AI",
+      "count": 0
     },
     {
       "domain": "🌐 국제 치안",
-      "count": 1
-    },
-    {
-      "domain": "🚗 교통",
-      "count": 1
+      "count": 0
     },
     {
       "domain": "🧬 과학 수사",
@@ -36,6 +32,10 @@
     },
     {
       "domain": "📜 법·제도",
+      "count": 0
+    },
+    {
+      "domain": "🏘️ 생활 안전",
       "count": 0
     },
     {
