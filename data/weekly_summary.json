@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-13",
+  "updated": "2026-08-14",
   "period": "최근 7일",
   "domains": [
     {
@@ -15,7 +15,7 @@
       "count": 2
     },
     {
-      "domain": "📜 법·제도",
+      "domain": "🔐 사이버 보안",
       "count": 2
     },
     {
@@ -23,19 +23,19 @@
       "count": 2
     },
     {
+      "domain": "🤖 AI",
+      "count": 1
+    },
+    {
       "domain": "💊 마약",
       "count": 1
     },
     {
-      "domain": "🤖 AI",
-      "count": 0
+      "domain": "📜 법·제도",
+      "count": 1
     },
     {
       "domain": "🧬 과학 수사",
-      "count": 0
-    },
-    {
-      "domain": "🔐 사이버 보안",
       "count": 0
     },
     {
