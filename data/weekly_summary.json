@@ -1,17 +1,21 @@
 {
-  "updated": "2026-08-30",
+  "updated": "2026-08-31",
   "period": "최근 7일",
   "domains": [
     {
       "domain": "🌐 국제 치안",
-      "count": 2
+      "count": 3
     },
     {
       "domain": "🏘️ 생활 안전",
-      "count": 2
+      "count": 3
     },
     {
       "domain": "🔐 사이버 보안",
+      "count": 2
+    },
+    {
+      "domain": "🚗 교통",
       "count": 1
     },
     {
@@ -20,10 +24,6 @@
     },
     {
       "domain": "🧬 과학 수사",
-      "count": 0
-    },
-    {
-      "domain": "🚗 교통",
       "count": 0
     },
     {
