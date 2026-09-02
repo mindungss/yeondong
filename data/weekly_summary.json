@@ -1,13 +1,13 @@
 {
-  "updated": "2026-09-01",
+  "updated": "2026-09-02",
   "period": "최근 7일",
   "domains": [
     {
-      "domain": "🌐 국제 치안",
-      "count": 3
+      "domain": "🏘️ 생활 안전",
+      "count": 4
     },
     {
-      "domain": "🏘️ 생활 안전",
+      "domain": "🌐 국제 치안",
       "count": 3
     },
     {
