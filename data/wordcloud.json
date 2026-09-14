@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-13",
+  "updated": "2026-09-14",
   "domains": {
     "🤖 AI": {
       "issues": [
@@ -811,26 +811,38 @@
       "issues": [
         {
           "word": "검거",
-          "count": 28
+          "count": 33
         },
         {
           "word": "조직",
-          "count": 24
+          "count": 27
         },
         {
           "word": "피해자",
-          "count": 18
+          "count": 23
         },
         {
           "word": "범죄",
-          "count": 15
+          "count": 19
         },
         {
           "word": "압수",
-          "count": 14
+          "count": 16
         },
         {
           "word": "사건",
+          "count": 16
+        },
+        {
+          "word": "대상",
+          "count": 13
+        },
+        {
+          "word": "경찰",
+          "count": 13
+        },
+        {
+          "word": "한국인",
           "count": 13
         },
         {
@@ -838,7 +850,27 @@
           "count": 12
         },
         {
+          "word": "연방",
+          "count": 12
+        },
+        {
+          "word": "아동",
+          "count": 12
+        },
+        {
+          "word": "기소",
+          "count": 12
+        },
+        {
           "word": "송환",
+          "count": 11
+        },
+        {
+          "word": "체포",
+          "count": 11
+        },
+        {
+          "word": "한국",
           "count": 11
         },
         {
@@ -850,15 +882,7 @@
           "count": 10
         },
         {
-          "word": "연방",
-          "count": 10
-        },
-        {
           "word": "마약",
-          "count": 10
-        },
-        {
-          "word": "대상",
           "count": 10
         },
         {
@@ -870,7 +894,11 @@
           "count": 10
         },
         {
-          "word": "경찰",
+          "word": "현지",
+          "count": 10
+        },
+        {
+          "word": "정부",
           "count": 10
         },
         {
@@ -878,7 +906,27 @@
           "count": 9
         },
         {
-          "word": "체포",
+          "word": "FBI",
+          "count": 9
+        },
+        {
+          "word": "작전",
+          "count": 9
+        },
+        {
+          "word": "혐의",
+          "count": 9
+        },
+        {
+          "word": "착취",
+          "count": 9
+        },
+        {
+          "word": "사칭",
+          "count": 9
+        },
+        {
+          "word": "HSI",
           "count": 9
         },
         {
@@ -890,15 +938,15 @@
           "count": 8
         },
         {
-          "word": "현지",
-          "count": 8
-        },
-        {
           "word": "국내",
           "count": 8
         },
         {
-          "word": "한국",
+          "word": "피의자",
+          "count": 8
+        },
+        {
+          "word": "태국",
           "count": 8
         },
         {
@@ -914,19 +962,19 @@
           "count": 7
         },
         {
-          "word": "FBI",
+          "word": "포함",
           "count": 7
         },
         {
-          "word": "아동",
+          "word": "범행",
           "count": 7
         },
         {
-          "word": "작전",
+          "word": "미성년자",
           "count": 7
         },
         {
-          "word": "정부",
+          "word": "보이스피싱",
           "count": 7
         },
         {
@@ -950,10 +998,6 @@
           "count": 6
         },
         {
-          "word": "기소",
-          "count": 6
-        },
-        {
           "word": "TF",
           "count": 6
         },
@@ -967,14 +1011,6 @@
         },
         {
           "word": "보트",
-          "count": 6
-        },
-        {
-          "word": "피의자",
-          "count": 6
-        },
-        {
-          "word": "한국인",
           "count": 6
         },
         {
@@ -1010,18 +1046,6 @@
           "count": 5
         },
         {
-          "word": "포함",
-          "count": 5
-        },
-        {
-          "word": "혐의",
-          "count": 5
-        },
-        {
-          "word": "착취",
-          "count": 5
-        },
-        {
           "word": "추적",
           "count": 5
         },
@@ -1051,6 +1075,10 @@
         },
         {
           "word": "수배",
+          "count": 5
+        },
+        {
+          "word": "경찰청",
           "count": 5
         },
         {
@@ -1090,10 +1118,6 @@
           "count": 4
         },
         {
-          "word": "경찰청",
-          "count": 4
-        },
-        {
           "word": "지중해",
           "count": 4
         },
@@ -1114,10 +1138,6 @@
           "count": 4
         },
         {
-          "word": "범행",
-          "count": 4
-        },
-        {
           "word": "베트남",
           "count": 4
         },
@@ -1126,7 +1146,19 @@
           "count": 4
         },
         {
-          "word": "사칭",
+          "word": "해군",
+          "count": 4
+        },
+        {
+          "word": "요약",
+          "count": 4
+        },
+        {
+          "word": "시도",
+          "count": 4
+        },
+        {
+          "word": "검찰",
           "count": 4
         },
         {
@@ -1175,38 +1207,6 @@
         },
         {
           "word": "통신",
-          "count": 3
-        },
-        {
-          "word": "Europol",
-          "count": 3
-        },
-        {
-          "word": "3국",
-          "count": 3
-        },
-        {
-          "word": "소탕",
-          "count": 3
-        },
-        {
-          "word": "차량",
-          "count": 3
-        },
-        {
-          "word": "보안관",
-          "count": 3
-        },
-        {
-          "word": "학대",
-          "count": 3
-        },
-        {
-          "word": "U.S.C.",
-          "count": 3
-        },
-        {
-          "word": "미성년자",
           "count": 3
         }
       ],
@@ -3065,15 +3065,15 @@
         },
         {
           "word": "단속",
-          "count": 21
+          "count": 22
+        },
+        {
+          "word": "사고",
+          "count": 20
         },
         {
           "word": "면허",
           "count": 18
-        },
-        {
-          "word": "사고",
-          "count": 17
         },
         {
           "word": "적발",
@@ -3092,19 +3092,27 @@
           "count": 11
         },
         {
+          "word": "대상",
+          "count": 10
+        },
+        {
           "word": "도로",
-          "count": 8
+          "count": 9
+        },
+        {
+          "word": "지역",
+          "count": 9
         },
         {
           "word": "경찰청",
-          "count": 7
+          "count": 8
+        },
+        {
+          "word": "피해자",
+          "count": 8
         },
         {
           "word": "측정",
-          "count": 7
-        },
-        {
-          "word": "대상",
           "count": 7
         },
         {
@@ -3112,7 +3120,7 @@
           "count": 7
         },
         {
-          "word": "피해자",
+          "word": "어린이",
           "count": 7
         },
         {
@@ -3120,12 +3128,24 @@
           "count": 6
         },
         {
-          "word": "지역",
-          "count": 5
+          "word": "집중",
+          "count": 6
         },
         {
-          "word": "집중",
-          "count": 5
+          "word": "정지",
+          "count": 6
+        },
+        {
+          "word": "전국",
+          "count": 6
+        },
+        {
+          "word": "점검",
+          "count": 6
+        },
+        {
+          "word": "위험",
+          "count": 6
         },
         {
           "word": "제주",
@@ -3164,11 +3184,19 @@
           "count": 5
         },
         {
-          "word": "야간",
-          "count": 4
+          "word": "수치",
+          "count": 5
         },
         {
-          "word": "정지",
+          "word": "요약",
+          "count": 5
+        },
+        {
+          "word": "교통사고",
+          "count": 5
+        },
+        {
+          "word": "야간",
           "count": 4
         },
         {
@@ -3212,10 +3240,6 @@
           "count": 4
         },
         {
-          "word": "수치",
-          "count": 4
-        },
-        {
           "word": "경찰서",
           "count": 4
         },
@@ -3232,15 +3256,19 @@
           "count": 4
         },
         {
-          "word": "전국",
-          "count": 3
+          "word": "여름",
+          "count": 4
+        },
+        {
+          "word": "교통",
+          "count": 4
+        },
+        {
+          "word": "요인",
+          "count": 4
         },
         {
           "word": "하룻밤",
-          "count": 3
-        },
-        {
-          "word": "여름",
           "count": 3
         },
         {
@@ -3276,10 +3304,6 @@
           "count": 3
         },
         {
-          "word": "교통",
-          "count": 3
-        },
-        {
           "word": "처벌",
           "count": 3
         },
@@ -3293,10 +3317,6 @@
         },
         {
           "word": "물질",
-          "count": 3
-        },
-        {
-          "word": "요약",
           "count": 3
         },
         {
@@ -3321,6 +3341,38 @@
         },
         {
           "word": "조치",
+          "count": 3
+        },
+        {
+          "word": "지속",
+          "count": 3
+        },
+        {
+          "word": "행안부",
+          "count": 3
+        },
+        {
+          "word": "스쿨",
+          "count": 3
+        },
+        {
+          "word": "보호",
+          "count": 3
+        },
+        {
+          "word": "구역",
+          "count": 3
+        },
+        {
+          "word": "횡단보도",
+          "count": 3
+        },
+        {
+          "word": "표지",
+          "count": 3
+        },
+        {
+          "word": "표시",
           "count": 3
         },
         {
@@ -3376,10 +3428,6 @@
           "count": 2
         },
         {
-          "word": "지속",
-          "count": 2
-        },
-        {
           "word": "방침",
           "count": 2
         },
@@ -3405,54 +3453,6 @@
         },
         {
           "word": "주차",
-          "count": 2
-        },
-        {
-          "word": "피해",
-          "count": 2
-        },
-        {
-          "word": "전망",
-          "count": 2
-        },
-        {
-          "word": "향정신성",
-          "count": 2
-        },
-        {
-          "word": "환각",
-          "count": 2
-        },
-        {
-          "word": "사망",
-          "count": 2
-        },
-        {
-          "word": "국과수",
-          "count": 2
-        },
-        {
-          "word": "검사",
-          "count": 2
-        },
-        {
-          "word": "처방",
-          "count": 2
-        },
-        {
-          "word": "복용",
-          "count": 2
-        },
-        {
-          "word": "허위",
-          "count": 2
-        },
-        {
-          "word": "북구",
-          "count": 2
-        },
-        {
-          "word": "보도",
           "count": 2
         }
       ],
