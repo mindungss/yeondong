@@ -1,9 +1,13 @@
 {
-  "updated": "2026-09-15",
+  "updated": "2026-09-16",
   "period": "최근 7일",
   "domains": [
     {
       "domain": "🌐 국제 치안",
+      "count": 2
+    },
+    {
+      "domain": "🔐 사이버 보안",
       "count": 2
     },
     {
@@ -12,10 +16,6 @@
     },
     {
       "domain": "💊 마약",
-      "count": 1
-    },
-    {
-      "domain": "🔐 사이버 보안",
       "count": 1
     },
     {
