@@ -1,13 +1,13 @@
 {
-  "updated": "2026-09-22",
+  "updated": "2026-09-23",
   "period": "최근 7일",
   "domains": [
     {
       "domain": "💊 마약",
-      "count": 8
+      "count": 7
     },
     {
-      "domain": "🤖 AI",
+      "domain": "🌐 국제 치안",
       "count": 5
     },
     {
@@ -15,15 +15,15 @@
       "count": 5
     },
     {
-      "domain": "🌐 국제 치안",
-      "count": 3
-    },
-    {
-      "domain": "🚗 교통",
-      "count": 3
+      "domain": "🤖 AI",
+      "count": 4
     },
     {
       "domain": "🏘️ 생활 안전",
+      "count": 4
+    },
+    {
+      "domain": "🚗 교통",
       "count": 3
     },
     {
