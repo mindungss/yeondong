@@ -1,38 +1,34 @@
 {
-  "updated": "2026-09-24",
+  "updated": "2026-09-25",
   "period": "최근 7일",
   "domains": [
     {
       "domain": "💊 마약",
-      "count": 7
+      "count": 5
     },
     {
       "domain": "🌐 국제 치안",
-      "count": 5
-    },
-    {
-      "domain": "🔐 사이버 보안",
-      "count": 5
-    },
-    {
-      "domain": "🤖 AI",
-      "count": 4
-    },
-    {
-      "domain": "🏘️ 생활 안전",
-      "count": 4
+      "count": 3
     },
     {
       "domain": "🚗 교통",
       "count": 3
     },
     {
-      "domain": "📜 법·제도",
-      "count": 2
+      "domain": "🔐 사이버 보안",
+      "count": 3
     },
     {
-      "domain": "🚓 신종 범죄",
-      "count": 2
+      "domain": "🏘️ 생활 안전",
+      "count": 3
+    },
+    {
+      "domain": "🤖 AI",
+      "count": 1
+    },
+    {
+      "domain": "📜 법·제도",
+      "count": 1
     },
     {
       "domain": "🛠️ 장비",
@@ -40,6 +36,10 @@
     },
     {
       "domain": "🧬 과학 수사",
+      "count": 0
+    },
+    {
+      "domain": "🚓 신종 범죄",
       "count": 0
     }
   ]
