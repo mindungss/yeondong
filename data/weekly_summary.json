@@ -1,21 +1,13 @@
 {
-  "updated": "2026-09-28",
+  "updated": "2026-09-29",
   "period": "최근 7일",
   "domains": [
     {
-      "domain": "🌐 국제 치안",
-      "count": 3
-    },
-    {
-      "domain": "💊 마약",
-      "count": 3
-    },
-    {
       "domain": "🔐 사이버 보안",
-      "count": 3
+      "count": 4
     },
     {
-      "domain": "🚗 교통",
+      "domain": "🌐 국제 치안",
       "count": 2
     },
     {
@@ -27,11 +19,11 @@
       "count": 1
     },
     {
-      "domain": "📜 법·제도",
+      "domain": "💊 마약",
       "count": 1
     },
     {
-      "domain": "🛠️ 장비",
+      "domain": "📜 법·제도",
       "count": 1
     },
     {
@@ -39,7 +31,15 @@
       "count": 0
     },
     {
+      "domain": "🚗 교통",
+      "count": 0
+    },
+    {
       "domain": "🚓 신종 범죄",
+      "count": 0
+    },
+    {
+      "domain": "🛠️ 장비",
       "count": 0
     }
   ]

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-28",
+  "updated": "2026-09-29",
   "domains": {
     "🤖 AI": {
       "issues": [
@@ -2247,51 +2247,51 @@
       "issues": [
         {
           "word": "유출",
-          "count": 95
+          "count": 100
         },
         {
           "word": "정보",
-          "count": 75
+          "count": 83
         },
         {
           "word": "피해",
-          "count": 54
+          "count": 55
         },
         {
           "word": "개인",
-          "count": 51
+          "count": 53
         },
         {
           "word": "조직",
-          "count": 46
+          "count": 47
         },
         {
           "word": "피해자",
-          "count": 38
+          "count": 40
+        },
+        {
+          "word": "해킹",
+          "count": 37
+        },
+        {
+          "word": "공격",
+          "count": 33
         },
         {
           "word": "검거",
           "count": 31
         },
         {
-          "word": "공격",
-          "count": 31
+          "word": "시스템",
+          "count": 30
         },
         {
-          "word": "해킹",
-          "count": 31
+          "word": "고객",
+          "count": 30
         },
         {
           "word": "보이스피싱",
           "count": 29
-        },
-        {
-          "word": "시스템",
-          "count": 28
-        },
-        {
-          "word": "고객",
-          "count": 26
         },
         {
           "word": "탈취",
@@ -2299,6 +2299,10 @@
         },
         {
           "word": "취약점",
+          "count": 21
+        },
+        {
+          "word": "침해",
           "count": 21
         },
         {
@@ -2312,6 +2316,10 @@
         {
           "word": "KT",
           "count": 19
+        },
+        {
+          "word": "경찰",
+          "count": 18
         },
         {
           "word": "데이터",
@@ -2350,16 +2358,8 @@
           "count": 15
         },
         {
-          "word": "침해",
-          "count": 15
-        },
-        {
           "word": "토큰",
           "count": 15
-        },
-        {
-          "word": "경찰",
-          "count": 14
         },
         {
           "word": "계정",
@@ -2378,7 +2378,19 @@
           "count": 14
         },
         {
+          "word": "직원",
+          "count": 14
+        },
+        {
           "word": "ISP",
+          "count": 13
+        },
+        {
+          "word": "갈취",
+          "count": 13
+        },
+        {
+          "word": "업체",
           "count": 13
         },
         {
@@ -2400,10 +2412,6 @@
         {
           "word": "증명",
           "count": 12
-        },
-        {
-          "word": "갈취",
-          "count": 11
         },
         {
           "word": "사실",
@@ -2446,6 +2454,10 @@
           "count": 9
         },
         {
+          "word": "외부",
+          "count": 9
+        },
+        {
           "word": "CVE",
           "count": 8
         },
@@ -2467,14 +2479,6 @@
         },
         {
           "word": "무단",
-          "count": 8
-        },
-        {
-          "word": "업체",
-          "count": 8
-        },
-        {
-          "word": "직원",
           "count": 8
         },
         {
@@ -2550,6 +2554,14 @@
           "count": 7
         },
         {
+          "word": "인증",
+          "count": 7
+        },
+        {
+          "word": "전년",
+          "count": 7
+        },
+        {
           "word": "ATM",
           "count": 6
         },
@@ -2590,15 +2602,7 @@
           "count": 6
         },
         {
-          "word": "외부",
-          "count": 6
-        },
-        {
           "word": "이용자",
-          "count": 6
-        },
-        {
-          "word": "인증",
           "count": 6
         },
         {
@@ -2607,6 +2611,18 @@
         },
         {
           "word": "티빙",
+          "count": 6
+        },
+        {
+          "word": "선고",
+          "count": 6
+        },
+        {
+          "word": "징역",
+          "count": 6
+        },
+        {
+          "word": "Odido",
           "count": 6
         },
         {
@@ -2622,23 +2638,11 @@
           "count": 5
         },
         {
-          "word": "선고",
-          "count": 5
-        },
-        {
           "word": "스터핑",
           "count": 5
         },
         {
           "word": "인사",
-          "count": 5
-        },
-        {
-          "word": "전년",
-          "count": 5
-        },
-        {
-          "word": "징역",
           "count": 5
         }
       ],
