@@ -637,12 +637,14 @@ def sync_daily(notion):
         if btype in ("heading_1","heading_2","heading_3","heading_4"):
             clean = txt.replace(" ","")
             txt_norm = txt.replace("법/제도", "법·제도")
+            # 섹션 전환은 "치안 이슈 동향" / "치안 기술 동향" 처럼
+            # 치안+이슈 또는 치안+기술이 함께 있는 heading만 인식
             if ("치안이슈" in clean or "이슈동향" in clean or
-                    ("이슈" in clean and "동향" in clean)):
+                    ("치안" in clean and "이슈" in clean)):
                 cur_section = "issue"; cur_domain = None
                 log.info(f"[daily] → 이슈 섹션")
             elif ("치안기술" in clean or "기술동향" in clean or
-                    ("기술" in clean and "동향" in clean)):
+                    ("치안" in clean and "기술" in clean)):
                 cur_section = "tech"; cur_domain = None
                 log.info(f"[daily] → 기술 섹션")
             elif cur_section in ("issue","tech") and txt:
@@ -827,7 +829,7 @@ def sync_ideas(notion):
     if not all_items: log.info("[idea] 파싱 항목 없음 → 스킵"); return False
     merged = sorted(all_items, key=lambda x: x.get("date",""), reverse=True)
     save_json(path, merged)
-    log.info(f"[idea] +{len(new_items)}건, 총 {len(merged)}건")
+    log.info(f"[idea] 총 {len(merged)}건")
     return True
 
 # ─────────────────────────────────────────────
@@ -968,6 +970,119 @@ def sync_ntis(notion):
 # ─────────────────────────────────────────────
 # 주간 요약 파싱 (메인 페이지 일주일 섹션)
 # ─────────────────────────────────────────────
+def sync_monthly_summary(notion):
+    """
+    일일 리포트 메인 페이지(DB_DAILY)에서
+    '### 📊 분야별 이슈 추이 — 최근 30일 TOP 3' 섹션을 파싱 ->
+    data/monthly_summary.json 저장
+
+    저장 형식:
+    {
+      "updated": "2026-09-30",
+      "period": "2026-08-31 ~ 2026-09-30",
+      "top3": [
+        {"rank": 1, "domain": "🔐 사이버 보안", "count": 14},
+        {"rank": 2, "domain": "💊 마약", "count": 11},
+        {"rank": 3, "domain": "🌐 국제 치안", "count": 10}
+      ]
+    }
+    """
+    path = DATA_DIR / "monthly_summary.json"
+    if not DB_DAILY:
+        log.info("[monthly] DB_DAILY 미설정 → 스킵"); return False
+
+    try:
+        blocks = _fetch_children(notion, DB_DAILY)
+    except Exception as e:
+        log.error(f"[monthly] 블록 읽기 오류: {e}"); return False
+
+    in_section = False
+    period     = ""
+    top3       = []
+
+    DOMAIN_MAP = {
+        "AI": "🤖 AI", "국제 치안": "🌐 국제 치안", "국제치안": "🌐 국제 치안",
+        "과학 수사": "🧬 과학 수사", "과학수사": "🧬 과학 수사",
+        "교통": "🚗 교통", "마약": "💊 마약", "법": "📜 법·제도",
+        "법·제도": "📜 법·제도", "법/제도": "📜 법·제도",
+        "사이버 보안": "🔐 사이버 보안", "사이버보안": "🔐 사이버 보안",
+        "생활 안전": "🏘️ 생활 안전", "생활안전": "🏘️ 생활 안전",
+        "신종 범죄": "🚓 신종 범죄", "신종범죄": "🚓 신종 범죄",
+        "장비": "🛠️ 장비",
+    }
+
+    for b in blocks:
+        btype = b.get("type", "")
+        txt   = block_text(b).strip()
+
+        if btype == "heading_3":
+            if "30일" in txt and ("이슈 추이" in txt or "TOP" in txt or "분야별" in txt):
+                in_section = True
+                # 제목에서 기간 파싱 시도
+                m = re.search(r"(\d{4}-\d{2}-\d{2})\s*[~～]\s*(\d{4}-\d{2}-\d{2})", txt)
+                if m:
+                    period = f"{m.group(1)} ~ {m.group(2)}"
+                log.info(f"[monthly] 섹션 진입: {txt}")
+            elif in_section:
+                break
+            continue
+
+        if not in_section:
+            continue
+
+        # quote 블록 → 기간 추출
+        if btype == "quote":
+            m = re.search(r"(\d{4}-\d{2}-\d{2})\s*[~～]\s*(\d{4}-\d{2}-\d{2})", txt)
+            if m:
+                period = f"{m.group(1)} ~ {m.group(2)}"
+                log.info(f"[monthly] 기간: {period}")
+            continue
+
+        # 불릿: 1위/2위/3위 또는 🥇🥈🥉
+        if btype == "bulleted_list_item":
+            rank = None
+            if "1위" in txt or "🥇" in txt:
+                rank = 1
+            elif "2위" in txt or "🥈" in txt:
+                rank = 2
+            elif "3위" in txt or "🥉" in txt:
+                rank = 3
+
+            if rank is None:
+                continue
+
+            count_m = re.search(r"\*?\*?(\d+)건\*?\*?", txt)
+            count   = int(count_m.group(1)) if count_m else 0
+
+            # 도메인 추출: 순위 표시 제거 후 파싱
+            clean = re.sub(r"🥇|🥈|🥉|\d+위", "", txt)
+            clean = re.sub(r"[:：].*", "", clean).strip()
+            matched_domain = None
+            for key, val in DOMAIN_MAP.items():
+                if key in clean:
+                    matched_domain = val
+                    break
+            if not matched_domain:
+                matched_domain = clean.strip()
+
+            top3.append({"rank": rank, "domain": matched_domain, "count": count})
+            log.info(f"[monthly] {rank}위 {matched_domain}: {count}건")
+
+    if not top3:
+        log.warning("[monthly] 파싱된 TOP 3 없음 → 스킵"); return False
+
+    top3.sort(key=lambda x: x["rank"])
+
+    result = {
+        "updated": TODAY_KST,
+        "period":  period or "최근 30일",
+        "top3":    top3,
+    }
+    save_json(path, result)
+    log.info(f"[monthly] 저장 완료: {len(top3)}개")
+    return True
+
+
 def sync_weekly_summary(notion):
     """
     일일 리포트 메인 페이지(DB_DAILY)에서
@@ -1185,6 +1300,7 @@ def main():
 
     results, errors = {}, []
     for name, func, db_id in [
+        ("monthly",   sync_monthly_summary, DB_DAILY),
         ("weekly",    sync_weekly_summary, DB_DAILY),
         ("wordcloud", sync_wordcloud,      DB_WORDCLOUD),
         ("daily",     sync_daily,          DB_DAILY),
