@@ -632,52 +632,21 @@ if menu == "🏢 메인 대시보드":
             if not monthly_top3:
                 rows_30_html = '<div style="color:#9ca3af;font-size:0.8rem;padding:0.5rem 0;">동기화 대기 중...</div>'
 
-            # ── 7일 누적
-            weekly_domains = weekly_data.get("domains", [])
-            weekly_period  = weekly_data.get("period", "")
-            top_weekly     = [(d["domain"], d["count"]) for d in weekly_domains if d.get("count", 0) > 0][:3]
-            max_cnt_w      = top_weekly[0][1] if top_weekly else 1
-
-            rows_7_html = ""
-            for dom, cnt in top_weekly:
-                color = DOMAIN_COLORS.get(dom, "#6b7280")
-                short = DOMAIN_SHORT.get(dom, dom)
-                pct   = int(cnt / max(max_cnt_w, 1) * 100)
-                rows_7_html += (
-                    f'<div style="display:flex;align-items:center;gap:8px;margin-bottom:0.35rem;">'
-                    f'<div style="flex:1;background:#f3f4f6;border-radius:4px;height:18px;overflow:hidden;">'
-                    f'<div style="width:{pct}%;height:100%;background:{color};border-radius:4px;'
-                    f'display:flex;align-items:center;padding-left:6px;">'
-                    f'<span style="font-size:0.68rem;font-weight:600;color:#fff;white-space:nowrap;">{short}</span>'
-                    f'</div></div>'
-                    f'<span style="font-size:0.68rem;font-weight:700;color:#374151;width:28px;text-align:right;">{cnt}건</span>'
-                    f'</div>'
-                )
-            if not top_weekly:
-                rows_7_html = '<div style="color:#9ca3af;font-size:0.75rem;">동기화 대기 중...</div>'
-
             period_30_txt = f'<span style="font-weight:400;color:#9ca3af;font-size:0.65rem;margin-left:6px;">{monthly_period}</span>' if monthly_period else ""
-            period_7_txt  = f'<span style="font-weight:400;color:#9ca3af;font-size:0.65rem;margin-left:6px;">{weekly_period}</span>' if weekly_period else ""
 
             st.markdown(
                 f'<div style="background:#fff;border:1px solid #e5e7eb;border-radius:10px;'
                 f'padding:1.1rem 1.2rem 1rem;box-shadow:0 1px 4px rgba(0,0,0,0.06);">'
-                # 30일 섹션
                 f'<div style="font-size:0.78rem;font-weight:700;color:#6b7280;text-transform:uppercase;'
                 f'letter-spacing:0.05em;margin-bottom:0.6rem;padding-bottom:0.4rem;border-bottom:1px solid #f3f4f6;">'
                 f'📈 최근 30일 분야별 이슈 추이 TOP 3{period_30_txt}</div>'
                 + rows_30_html +
-                # 7일 섹션
-                f'<div style="font-size:0.75rem;font-weight:700;color:#6b7280;text-transform:uppercase;'
-                f'letter-spacing:0.05em;margin-top:0.8rem;margin-bottom:0.5rem;padding-bottom:0.4rem;border-bottom:1px solid #f3f4f6;">'
-                f'📊 최근 일주일 분야별 누적{period_7_txt}</div>'
-                + rows_7_html +
                 f'</div>',
                 unsafe_allow_html=True
             )
 
         # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        # 패널 2 (오른쪽 위): 30일 분야별 추이
+        # 패널 2 (오른쪽 위): 30일 분야별 추이 + 7일 누적
         # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         with col_right:
             # 30일 중 누적 건수 있는 도메인만 표시
@@ -710,11 +679,39 @@ if menu == "🏢 메인 대시보드":
             if not active_domains:
                 spark_rows_html = '<div style="color:#9ca3af;font-size:0.8rem;">데이터 없음</div>'
 
+            # ── 7일 누적
+            weekly_domains = weekly_data.get("domains", [])
+            weekly_period  = weekly_data.get("period", "")
+            top_weekly     = [(d["domain"], d["count"]) for d in weekly_domains if d.get("count", 0) > 0][:3]
+            max_cnt_w      = top_weekly[0][1] if top_weekly else 1
+
+            rows_7_html = ""
+            for dom, cnt in top_weekly:
+                color = DOMAIN_COLORS.get(dom, "#6b7280")
+                short = DOMAIN_SHORT.get(dom, dom)
+                pct   = int(cnt / max(max_cnt_w, 1) * 100)
+                rows_7_html += (
+                    f'<div style="display:flex;align-items:center;gap:8px;margin-bottom:0.35rem;">'
+                    f'<div style="flex:1;background:#f3f4f6;border-radius:4px;height:18px;overflow:hidden;">'
+                    f'<div style="width:{pct}%;height:100%;background:{color};border-radius:4px;'
+                    f'display:flex;align-items:center;padding-left:6px;">'
+                    f'<span style="font-size:0.68rem;font-weight:600;color:#fff;white-space:nowrap;">{short}</span>'
+                    f'</div></div>'
+                    f'<span style="font-size:0.68rem;font-weight:700;color:#374151;width:28px;text-align:right;">{cnt}건</span>'
+                    f'</div>'
+                )
+            if not top_weekly:
+                rows_7_html = '<div style="color:#9ca3af;font-size:0.75rem;">동기화 대기 중...</div>'
+
+            period_7_txt = f'<span style="font-weight:400;color:#9ca3af;font-size:0.65rem;margin-left:6px;">{weekly_period}</span>' if weekly_period else ""
+
             date_range = f"{month_dates[0]} ~ {month_dates[-1]}" if month_dates else "—"
             st.markdown(f"""
             <div class="dash-panel">
               <div class="dash-panel-title">📊 30일 분야별 이슈 추이 &nbsp;<span style="font-weight:400;text-transform:none;letter-spacing:0;color:#9ca3af;font-size:0.78rem;">{date_range}</span></div>
               <div class="sparkline-wrap">{spark_rows_html}</div>
+              <div style="font-size:0.75rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em;margin-top:0.9rem;margin-bottom:0.5rem;padding-bottom:0.4rem;border-bottom:1px solid #f3f4f6;">📊 최근 일주일 분야별 누적{period_7_txt}</div>
+              {rows_7_html}
             </div>
             """, unsafe_allow_html=True)
 
