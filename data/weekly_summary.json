@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-30",
+  "updated": "2026-10-01",
   "period": "최근 7일",
   "domains": [
     {
@@ -15,8 +15,8 @@
       "count": 2
     },
     {
-      "domain": "🏘️ 생활 안전",
-      "count": 2
+      "domain": "🚗 교통",
+      "count": 1
     },
     {
       "domain": "💊 마약",
@@ -27,15 +27,15 @@
       "count": 1
     },
     {
+      "domain": "🏘️ 생활 안전",
+      "count": 1
+    },
+    {
       "domain": "🚓 신종 범죄",
       "count": 1
     },
     {
       "domain": "🧬 과학 수사",
-      "count": 0
-    },
-    {
-      "domain": "🚗 교통",
       "count": 0
     },
     {
