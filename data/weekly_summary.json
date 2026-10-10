@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-09",
+  "updated": "2026-10-10",
   "period": "최근 7일",
   "domains": [
     {
@@ -11,10 +11,6 @@
       "count": 3
     },
     {
-      "domain": "📜 법·제도",
-      "count": 3
-    },
-    {
       "domain": "🚓 신종 범죄",
       "count": 3
     },
@@ -23,11 +19,11 @@
       "count": 2
     },
     {
-      "domain": "🤖 AI",
-      "count": 1
+      "domain": "📜 법·제도",
+      "count": 2
     },
     {
-      "domain": "🛠️ 장비",
+      "domain": "🤖 AI",
       "count": 1
     },
     {
@@ -40,6 +36,10 @@
     },
     {
       "domain": "🏘️ 생활 안전",
+      "count": 0
+    },
+    {
+      "domain": "🛠️ 장비",
       "count": 0
     }
   ]
