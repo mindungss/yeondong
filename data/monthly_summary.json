@@ -1,21 +1,31 @@
 {
-  "updated": "2026-10-11",
-  "period": "2026-09-09 ~ 2026-10-09",
+  "updated": "2026-10-12",
+  "period": "2026-09-12 ~ 2026-10-12",
   "top3": [
     {
       "rank": 1,
       "domain": "🔐 사이버 보안",
-      "count": 17
+      "count": 18
+    },
+    {
+      "rank": 2,
+      "domain": "🌐 국제 치안",
+      "count": 13
     },
     {
       "rank": 2,
       "domain": "💊 마약",
-      "count": 12
+      "count": 13
     },
     {
       "rank": 3,
-      "domain": "🌐 국제 치안",
-      "count": 11
+      "domain": "🤖 AI",
+      "count": 7
+    },
+    {
+      "rank": 3,
+      "domain": "🚓 신종 범죄",
+      "count": 7
     }
   ]
 }
