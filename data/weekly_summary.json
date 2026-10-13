@@ -1,13 +1,9 @@
 {
-  "updated": "2026-10-12",
+  "updated": "2026-10-13",
   "period": "최근 7일",
   "domains": [
     {
       "domain": "🔐 사이버 보안",
-      "count": 5
-    },
-    {
-      "domain": "💊 마약",
       "count": 4
     },
     {
@@ -15,20 +11,20 @@
       "count": 3
     },
     {
-      "domain": "📜 법·제도",
-      "count": 2
+      "domain": "💊 마약",
+      "count": 3
     },
     {
       "domain": "🚓 신종 범죄",
       "count": 2
     },
     {
-      "domain": "🤖 AI",
+      "domain": "📜 법·제도",
       "count": 1
     },
     {
-      "domain": "🛠️ 장비",
-      "count": 1
+      "domain": "🤖 AI",
+      "count": 0
     },
     {
       "domain": "🧬 과학 수사",
@@ -40,6 +36,10 @@
     },
     {
       "domain": "🏘️ 생활 안전",
+      "count": 0
+    },
+    {
+      "domain": "🛠️ 장비",
       "count": 0
     }
   ]
