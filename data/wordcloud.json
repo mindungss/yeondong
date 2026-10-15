@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-14",
+  "updated": "2026-10-15",
   "domains": {
     "🤖 AI": {
       "issues": [
@@ -4180,50 +4180,62 @@
       "issues": [
         {
           "word": "조직",
-          "count": 53
+          "count": 56
+        },
+        {
+          "word": "검거",
+          "count": 46
         },
         {
           "word": "범죄",
           "count": 39
         },
         {
-          "word": "검거",
+          "word": "구속",
           "count": 38
         },
         {
-          "word": "구속",
-          "count": 31
-        },
-        {
-          "word": "사기",
-          "count": 27
-        },
-        {
           "word": "피해자",
-          "count": 25
+          "count": 30
         },
         {
           "word": "해외",
-          "count": 22
+          "count": 30
+        },
+        {
+          "word": "사기",
+          "count": 28
         },
         {
           "word": "경찰",
-          "count": 22
+          "count": 24
         },
         {
           "word": "경찰청",
-          "count": 19
+          "count": 22
         },
         {
           "word": "총책",
-          "count": 19
+          "count": 22
         },
         {
           "word": "범행",
-          "count": 18
+          "count": 21
         },
         {
           "word": "자금",
+          "count": 20
+        },
+        {
+          "word": "보이스피싱",
+          "count": 20
+        },
+        {
+          "word": "피해",
+          "count": 19
+        },
+        {
+          "word": "도박",
           "count": 18
         },
         {
@@ -4231,7 +4243,7 @@
           "count": 17
         },
         {
-          "word": "피해",
+          "word": "계좌",
           "count": 16
         },
         {
@@ -4240,7 +4252,11 @@
         },
         {
           "word": "거점",
-          "count": 14
+          "count": 15
+        },
+        {
+          "word": "사이트",
+          "count": 15
         },
         {
           "word": "SNS",
@@ -4255,15 +4271,19 @@
           "count": 12
         },
         {
-          "word": "보이스피싱",
-          "count": 11
+          "word": "사건",
+          "count": 12
         },
         {
-          "word": "도박",
+          "word": "국내",
+          "count": 12
+        },
+        {
+          "word": "불법",
           "count": 10
         },
         {
-          "word": "사건",
+          "word": "중계기",
           "count": 10
         },
         {
@@ -4271,11 +4291,19 @@
           "count": 9
         },
         {
-          "word": "국내",
+          "word": "모집",
           "count": 9
         },
         {
-          "word": "모집",
+          "word": "대포",
+          "count": 9
+        },
+        {
+          "word": "피해액",
+          "count": 9
+        },
+        {
+          "word": "관리",
           "count": 9
         },
         {
@@ -4299,18 +4327,6 @@
           "count": 8
         },
         {
-          "word": "불법",
-          "count": 7
-        },
-        {
-          "word": "계좌",
-          "count": 7
-        },
-        {
-          "word": "대포",
-          "count": 7
-        },
-        {
           "word": "차량",
           "count": 7
         },
@@ -4331,10 +4347,6 @@
           "count": 6
         },
         {
-          "word": "피해액",
-          "count": 6
-        },
-        {
           "word": "네트워크",
           "count": 6
         },
@@ -4343,11 +4355,19 @@
           "count": 6
         },
         {
-          "word": "사이트",
+          "word": "기소",
           "count": 6
         },
         {
-          "word": "기소",
+          "word": "지시",
+          "count": 6
+        },
+        {
+          "word": "혐의",
+          "count": 6
+        },
+        {
+          "word": "협박",
           "count": 6
         },
         {
@@ -4364,10 +4384,6 @@
         },
         {
           "word": "외국인",
-          "count": 5
-        },
-        {
-          "word": "지시",
           "count": 5
         },
         {
@@ -4395,8 +4411,8 @@
           "count": 5
         },
         {
-          "word": "관리",
-          "count": 4
+          "word": "추적",
+          "count": 5
         },
         {
           "word": "마약",
@@ -4447,10 +4463,6 @@
           "count": 4
         },
         {
-          "word": "추적",
-          "count": 4
-        },
-        {
           "word": "전년",
           "count": 4
         },
@@ -4475,11 +4487,39 @@
           "count": 4
         },
         {
-          "word": "혐의",
+          "word": "정책",
           "count": 4
         },
         {
-          "word": "정책",
+          "word": "압수",
+          "count": 4
+        },
+        {
+          "word": "대구",
+          "count": 4
+        },
+        {
+          "word": "전화",
+          "count": 4
+        },
+        {
+          "word": "번호",
+          "count": 4
+        },
+        {
+          "word": "요약",
+          "count": 4
+        },
+        {
+          "word": "대상",
+          "count": 4
+        },
+        {
+          "word": "특성",
+          "count": 4
+        },
+        {
+          "word": "운영자",
           "count": 4
         },
         {
@@ -4496,10 +4536,6 @@
         },
         {
           "word": "수거책",
-          "count": 3
-        },
-        {
-          "word": "압수",
           "count": 3
         },
         {
@@ -4541,42 +4577,6 @@
         {
           "word": "합수단",
           "count": 3
-        },
-        {
-          "word": "경남",
-          "count": 3
-        },
-        {
-          "word": "추징",
-          "count": 3
-        },
-        {
-          "word": "농업",
-          "count": 3
-        },
-        {
-          "word": "법인",
-          "count": 3
-        },
-        {
-          "word": "설립",
-          "count": 3
-        },
-        {
-          "word": "여성",
-          "count": 3
-        },
-        {
-          "word": "인천",
-          "count": 3
-        },
-        {
-          "word": "미추홀경찰서",
-          "count": 3
-        },
-        {
-          "word": "가해자",
-          "count": 2
         }
       ],
       "techs": []
