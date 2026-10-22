@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-21",
+  "updated": "2026-10-22",
   "domains": {
     "🤖 AI": {
       "issues": [
@@ -811,15 +811,15 @@
       "issues": [
         {
           "word": "검거",
-          "count": 52
+          "count": 57
         },
         {
           "word": "조직",
-          "count": 48
+          "count": 50
         },
         {
           "word": "피해자",
-          "count": 41
+          "count": 45
         },
         {
           "word": "압수",
@@ -827,18 +827,26 @@
         },
         {
           "word": "범죄",
-          "count": 32
+          "count": 37
         },
         {
           "word": "사건",
-          "count": 27
+          "count": 32
         },
         {
           "word": "대상",
-          "count": 26
+          "count": 30
+        },
+        {
+          "word": "송환",
+          "count": 27
         },
         {
           "word": "체포",
+          "count": 24
+        },
+        {
+          "word": "기소",
           "count": 24
         },
         {
@@ -850,11 +858,27 @@
           "count": 21
         },
         {
-          "word": "기소",
+          "word": "규모",
+          "count": 21
+        },
+        {
+          "word": "FBI",
+          "count": 21
+        },
+        {
+          "word": "한국인",
+          "count": 21
+        },
+        {
+          "word": "마약",
+          "count": 21
+        },
+        {
+          "word": "혐의",
           "count": 20
         },
         {
-          "word": "규모",
+          "word": "kg",
           "count": 20
         },
         {
@@ -862,51 +886,43 @@
           "count": 19
         },
         {
-          "word": "FBI",
-          "count": 19
-        },
-        {
           "word": "경찰",
           "count": 19
         },
         {
-          "word": "혐의",
+          "word": "범행",
           "count": 18
         },
         {
-          "word": "한국인",
-          "count": 17
+          "word": "요약",
+          "count": 18
         },
         {
-          "word": "범행",
-          "count": 16
+          "word": "해외",
+          "count": 17
         },
         {
           "word": "불법",
           "count": 16
         },
         {
-          "word": "송환",
-          "count": 15
-        },
-        {
-          "word": "마약",
-          "count": 15
-        },
-        {
-          "word": "kg",
-          "count": 15
+          "word": "미국",
+          "count": 16
         },
         {
           "word": "조직원",
-          "count": 14
+          "count": 15
         },
         {
-          "word": "요약",
-          "count": 14
+          "word": "연방",
+          "count": 15
         },
         {
           "word": "INTERPOL",
+          "count": 14
+        },
+        {
+          "word": "국가",
           "count": 14
         },
         {
@@ -918,23 +934,19 @@
           "count": 13
         },
         {
-          "word": "연방",
-          "count": 13
-        },
-        {
           "word": "자금",
           "count": 13
         },
         {
-          "word": "베트남",
-          "count": 12
-        },
-        {
           "word": "현지",
-          "count": 12
+          "count": 13
         },
         {
-          "word": "해외",
+          "word": "피해",
+          "count": 13
+        },
+        {
+          "word": "베트남",
           "count": 12
         },
         {
@@ -950,19 +962,15 @@
           "count": 11
         },
         {
-          "word": "미국",
-          "count": 12
-        },
-        {
-          "word": "국가",
-          "count": 11
-        },
-        {
-          "word": "피해",
-          "count": 11
-        },
-        {
           "word": "HSI",
+          "count": 11
+        },
+        {
+          "word": "정부",
+          "count": 11
+        },
+        {
+          "word": "TF",
           "count": 11
         },
         {
@@ -978,10 +986,6 @@
           "count": 10
         },
         {
-          "word": "정부",
-          "count": 10
-        },
-        {
           "word": "착취",
           "count": 10
         },
@@ -994,6 +998,18 @@
           "count": 10
         },
         {
+          "word": "피의자",
+          "count": 10
+        },
+        {
+          "word": "거점",
+          "count": 10
+        },
+        {
+          "word": "검찰",
+          "count": 10
+        },
+        {
           "word": "밀수",
           "count": 9
         },
@@ -1002,31 +1018,35 @@
           "count": 9
         },
         {
-          "word": "피의자",
-          "count": 9
-        },
-        {
           "word": "우크라이나",
           "count": 9
         },
         {
           "word": "경찰청",
-          "count": 8
+          "count": 9
         },
         {
           "word": "추적",
-          "count": 8
+          "count": 9
         },
         {
           "word": "피해액",
-          "count": 8
-        },
-        {
-          "word": "VAT",
-          "count": 8
+          "count": 9
         },
         {
           "word": "카자흐스탄",
+          "count": 9
+        },
+        {
+          "word": "보이스피싱",
+          "count": 9
+        },
+        {
+          "word": "수익",
+          "count": 9
+        },
+        {
+          "word": "VAT",
           "count": 8
         },
         {
@@ -1039,10 +1059,6 @@
         },
         {
           "word": "미성년자",
-          "count": 7
-        },
-        {
-          "word": "보이스피싱",
           "count": 7
         },
         {
@@ -1066,10 +1082,6 @@
           "count": 7
         },
         {
-          "word": "수익",
-          "count": 7
-        },
-        {
           "word": "사이트",
           "count": 7
         },
@@ -1086,16 +1098,12 @@
           "count": 7
         },
         {
-          "word": "TF",
-          "count": 6
+          "word": "총책",
+          "count": 7
         },
         {
-          "word": "거점",
-          "count": 6
-        },
-        {
-          "word": "검찰",
-          "count": 6
+          "word": "코카인",
+          "count": 7
         },
         {
           "word": "동남아시아",
@@ -1122,15 +1130,19 @@
           "count": 6
         },
         {
-          "word": "총책",
-          "count": 6
-        },
-        {
           "word": "적색",
           "count": 6
         },
         {
           "word": "총기",
+          "count": 6
+        },
+        {
+          "word": "캄보디아",
+          "count": 6
+        },
+        {
+          "word": "코스타리카",
           "count": 6
         },
         {
@@ -1182,6 +1194,10 @@
           "count": 5
         },
         {
+          "word": "납치",
+          "count": 5
+        },
+        {
           "word": "NCA",
           "count": 4
         },
@@ -1191,22 +1207,6 @@
         },
         {
           "word": "공무원",
-          "count": 4
-        },
-        {
-          "word": "구속",
-          "count": 4
-        },
-        {
-          "word": "국외도피사범",
-          "count": 4
-        },
-        {
-          "word": "백도어",
-          "count": 4
-        },
-        {
-          "word": "시도",
           "count": 4
         }
       ],
@@ -1437,7 +1437,7 @@
       "issues": [
         {
           "word": "마약",
-          "count": 142
+          "count": 143
         },
         {
           "word": "검거",
@@ -1445,7 +1445,15 @@
         },
         {
           "word": "kg",
+          "count": 54
+        },
+        {
+          "word": "적발",
           "count": 49
+        },
+        {
+          "word": "압수",
+          "count": 47
         },
         {
           "word": "유통",
@@ -1456,24 +1464,20 @@
           "count": 45
         },
         {
-          "word": "적발",
-          "count": 44
-        },
-        {
-          "word": "압수",
-          "count": 43
+          "word": "코카인",
+          "count": 38
         },
         {
           "word": "검사",
           "count": 36
         },
         {
-          "word": "코카인",
-          "count": 34
+          "word": "조직",
+          "count": 32
         },
         {
-          "word": "조직",
-          "count": 31
+          "word": "체포",
+          "count": 32
         },
         {
           "word": "사범",
@@ -1485,10 +1489,34 @@
         },
         {
           "word": "반입",
-          "count": 29
+          "count": 30
+        },
+        {
+          "word": "경찰",
+          "count": 25
+        },
+        {
+          "word": "사건",
+          "count": 22
+        },
+        {
+          "word": "경로",
+          "count": 22
+        },
+        {
+          "word": "대상",
+          "count": 22
         },
         {
           "word": "태국",
+          "count": 21
+        },
+        {
+          "word": "단속",
+          "count": 21
+        },
+        {
+          "word": "대마",
           "count": 21
         },
         {
@@ -1496,15 +1524,7 @@
           "count": 20
         },
         {
-          "word": "단속",
-          "count": 20
-        },
-        {
           "word": "국제",
-          "count": 20
-        },
-        {
-          "word": "사건",
           "count": 20
         },
         {
@@ -1512,36 +1532,16 @@
           "count": 20
         },
         {
-          "word": "체포",
+          "word": "요약",
           "count": 20
-        },
-        {
-          "word": "경찰",
-          "count": 19
         },
         {
           "word": "국경",
           "count": 19
         },
         {
-          "word": "경로",
-          "count": 18
-        },
-        {
-          "word": "대상",
-          "count": 18
-        },
-        {
-          "word": "대마",
-          "count": 17
-        },
-        {
           "word": "관세청",
           "count": 17
-        },
-        {
-          "word": "요약",
-          "count": 16
         },
         {
           "word": "투약",
@@ -1556,15 +1556,15 @@
           "count": 14
         },
         {
+          "word": "은닉",
+          "count": 14
+        },
+        {
           "word": "외국인",
           "count": 13
         },
         {
           "word": "경찰청",
-          "count": 13
-        },
-        {
-          "word": "은닉",
           "count": 13
         },
         {
@@ -1584,15 +1584,19 @@
           "count": 12
         },
         {
+          "word": "피해자",
+          "count": 12
+        },
+        {
           "word": "우편",
           "count": 11
         },
         {
-          "word": "차량",
-          "count": 10
+          "word": "네덜란드",
+          "count": 11
         },
         {
-          "word": "피해자",
+          "word": "차량",
           "count": 10
         },
         {
@@ -1613,6 +1617,10 @@
         },
         {
           "word": "대비",
+          "count": 9
+        },
+        {
+          "word": "상자",
           "count": 9
         },
         {
@@ -1656,11 +1664,15 @@
           "count": 8
         },
         {
-          "word": "총책",
-          "count": 7
+          "word": "판매",
+          "count": 8
         },
         {
-          "word": "판매",
+          "word": "최대",
+          "count": 8
+        },
+        {
+          "word": "총책",
           "count": 7
         },
         {
@@ -1673,6 +1685,10 @@
         },
         {
           "word": "화물",
+          "count": 7
+        },
+        {
+          "word": "인도",
           "count": 7
         },
         {
@@ -1693,10 +1709,6 @@
         },
         {
           "word": "아태",
-          "count": 6
-        },
-        {
-          "word": "최대",
           "count": 6
         },
         {
@@ -1725,10 +1737,6 @@
         },
         {
           "word": "다크웹",
-          "count": 5
-        },
-        {
-          "word": "인도",
           "count": 5
         },
         {
@@ -1825,10 +1833,6 @@
         },
         {
           "word": "여행자",
-          "count": 4
-        },
-        {
-          "word": "우편집중국",
           "count": 4
         }
       ],
