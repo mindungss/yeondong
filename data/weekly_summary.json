@@ -1,14 +1,14 @@
 {
-  "updated": "2026-10-26",
+  "updated": "2026-10-27",
   "period": "최근 7일",
   "domains": [
     {
-      "domain": "💊 마약",
+      "domain": "🌐 국제 치안",
       "count": 7
     },
     {
-      "domain": "🌐 국제 치안",
-      "count": 6
+      "domain": "💊 마약",
+      "count": 7
     },
     {
       "domain": "🔐 사이버 보안",
@@ -16,7 +16,7 @@
     },
     {
       "domain": "🚓 신종 범죄",
-      "count": 4
+      "count": 5
     },
     {
       "domain": "🏘️ 생활 안전",
