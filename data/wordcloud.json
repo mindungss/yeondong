@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-28",
+  "updated": "2026-10-29",
   "domains": {
     "🤖 AI": {
       "issues": [
@@ -2247,23 +2247,23 @@
       "issues": [
         {
           "word": "유출",
-          "count": 143
+          "count": 150
         },
         {
           "word": "정보",
-          "count": 129
+          "count": 133
         },
         {
           "word": "해킹",
-          "count": 77
+          "count": 80
         },
         {
           "word": "피해",
-          "count": 74
+          "count": 75
         },
         {
           "word": "개인",
-          "count": 69
+          "count": 70
         },
         {
           "word": "조직",
@@ -2274,28 +2274,28 @@
           "count": 54
         },
         {
+          "word": "시스템",
+          "count": 51
+        },
+        {
           "word": "검거",
           "count": 50
         },
         {
-          "word": "시스템",
-          "count": 48
-        },
-        {
           "word": "공격",
-          "count": 46
+          "count": 49
         },
         {
           "word": "침해",
-          "count": 40
+          "count": 41
         },
         {
           "word": "경찰",
-          "count": 36
+          "count": 38
         },
         {
           "word": "고객",
-          "count": 34
+          "count": 38
         },
         {
           "word": "탈취",
@@ -2303,7 +2303,11 @@
         },
         {
           "word": "업체",
-          "count": 30
+          "count": 31
+        },
+        {
+          "word": "금융",
+          "count": 31
         },
         {
           "word": "보이스피싱",
@@ -2318,28 +2322,24 @@
           "count": 28
         },
         {
+          "word": "취약점",
+          "count": 28
+        },
+        {
           "word": "FBI",
           "count": 27
         },
         {
-          "word": "취약점",
-          "count": 27
+          "word": "서버",
+          "count": 26
         },
         {
-          "word": "서버",
+          "word": "접근",
           "count": 25
         },
         {
           "word": "사이트",
           "count": 24
-        },
-        {
-          "word": "금융",
-          "count": 23
-        },
-        {
-          "word": "접근",
-          "count": 22
         },
         {
           "word": "데이터",
@@ -2378,11 +2378,11 @@
           "count": 20
         },
         {
-          "word": "KT",
-          "count": 19
+          "word": "이메일",
+          "count": 20
         },
         {
-          "word": "이메일",
+          "word": "KT",
           "count": 19
         },
         {
@@ -2402,11 +2402,11 @@
           "count": 17
         },
         {
-          "word": "중국",
-          "count": 16
+          "word": "직원",
+          "count": 17
         },
         {
-          "word": "직원",
+          "word": "중국",
           "count": 16
         },
         {
@@ -2422,11 +2422,11 @@
           "count": 15
         },
         {
-          "word": "서비스",
-          "count": 14
+          "word": "포함",
+          "count": 15
         },
         {
-          "word": "포함",
+          "word": "서비스",
           "count": 14
         },
         {
@@ -2435,6 +2435,14 @@
         },
         {
           "word": "송치",
+          "count": 14
+        },
+        {
+          "word": "IP",
+          "count": 14
+        },
+        {
+          "word": "AI",
           "count": 14
         },
         {
@@ -2450,11 +2458,7 @@
           "count": 13
         },
         {
-          "word": "IP",
-          "count": 13
-        },
-        {
-          "word": "AI",
+          "word": "외부",
           "count": 13
         },
         {
@@ -2466,16 +2470,12 @@
           "count": 12
         },
         {
-          "word": "외부",
-          "count": 12
-        },
-        {
           "word": "관리",
           "count": 12
         },
         {
           "word": "국가",
-          "count": 11
+          "count": 12
         },
         {
           "word": "CVSS",
@@ -2510,6 +2510,10 @@
           "count": 9
         },
         {
+          "word": "API",
+          "count": 9
+        },
+        {
           "word": "개월",
           "count": 8
         },
@@ -2534,8 +2538,8 @@
           "count": 8
         },
         {
-          "word": "API",
-          "count": 7
+          "word": "북한",
+          "count": 8
         },
         {
           "word": "KDDI",
@@ -2627,10 +2631,6 @@
         },
         {
           "word": "도박",
-          "count": 6
-        },
-        {
-          "word": "북한",
           "count": 6
         },
         {
