@@ -1,5 +1,20 @@
 [
   {
+    "id": "IDEA-40C498EEF533",
+    "notion_id": "40c498eef53381068e48c0d55d8775aa",
+    "date": "2026-11-02",
+    "domain": "🧬 과학 수사",
+    "tech_name": "스마트폰 디지털 증거 접근·추출 및 AI 분석 플랫폼 (Cellebrite Inseyets: Mobile Device Access, Extraction and AI Analysis Platform with Safeguard Mode)",
+    "policing_issues": "스마트폰 잠금·암호화로 인한 디지털 증거 확보 지연과 방대한 데이터의 검토 병목, 증거 연계보관 및 법정 입증 문제",
+    "target_issue": "",
+    "tags": [],
+    "features": "① 개발 기관 및 현황: 이스라엘 Cellebrite DI Ltd.(나스닥 CLBT)가 개발·운용 중인 상용 제품군으로, 주 고객은 각국 주·지방 경찰 등 법집행기관이다. 기존 UFED·Physical Analyzer를 통합한 'Inseyets' 스위트로 고객의 약 55%가 이전했으며(2026년 3월 기준), 2026년 봄 릴리스(Spring26)에서 iPhone 17 및 iOS 26.4까지 지원 범위를 넓혔다. 상용 운용 단계이며, 에이전틱 AI 'Genesis'는 조기 접근(early access) 단계다.\n\n② 핵심 작동 메커니즘: (1) 접근(Access): 잠금 상태 기기의 논리·파일시스템·물리 추출(logical/file-system/physical extraction)을 지원한다. 최신 iOS는 72시간 동안 잠금 해제가 없으면 최초 잠금 해제 이전 상태(BFU, Before First Unlock)로 되돌아가 추출 난이도가 크게 높아지는데, 'Safeguard 모드'는 이 비활성 타이머를 늦춰 수사관이 영장 등 사법적 승인을 받는 동안 기기가 AFU(After First Unlock) 상태를 유지하게 한다. (2) 분석(Analysis): Physical Analyzer의 Media Intelligence 기능이 이미지 위치·시간 메타데이터 변조와 AI 생성 이미지 여부를 표시하고, Pathfinder는 신원 해소(identity resolution)로 여러 식별자를 한 인물에 연결해 수십~수백 대 기기 간 관계 그래프를 만든다. (3) 사건 관리: Guardian이 전자 증거 연계보관(chain of custody)을 관리한다. (4) Genesis는 자연어 질의로 UFDR 포맷 추출물을 분석하고 신뢰도 평가와 원본 출처 참조를 함께 제시한다.\n\n③ 하드웨어·플랫폼: 휴대용 포렌식 이미징 장치 CFID(Covert Forensic Imaging Device, 포켓 크기, 휴대폰·드론 데이터 추출), 실험실 UFED 장비, 현장·국경·조사실용 Kiosk(안내형 셀프서비스 추출). Guardian은 고객 AWS 테넌트에서, Pathfinder는 온프레미스 또는 VPC에서, Genesis는 SaaS 전용으로 운영된다. 드론 포렌식은 전용 추출 어플라이언스로 2026년 초 초기 진입했다.\n\n④ 성능 수치: Safeguard 모드는 약 6분 소요(웨비나 질의응답 기준, 전 Insights 사용자 제공). 업계 조사에서 수사관의 68%가 디지털 증거 검토 시간을 최대 과제로 꼽았다. 기기 접근이 필요한 사건이 약 절반(경영진 발언)이다. 추출 성공률·Genesis 정확도 등은 (수치 미공개).\n\n⑤ 치안 현장 적용 시나리오: 마약·성범죄·보이스피싱 피의자의 스마트폰을 압수하면 현장에서 Safeguard 모드로 기기 상태를 보존하고, 영장 발부 후 실험실·Kiosk에서 추출하여 메신저·위치·미디어를 타임라인으로 정리한다. 다수 기기 사건은 Pathfinder로 공범 관계를 시각화한다.",
+    "applications": "① 강력·마약 수사: 압수 스마트폰에서 메신저·위치·통화 기록을 추출하고 공범 네트워크를 그래프로 분석해 조직 범죄 수사 기간을 단축한다.\n② 디지털 성범죄·사이버 사기 수사: 이미지의 메타데이터 변조·AI 생성 여부를 식별하고 연계보관 기록을 남겨 법정 증거능력을 높인다.\n③ 현장 신속 대응: CFID·Kiosk로 현장 및 조사실에서 즉시 증거를 보전해 증거 훼손과 기기 재잠금 위험을 줄인다.",
+    "constraints": "• 최신 iOS·Android의 보안 강화로 기기·OS 버전별 추출 가능 범위가 달라지며, 일부 고급 잠금 해제(Advanced Unlocks)는 제한적 고객·전용 랩 서비스로만 제공된다.\n• 영장주의·개인정보 보호 등 법적 요건이 엄격하며, Genesis 같은 생성형 AI 분석 결과는 검증 없이 증거로 쓰기 어렵고 SaaS 전용이라 데이터 주권 이슈가 있다.\n• 도입·라이선스 비용과 숙련 인력이 필요하며, 한국 수사기관 적용 시 국내 법령(통신비밀보호법, 형사소송법) 검토가 필요하다.",
+    "companies": "• Cellebrite: Inseyets(UFED·Physical Analyzer), Guardian, Pathfinder, Genesis\n• Magnet Forensics(Grayshift 인수): GrayKey, Magnet AXIOM\n• MSAB: XRY\n• Oxygen Forensics: Oxygen Forensic Detective",
+    "trend": "Cellebrite는 2025년 12월 iOS 보안 연구 기업 Corellium을 인수(약 1,600만 달러 연간 반복 매출 추가)했고, 2026년 3월 드론 포렌식 시장에 진입했다. 2026년 봄 릴리스에서 iPhone 17/iOS 26.4 지원, Safeguard 모드, Kiosk, CFID, 딥페이크 탐지와 에이전틱 AI Genesis를 공개했다. 경영진은 Guardian이 6개 분기 연속 세 자릿수 성장을 했다고 밝혔다."
+  },
+  {
     "id": "IDEA-405498EEF533",
     "notion_id": "405498eef533812cb267da2361de1d37",
     "date": "2026-10-26",
