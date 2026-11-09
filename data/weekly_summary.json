@@ -1,18 +1,18 @@
 {
-  "updated": "2026-11-08",
+  "updated": "2026-11-09",
   "period": "최근 7일",
   "domains": [
     {
       "domain": "🌐 국제 치안",
-      "count": 9
-    },
-    {
-      "domain": "🔐 사이버 보안",
       "count": 6
     },
     {
-      "domain": "💊 마약",
+      "domain": "🔐 사이버 보안",
       "count": 4
+    },
+    {
+      "domain": "💊 마약",
+      "count": 3
     },
     {
       "domain": "🏘️ 생활 안전",
@@ -27,15 +27,15 @@
       "count": 2
     },
     {
-      "domain": "📜 법·제도",
-      "count": 1
-    },
-    {
       "domain": "🧬 과학 수사",
       "count": 0
     },
     {
       "domain": "🚗 교통",
+      "count": 0
+    },
+    {
+      "domain": "📜 법·제도",
       "count": 0
     },
     {

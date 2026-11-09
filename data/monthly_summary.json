@@ -1,21 +1,21 @@
 {
-  "updated": "2026-11-08",
-  "period": "2026-10-07 ~ 2026-11-06",
+  "updated": "2026-11-09",
+  "period": "2026-10-10 ~ 2026-11-09",
   "top3": [
     {
       "rank": 1,
-      "domain": "🔐 사이버 보안",
-      "count": 20
+      "domain": "🌐 국제 치안",
+      "count": 18
     },
     {
       "rank": 2,
-      "domain": "🌐 국제 치안",
-      "count": 19
+      "domain": "🔐 사이버 보안",
+      "count": 17
     },
     {
       "rank": 3,
       "domain": "💊 마약",
-      "count": 18
+      "count": 16
     }
   ]
 }
