@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-09",
+  "updated": "2026-11-10",
   "period": "최근 7일",
   "domains": [
     {
@@ -7,31 +7,31 @@
       "count": 6
     },
     {
-      "domain": "🔐 사이버 보안",
+      "domain": "💊 마약",
       "count": 4
     },
     {
-      "domain": "💊 마약",
-      "count": 3
-    },
-    {
-      "domain": "🏘️ 생활 안전",
-      "count": 3
-    },
-    {
       "domain": "🚓 신종 범죄",
-      "count": 3
+      "count": 4
     },
     {
-      "domain": "🤖 AI",
+      "domain": "🔐 사이버 보안",
       "count": 2
     },
     {
-      "domain": "🧬 과학 수사",
-      "count": 0
+      "domain": "🤖 AI",
+      "count": 1
     },
     {
       "domain": "🚗 교통",
+      "count": 1
+    },
+    {
+      "domain": "🏘️ 생활 안전",
+      "count": 1
+    },
+    {
+      "domain": "🧬 과학 수사",
       "count": 0
     },
     {
