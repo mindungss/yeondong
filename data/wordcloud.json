@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-16",
+  "updated": "2026-11-17",
   "domains": {
     "🤖 AI": {
       "issues": [
@@ -9,14 +9,18 @@
         },
         {
           "word": "딥페이크",
-          "count": 37
-        },
-        {
-          "word": "합성",
-          "count": 25
+          "count": 41
         },
         {
           "word": "검거",
+          "count": 33
+        },
+        {
+          "word": "합성",
+          "count": 26
+        },
+        {
+          "word": "유포",
           "count": 23
         },
         {
@@ -24,40 +28,52 @@
           "count": 22
         },
         {
-          "word": "유포",
-          "count": 20
-        },
-        {
           "word": "피해자",
-          "count": 20
-        },
-        {
-          "word": "제작",
-          "count": 19
+          "count": 21
         },
         {
           "word": "범행",
-          "count": 19
+          "count": 21
+        },
+        {
+          "word": "구속",
+          "count": 21
+        },
+        {
+          "word": "제작",
+          "count": 20
         },
         {
           "word": "경찰청",
-          "count": 16
+          "count": 18
         },
         {
           "word": "SNS",
+          "count": 17
+        },
+        {
+          "word": "범죄",
+          "count": 17
+        },
+        {
+          "word": "영상물",
           "count": 16
         },
         {
           "word": "사진",
+          "count": 15
+        },
+        {
+          "word": "경찰",
+          "count": 15
+        },
+        {
+          "word": "불법",
           "count": 14
         },
         {
-          "word": "범죄",
+          "word": "사이트",
           "count": 14
-        },
-        {
-          "word": "구속",
-          "count": 13
         },
         {
           "word": "송치",
@@ -72,10 +88,6 @@
           "count": 12
         },
         {
-          "word": "경찰",
-          "count": 12
-        },
-        {
           "word": "혐의",
           "count": 12
         },
@@ -84,23 +96,19 @@
           "count": 11
         },
         {
-          "word": "영상물",
-          "count": 10
+          "word": "국가",
+          "count": 11
         },
         {
-          "word": "국가",
+          "word": "착취",
+          "count": 11
+        },
+        {
+          "word": "위장",
           "count": 10
         },
         {
           "word": "보안",
-          "count": 9
-        },
-        {
-          "word": "위장",
-          "count": 9
-        },
-        {
-          "word": "불법",
           "count": 9
         },
         {
@@ -109,11 +117,11 @@
         },
         {
           "word": "해외",
-          "count": 8
+          "count": 9
         },
         {
-          "word": "사이트",
-          "count": 8
+          "word": "피의자",
+          "count": 9
         },
         {
           "word": "미국",
@@ -125,10 +133,6 @@
         },
         {
           "word": "대포",
-          "count": 7
-        },
-        {
-          "word": "착취",
           "count": 7
         },
         {
@@ -156,6 +160,10 @@
           "count": 7
         },
         {
+          "word": "허위",
+          "count": 7
+        },
+        {
           "word": "개월",
           "count": 6
         },
@@ -177,10 +185,6 @@
         },
         {
           "word": "법원",
-          "count": 6
-        },
-        {
-          "word": "피의자",
           "count": 6
         },
         {
@@ -212,15 +216,35 @@
           "count": 6
         },
         {
+          "word": "성착취물",
+          "count": 6
+        },
+        {
+          "word": "삭제",
+          "count": 6
+        },
+        {
+          "word": "피해",
+          "count": 6
+        },
+        {
+          "word": "촬영",
+          "count": 6
+        },
+        {
+          "word": "남성",
+          "count": 6
+        },
+        {
+          "word": "성범죄",
+          "count": 6
+        },
+        {
           "word": "게시",
           "count": 5
         },
         {
           "word": "보이스피싱",
-          "count": 5
-        },
-        {
-          "word": "성착취물",
           "count": 5
         },
         {
@@ -244,23 +268,11 @@
           "count": 5
         },
         {
-          "word": "허위",
-          "count": 5
-        },
-        {
           "word": "확정",
           "count": 5
         },
         {
-          "word": "삭제",
-          "count": 5
-        },
-        {
           "word": "편집",
-          "count": 5
-        },
-        {
-          "word": "피해",
           "count": 5
         },
         {
@@ -280,7 +292,15 @@
           "count": 5
         },
         {
-          "word": "촬영",
+          "word": "기소",
+          "count": 5
+        },
+        {
+          "word": "사이버",
+          "count": 5
+        },
+        {
+          "word": "성폭력",
           "count": 5
         },
         {
@@ -336,10 +356,6 @@
           "count": 4
         },
         {
-          "word": "남성",
-          "count": 4
-        },
-        {
           "word": "현직",
           "count": 4
         },
@@ -368,15 +384,7 @@
           "count": 4
         },
         {
-          "word": "기소",
-          "count": 4
-        },
-        {
           "word": "유형",
-          "count": 4
-        },
-        {
-          "word": "성범죄",
           "count": 4
         },
         {
@@ -388,20 +396,12 @@
           "count": 4
         },
         {
-          "word": "NCSC",
-          "count": 3
+          "word": "집중",
+          "count": 4
         },
         {
-          "word": "가담",
-          "count": 3
-        },
-        {
-          "word": "가상",
-          "count": 3
-        },
-        {
-          "word": "가해",
-          "count": 3
+          "word": "단속",
+          "count": 4
         }
       ],
       "techs": [
@@ -1437,19 +1437,19 @@
       "issues": [
         {
           "word": "마약",
-          "count": 208
+          "count": 210
         },
         {
           "word": "검거",
           "count": 93
         },
         {
-          "word": "적발",
-          "count": 81
+          "word": "kg",
+          "count": 83
         },
         {
-          "word": "kg",
-          "count": 79
+          "word": "적발",
+          "count": 81
         },
         {
           "word": "필로폰",
@@ -1465,7 +1465,7 @@
         },
         {
           "word": "압수",
-          "count": 64
+          "count": 68
         },
         {
           "word": "반입",
@@ -1477,7 +1477,11 @@
         },
         {
           "word": "코카인",
-          "count": 44
+          "count": 49
+        },
+        {
+          "word": "경로",
+          "count": 43
         },
         {
           "word": "검사",
@@ -1492,20 +1496,16 @@
           "count": 40
         },
         {
-          "word": "경로",
+          "word": "사건",
           "count": 40
         },
         {
-          "word": "사건",
+          "word": "대상",
           "count": 39
         },
         {
-          "word": "대상",
-          "count": 38
-        },
-        {
           "word": "체포",
-          "count": 37
+          "count": 38
         },
         {
           "word": "국내",
@@ -1517,7 +1517,7 @@
         },
         {
           "word": "세관",
-          "count": 34
+          "count": 35
         },
         {
           "word": "사범",
@@ -1528,11 +1528,11 @@
           "count": 34
         },
         {
-          "word": "투약",
-          "count": 33
+          "word": "요약",
+          "count": 34
         },
         {
-          "word": "요약",
+          "word": "투약",
           "count": 33
         },
         {
@@ -1553,7 +1553,7 @@
         },
         {
           "word": "단속",
-          "count": 27
+          "count": 28
         },
         {
           "word": "판매",
@@ -1565,7 +1565,7 @@
         },
         {
           "word": "피해자",
-          "count": 23
+          "count": 24
         },
         {
           "word": "국경",
@@ -1596,16 +1596,16 @@
           "count": 17
         },
         {
+          "word": "운반",
+          "count": 17
+        },
+        {
           "word": "텔레그램",
           "count": 16
         },
         {
           "word": "화물",
           "count": 16
-        },
-        {
-          "word": "운반",
-          "count": 15
         },
         {
           "word": "케타민",
@@ -1616,12 +1616,12 @@
           "count": 14
         },
         {
-          "word": "베트남",
-          "count": 13
+          "word": "작전",
+          "count": 14
         },
         {
-          "word": "작전",
-          "count": 12
+          "word": "베트남",
+          "count": 13
         },
         {
           "word": "LSD",
@@ -1664,6 +1664,10 @@
           "count": 10
         },
         {
+          "word": "해상",
+          "count": 10
+        },
+        {
           "word": "미얀마",
           "count": 9
         },
@@ -1685,6 +1689,10 @@
         },
         {
           "word": "야바",
+          "count": 9
+        },
+        {
+          "word": "공급",
           "count": 9
         },
         {
@@ -1720,12 +1728,8 @@
           "count": 8
         },
         {
-          "word": "공급",
-          "count": 8
-        },
-        {
           "word": "선박",
-          "count": 7
+          "count": 8
         },
         {
           "word": "인도",
@@ -1741,10 +1745,6 @@
         },
         {
           "word": "매수",
-          "count": 7
-        },
-        {
-          "word": "해상",
           "count": 7
         },
         {
@@ -1796,6 +1796,10 @@
           "count": 6
         },
         {
+          "word": "연간",
+          "count": 6
+        },
+        {
           "word": "다크웹",
           "count": 5
         },
@@ -1817,10 +1821,6 @@
         },
         {
           "word": "의료",
-          "count": 5
-        },
-        {
-          "word": "연간",
           "count": 5
         },
         {
@@ -2251,7 +2251,7 @@
         },
         {
           "word": "정보",
-          "count": 194
+          "count": 197
         },
         {
           "word": "해킹",
@@ -2263,7 +2263,7 @@
         },
         {
           "word": "피해",
-          "count": 92
+          "count": 94
         },
         {
           "word": "시스템",
@@ -2275,7 +2275,7 @@
         },
         {
           "word": "조직",
-          "count": 77
+          "count": 78
         },
         {
           "word": "공격",
@@ -2283,7 +2283,7 @@
         },
         {
           "word": "피해자",
-          "count": 64
+          "count": 65
         },
         {
           "word": "검거",
@@ -2299,7 +2299,7 @@
         },
         {
           "word": "침해",
-          "count": 51
+          "count": 52
         },
         {
           "word": "IP",
@@ -2319,7 +2319,7 @@
         },
         {
           "word": "탈취",
-          "count": 38
+          "count": 40
         },
         {
           "word": "서버",
@@ -2343,7 +2343,7 @@
         },
         {
           "word": "조직원",
-          "count": 30
+          "count": 32
         },
         {
           "word": "이메일",
@@ -2351,22 +2351,22 @@
         },
         {
           "word": "FBI",
-          "count": 28
+          "count": 30
         },
         {
           "word": "악용",
-          "count": 27
+          "count": 28
         },
         {
           "word": "차단",
           "count": 27
         },
         {
-          "word": "범죄",
-          "count": 26
+          "word": "규모",
+          "count": 27
         },
         {
-          "word": "규모",
+          "word": "범죄",
           "count": 26
         },
         {
@@ -2379,6 +2379,10 @@
         },
         {
           "word": "세탁",
+          "count": 26
+        },
+        {
+          "word": "데이터",
           "count": 25
         },
         {
@@ -2394,8 +2398,8 @@
           "count": 24
         },
         {
-          "word": "데이터",
-          "count": 23
+          "word": "갈취",
+          "count": 24
         },
         {
           "word": "국내",
@@ -2406,20 +2410,16 @@
           "count": 23
         },
         {
-          "word": "관리",
-          "count": 22
-        },
-        {
           "word": "랜섬웨어",
-          "count": 21
+          "count": 23
         },
         {
           "word": "포함",
-          "count": 21
+          "count": 23
         },
         {
-          "word": "갈취",
-          "count": 20
+          "word": "관리",
+          "count": 22
         },
         {
           "word": "사실",
@@ -2446,6 +2446,10 @@
           "count": 17
         },
         {
+          "word": "미국",
+          "count": 17
+        },
+        {
           "word": "중국",
           "count": 16
         },
@@ -2455,10 +2459,6 @@
         },
         {
           "word": "토큰",
-          "count": 15
-        },
-        {
-          "word": "미국",
           "count": 15
         },
         {
@@ -2494,16 +2494,16 @@
           "count": 13
         },
         {
+          "word": "사기",
+          "count": 13
+        },
+        {
           "word": "증명",
           "count": 12
         },
         {
           "word": "PHP",
           "count": 12
-        },
-        {
-          "word": "사기",
-          "count": 11
         },
         {
           "word": "대포",
@@ -2598,6 +2598,10 @@
           "count": 8
         },
         {
+          "word": "의료",
+          "count": 8
+        },
+        {
           "word": "KDDI",
           "count": 7
         },
@@ -2640,13 +2644,21 @@
         {
           "word": "전년",
           "count": 7
-        },
-        {
-          "word": "처분",
-          "count": 7
         }
       ],
       "techs": [
+        {
+          "word": "데이터",
+          "count": 11
+        },
+        {
+          "word": "탐지",
+          "count": 8
+        },
+        {
+          "word": "차량",
+          "count": 8
+        },
         {
           "word": "자산",
           "count": 7
@@ -2664,15 +2676,31 @@
           "count": 6
         },
         {
-          "word": "데이터",
-          "count": 5
+          "word": "시스템",
+          "count": 6
         },
         {
-          "word": "시스템",
-          "count": 5
+          "word": "SPUR",
+          "count": 6
+        },
+        {
+          "word": "IEEE",
+          "count": 6
+        },
+        {
+          "word": "해킹",
+          "count": 6
+        },
+        {
+          "word": "AI",
+          "count": 6
         },
         {
           "word": "체이널리시스",
+          "count": 5
+        },
+        {
+          "word": "신호",
           "count": 5
         },
         {
@@ -2689,6 +2717,34 @@
         },
         {
           "word": "추적",
+          "count": 4
+        },
+        {
+          "word": "정보",
+          "count": 4
+        },
+        {
+          "word": "내부",
+          "count": 4
+        },
+        {
+          "word": "정상",
+          "count": 4
+        },
+        {
+          "word": "판단",
+          "count": 4
+        },
+        {
+          "word": "제시",
+          "count": 4
+        },
+        {
+          "word": "기술",
+          "count": 4
+        },
+        {
+          "word": "통신",
           "count": 4
         },
         {
@@ -2712,11 +2768,47 @@
           "count": 3
         },
         {
-          "word": "정보",
+          "word": "수치",
           "count": 3
         },
         {
-          "word": "탐지",
+          "word": "플랫폼",
+          "count": 3
+        },
+        {
+          "word": "기록",
+          "count": 3
+        },
+        {
+          "word": "성능",
+          "count": 3
+        },
+        {
+          "word": "실제",
+          "count": 3
+        },
+        {
+          "word": "정확도",
+          "count": 3
+        },
+        {
+          "word": "하드웨어",
+          "count": 3
+        },
+        {
+          "word": "숙명여대",
+          "count": 3
+        },
+        {
+          "word": "통신망",
+          "count": 3
+        },
+        {
+          "word": "학습",
+          "count": 3
+        },
+        {
+          "word": "근거",
           "count": 3
         },
         {
@@ -2732,10 +2824,6 @@
           "count": 2
         },
         {
-          "word": "수치",
-          "count": 2
-        },
-        {
           "word": "예정",
           "count": 2
         },
@@ -2748,11 +2836,91 @@
           "count": 2
         },
         {
-          "word": "플랫폼",
+          "word": "해외",
           "count": 2
         },
         {
-          "word": "해외",
+          "word": "국제",
+          "count": 2
+        },
+        {
+          "word": "단계",
+          "count": 2
+        },
+        {
+          "word": "메커니즘",
+          "count": 2
+        },
+        {
+          "word": "시나리오",
+          "count": 2
+        },
+        {
+          "word": "작동",
+          "count": 2
+        },
+        {
+          "word": "전자",
+          "count": 2
+        },
+        {
+          "word": "치안",
+          "count": 2
+        },
+        {
+          "word": "피해",
+          "count": 2
+        },
+        {
+          "word": "현장",
+          "count": 2
+        },
+        {
+          "word": "TII",
+          "count": 2
+        },
+        {
+          "word": "게재",
+          "count": 2
+        },
+        {
+          "word": "XAI",
+          "count": 2
+        },
+        {
+          "word": "ECU",
+          "count": 2
+        },
+        {
+          "word": "학부",
+          "count": 2
+        },
+        {
+          "word": "커넥티드카",
+          "count": 2
+        },
+        {
+          "word": "공격",
+          "count": 2
+        },
+        {
+          "word": "논문",
+          "count": 2
+        },
+        {
+          "word": "세부",
+          "count": 2
+        },
+        {
+          "word": "기사",
+          "count": 2
+        },
+        {
+          "word": "접속",
+          "count": 2
+        },
+        {
+          "word": "보안",
           "count": 2
         },
         {
@@ -2792,23 +2960,7 @@
           "count": 1
         },
         {
-          "word": "국제",
-          "count": 1
-        },
-        {
-          "word": "기록",
-          "count": 1
-        },
-        {
           "word": "내역",
-          "count": 1
-        },
-        {
-          "word": "단계",
-          "count": 1
-        },
-        {
-          "word": "메커니즘",
           "count": 1
         },
         {
@@ -2824,10 +2976,6 @@
           "count": 1
         },
         {
-          "word": "성능",
-          "count": 1
-        },
-        {
           "word": "속도",
           "count": 1
         },
@@ -2836,15 +2984,7 @@
           "count": 1
         },
         {
-          "word": "시나리오",
-          "count": 1
-        },
-        {
           "word": "시점",
-          "count": 1
-        },
-        {
-          "word": "실제",
           "count": 1
         },
         {
@@ -2884,15 +3024,7 @@
           "count": 1
         },
         {
-          "word": "작동",
-          "count": 1
-        },
-        {
           "word": "적출",
-          "count": 1
-        },
-        {
-          "word": "전자",
           "count": 1
         },
         {
@@ -2901,10 +3033,6 @@
         },
         {
           "word": "점검",
-          "count": 1
-        },
-        {
-          "word": "정확도",
           "count": 1
         },
         {
@@ -2917,46 +3045,6 @@
         },
         {
           "word": "처리",
-          "count": 1
-        },
-        {
-          "word": "추세",
-          "count": 1
-        },
-        {
-          "word": "치안",
-          "count": 1
-        },
-        {
-          "word": "투입",
-          "count": 1
-        },
-        {
-          "word": "피해",
-          "count": 1
-        },
-        {
-          "word": "하드웨어",
-          "count": 1
-        },
-        {
-          "word": "현금",
-          "count": 1
-        },
-        {
-          "word": "현장",
-          "count": 1
-        },
-        {
-          "word": "환수",
-          "count": 1
-        },
-        {
-          "word": "회사",
-          "count": 1
-        },
-        {
-          "word": "흐름",
           "count": 1
         }
       ]
@@ -3779,19 +3867,19 @@
         },
         {
           "word": "피해자",
-          "count": 48
+          "count": 49
         },
         {
           "word": "경찰",
-          "count": 44
-        },
-        {
-          "word": "사건",
-          "count": 42
+          "count": 45
         },
         {
           "word": "검거",
-          "count": 40
+          "count": 45
+        },
+        {
+          "word": "사건",
+          "count": 43
         },
         {
           "word": "혐의",
@@ -3799,11 +3887,15 @@
         },
         {
           "word": "범행",
-          "count": 34
+          "count": 35
         },
         {
           "word": "범죄",
-          "count": 32
+          "count": 34
+        },
+        {
+          "word": "불법",
+          "count": 30
         },
         {
           "word": "살인",
@@ -3811,7 +3903,7 @@
         },
         {
           "word": "대상",
-          "count": 26
+          "count": 28
         },
         {
           "word": "살해",
@@ -3820,6 +3912,10 @@
         {
           "word": "스토킹",
           "count": 24
+        },
+        {
+          "word": "단속",
+          "count": 22
         },
         {
           "word": "여성",
@@ -3834,7 +3930,7 @@
           "count": 20
         },
         {
-          "word": "불법",
+          "word": "피의자",
           "count": 19
         },
         {
@@ -3842,51 +3938,43 @@
           "count": 18
         },
         {
-          "word": "피의자",
-          "count": 17
-        },
-        {
           "word": "요약",
-          "count": 17
+          "count": 18
         },
         {
           "word": "경로",
-          "count": 16
+          "count": 17
         },
         {
-          "word": "단속",
-          "count": 15
+          "word": "서울",
+          "count": 17
+        },
+        {
+          "word": "경찰청",
+          "count": 17
+        },
+        {
+          "word": "특별",
+          "count": 17
         },
         {
           "word": "위반",
           "count": 15
         },
         {
-          "word": "서울",
+          "word": "수단",
           "count": 15
         },
         {
-          "word": "경찰청",
-          "count": 14
-        },
-        {
-          "word": "흉기",
-          "count": 14
-        },
-        {
-          "word": "특별",
-          "count": 14
-        },
-        {
-          "word": "수단",
-          "count": 14
-        },
-        {
           "word": "수치",
-          "count": 14
+          "count": 15
         },
         {
           "word": "특성",
+          "count": 15
+        },
+        {
+          "word": "흉기",
           "count": 14
         },
         {
@@ -3934,6 +4022,10 @@
           "count": 11
         },
         {
+          "word": "압수",
+          "count": 11
+        },
+        {
           "word": "종결",
           "count": 10
         },
@@ -3955,6 +4047,14 @@
         },
         {
           "word": "신청",
+          "count": 9
+        },
+        {
+          "word": "업체",
+          "count": 9
+        },
+        {
+          "word": "대비",
           "count": 9
         },
         {
@@ -4006,7 +4106,15 @@
           "count": 8
         },
         {
-          "word": "업체",
+          "word": "사금융",
+          "count": 8
+        },
+        {
+          "word": "전단지",
+          "count": 8
+        },
+        {
+          "word": "광고",
           "count": 8
         },
         {
@@ -4018,10 +4126,6 @@
           "count": 7
         },
         {
-          "word": "압수",
-          "count": 7
-        },
-        {
           "word": "청소년",
           "count": 7
         },
@@ -4030,12 +4134,8 @@
           "count": 7
         },
         {
-          "word": "대비",
+          "word": "차단",
           "count": 7
-        },
-        {
-          "word": "사금융",
-          "count": 6
         },
         {
           "word": "마약",
@@ -4067,7 +4167,7 @@
         },
         {
           "word": "CCTV",
-          "count": 5
+          "count": 6
         },
         {
           "word": "경장",
@@ -4159,18 +4259,6 @@
         },
         {
           "word": "대출",
-          "count": 5
-        },
-        {
-          "word": "점검",
-          "count": 5
-        },
-        {
-          "word": "적발",
-          "count": 5
-        },
-        {
-          "word": "투기",
           "count": 5
         }
       ],
@@ -4758,6 +4846,10 @@
           "count": 49
         },
         {
+          "word": "카메라",
+          "count": 28
+        },
+        {
           "word": "용의자",
           "count": 25
         },
@@ -4771,14 +4863,14 @@
         },
         {
           "word": "현장",
-          "count": 19
+          "count": 21
+        },
+        {
+          "word": "AI",
+          "count": 21
         },
         {
           "word": "실시간",
-          "count": 19
-        },
-        {
-          "word": "카메라",
           "count": 19
         },
         {
@@ -4806,15 +4898,19 @@
           "count": 12
         },
         {
+          "word": "탐지",
+          "count": 12
+        },
+        {
           "word": "프로그램",
           "count": 11
         },
         {
-          "word": "AI",
+          "word": "가동",
           "count": 11
         },
         {
-          "word": "가동",
+          "word": "기술",
           "count": 11
         },
         {
@@ -4830,11 +4926,19 @@
           "count": 10
         },
         {
+          "word": "LED",
+          "count": 10
+        },
+        {
           "word": "실내",
           "count": 9
         },
         {
           "word": "승인",
+          "count": 9
+        },
+        {
+          "word": "단계",
           "count": 9
         },
         {
@@ -4870,11 +4974,15 @@
           "count": 7
         },
         {
-          "word": "단계",
+          "word": "CCTV",
           "count": 7
         },
         {
-          "word": "CCTV",
+          "word": "시험",
+          "count": 7
+        },
+        {
+          "word": "안경",
           "count": 7
         },
         {
@@ -4914,7 +5022,19 @@
           "count": 6
         },
         {
-          "word": "기술",
+          "word": "KAIST",
+          "count": 6
+        },
+        {
+          "word": "SweepLED",
+          "count": 6
+        },
+        {
+          "word": "반사",
+          "count": 6
+        },
+        {
+          "word": "KCA",
           "count": 6
         },
         {
@@ -4931,10 +5051,6 @@
         },
         {
           "word": "산타아나",
-          "count": 5
-        },
-        {
-          "word": "시험",
           "count": 5
         },
         {
@@ -4971,6 +5087,14 @@
         },
         {
           "word": "SmartView",
+          "count": 5
+        },
+        {
+          "word": "소형",
+          "count": 5
+        },
+        {
+          "word": "스마트",
           "count": 5
         },
         {
@@ -5062,10 +5186,6 @@
           "count": 4
         },
         {
-          "word": "탐지",
-          "count": 4
-        },
-        {
           "word": "투입",
           "count": 4
         },
@@ -5090,6 +5210,22 @@
           "count": 4
         },
         {
+          "word": "NUS",
+          "count": 4
+        },
+        {
+          "word": "SMU",
+          "count": 4
+        },
+        {
+          "word": "기기",
+          "count": 4
+        },
+        {
+          "word": "촬영",
+          "count": 4
+        },
+        {
           "word": "EFF",
           "count": 3
         },
@@ -5103,54 +5239,6 @@
         },
         {
           "word": "고출력",
-          "count": 3
-        },
-        {
-          "word": "도주",
-          "count": 3
-        },
-        {
-          "word": "도킹",
-          "count": 3
-        },
-        {
-          "word": "무장",
-          "count": 3
-        },
-        {
-          "word": "무혈",
-          "count": 3
-        },
-        {
-          "word": "보안관",
-          "count": 3
-        },
-        {
-          "word": "사전",
-          "count": 3
-        },
-        {
-          "word": "순찰차",
-          "count": 3
-        },
-        {
-          "word": "스테이션",
-          "count": 3
-        },
-        {
-          "word": "열화상",
-          "count": 3
-        },
-        {
-          "word": "영장",
-          "count": 3
-        },
-        {
-          "word": "요건",
-          "count": 3
-        },
-        {
-          "word": "잭슨",
           "count": 3
         }
       ]
