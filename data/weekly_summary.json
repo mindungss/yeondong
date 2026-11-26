@@ -1,14 +1,14 @@
 {
-  "updated": "2026-11-25",
+  "updated": "2026-11-26",
   "period": "최근 7일",
   "domains": [
     {
       "domain": "💊 마약",
-      "count": 12
+      "count": 11
     },
     {
       "domain": "🔐 사이버 보안",
-      "count": 10
+      "count": 9
     },
     {
       "domain": "🚓 신종 범죄",
@@ -16,19 +16,19 @@
     },
     {
       "domain": "🌐 국제 치안",
-      "count": 5
-    },
-    {
-      "domain": "🏘️ 생활 안전",
-      "count": 5
-    },
-    {
-      "domain": "🤖 AI",
       "count": 3
     },
     {
+      "domain": "🏘️ 생활 안전",
+      "count": 3
+    },
+    {
+      "domain": "🤖 AI",
+      "count": 2
+    },
+    {
       "domain": "📜 법·제도",
-      "count": 1
+      "count": 2
     },
     {
       "domain": "🧬 과학 수사",
